@@ -1,0 +1,2 @@
+serviceClass: com.UZH.MovieApp.client.DBConnection
+path: 2F935102BCDA054E42795CE1D205C80E.gwt.rpc
