@@ -9,13 +9,20 @@ import java.util.Vector;
 
 import com.UZH.MovieApp.client.DBConnection;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.UZH.MovieApp.server.MySQLAccess;
 
 public class MySQLConnection extends RemoteServiceServlet implements DBConnection {
 	
-	public String getDBData(String symbols){
+	public String getDBData(String symbols) {
 		
 	
-		
+	    MySQLAccess dao = new MySQLAccess();
+	    try {
+			dao.readDataBase();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	
 		String s = "okay";
 		String q = new MySQLAccess().gib();
