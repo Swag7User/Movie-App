@@ -100,13 +100,14 @@ public class Movie_App implements EntryPoint {
 		// Create the popup dialog box
 		final DialogBox dialogBox2 = new DialogBox();
 		dialogBox2.setText("RPC to DB");
-		dialogBox2.setAnimationEnabled(true);
+		dialogBox2.setAnimationEnabled(false);
 		final Button closeButton2 = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton2.getElement().setId("closeButton");
 		final Label textToServerLabel2 = new Label();
 		final HTML serverResponseLabel2 = new HTML();
 		VerticalPanel dialogVPanel2 = new VerticalPanel();
+		dialogVPanel2.setPixelSize(1500, 400);
 		dialogVPanel2.addStyleName("dialogVPanel");
 		dialogVPanel2.add(new HTML("<b>Sending name to the server:</b>"));
 		dialogVPanel2.add(textToServerLabel2);
