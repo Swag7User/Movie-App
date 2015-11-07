@@ -36,34 +36,7 @@ public class MySQLAccess {
 			ss = ss.concat(writeResultSet(resultSet,symbols));
 		//	System.out.println("ss: " + ss);
 
-			/*
-			 * // PreparedStatements can use variables and are more efficient
-			 * preparedStatement = connect.prepareStatement(
-			 * "insert into  feedback.comments values (default, ?, ?, ?, ? , ?, ?)"
-			 * ); // "myuser, webpage, datum, summary, COMMENTS from //
-			 * feedback.comments"); // Parameters start with 1
-			 * preparedStatement.setString(1, "Test");
-			 * preparedStatement.setString(2, "TestEmail");
-			 * preparedStatement.setString(3, "TestWebpage");
-			 * preparedStatement.setDate(4, new java.sql.Date(2009, 12, 11));
-			 * preparedStatement.setString(5, "TestSummary");
-			 * preparedStatement.setString(6, "TestComment");
-			 * preparedStatement.executeUpdate();
-			 * 
-			 * preparedStatement = connect.prepareStatement(
-			 * "SELECT myuser, webpage, datum, summary, COMMENTS from feedback.comments"
-			 * ); resultSet = preparedStatement.executeQuery();
-			 * writeResultSet(resultSet);
-			 * 
-			 * // Remove again the insert comment preparedStatement =
-			 * connect.prepareStatement(
-			 * "delete from feedback.comments where myuser= ? ; ");
-			 * preparedStatement.setString(1, "Test");
-			 * preparedStatement.executeUpdate();
-			 * 
-			 * resultSet = statement.executeQuery(
-			 * "select * from movieapp.moviedata"); writeMetaData(resultSet);
-			 */
+			
 
 		} catch (Exception e) {
 			throw e;
@@ -135,20 +108,6 @@ public class MySQLAccess {
 			s = s.concat(genres); 
 			s = s.concat(" --- ");
 			//System.out.println("s: " + s);
-
-			/*
-								 * System.out.println("wikiid: " + wikiid);
-								 * System.out.println("freebaseid: " +
-								 * freebaseid); System.out.println("name: " +
-								 * name); System.out.println("releasedate: " +
-								 * releasedate); System.out.println(
-								 * "boxoffice: " + boxoffice);
-								 * System.out.println("runtime: " + runtime);
-								 * System.out.println("languages: " +
-								 * languages); System.out.println("countries: "
-								 * + countries); System.out.println("genres: " +
-								 * genres);
-								 */
 			i++;
 		}
 		return s;
