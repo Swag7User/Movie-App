@@ -15,7 +15,7 @@ public class MySQLAccess {
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public String readDataBase() throws Exception {
+	public String readDataBase(int symbols) throws Exception {
 		String ss = "";
 
 		try {
@@ -33,7 +33,7 @@ public class MySQLAccess {
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
 			resultSet = statement.executeQuery("select * from movieapp.moviedata");
-			ss = ss.concat(writeResultSet(resultSet));
+			ss = ss.concat(writeResultSet(resultSet,symbols));
 		//	System.out.println("ss: " + ss);
 
 			/*
@@ -87,12 +87,12 @@ public class MySQLAccess {
 		}
 	}
 
-	private String writeResultSet(ResultSet resultSet) throws SQLException {
+	private String writeResultSet(ResultSet resultSet, int symbols) throws SQLException {
 		// ResultSet is initially before the first data set
 		int i = 0;
 		String s = "";
 		// String[] strarray = new String[10];
-		while (resultSet.next() && i < 50) {
+		while (resultSet.next() && i < symbols) {
 			// It is possible to get the columns via name
 			// also possible to get the columns via the column number
 			// which starts at 1
