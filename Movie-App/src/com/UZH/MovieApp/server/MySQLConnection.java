@@ -26,7 +26,7 @@ public class MySQLConnection extends RemoteServiceServlet implements DBConnectio
 		//	System.out.println("k: " + k);
 
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+	    	k = k.concat("something borkered");
 			e.printStackTrace();
 		}
 	

@@ -15,14 +15,14 @@ import org.mortbay.log.Log;
 
 import com.google.appengine.api.utils.SystemProperty;
 
-public class MySQLAccess {
+public class MySQLAccess extends HttpServlet{
 
 	private Connection connect = null;
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public String readDataBase(int symbols) throws Exception {
+	public String readDataBase(int symbols) throws Exception  {
 		String ss = "";
 
 		try {
@@ -35,9 +35,7 @@ public class MySQLAccess {
 			// connect =
 			// DriverManager.getConnection("jdbc:mysql://localhost/feedback?" +
 			// "user=root&password=lel");
-			Log.info("initiate connection");
-			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=twat&password=lel");
-			Log.info("got connection");
+			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=root");
 			  }
 			  else{
 					Class.forName("com.mysql.jdbc.Driver");
