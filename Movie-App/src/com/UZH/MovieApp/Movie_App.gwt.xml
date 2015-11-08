@@ -17,8 +17,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
   
-  <servlet class="com.UZH.MovieApp.server.MySQLConnection"
-path="/MySQLConnection" />
+ <servlet class="com.UZH.MovieApp.server.MySQLConnection" path="/MySQLConnection" />
 
   <!-- Other module inherits                                      -->
 

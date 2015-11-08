@@ -8,6 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import java.io.*;
+import javax.servlet.http.*;
+
+import org.mortbay.log.Log;
+
+import com.google.appengine.api.utils.SystemProperty;
+
 public class MySQLAccess {
 
 	private Connection connect = null;
@@ -19,14 +26,24 @@ public class MySQLAccess {
 		String ss = "";
 
 		try {
+				
 			// This will load the MySQL driver, each DB has its own driver
-			Class.forName("com.mysql.jdbc.Driver");
+			  if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+			  
+			Class.forName("com.mysql.jdbc.GoogleDriver");
 			// Setup the connection with the DB
 			// connect =
 			// DriverManager.getConnection("jdbc:mysql://localhost/feedback?" +
 			// "user=root&password=lel");
-			connect = DriverManager.getConnection("jdbc:mysql://173.194.83.205/movieapp?" + "user=twat&password=lel");
-
+			Log.info("initiate connection");
+			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=twat&password=lel");
+			Log.info("got connection");
+			  }
+			  else{
+					Class.forName("com.mysql.jdbc.Driver");
+					connect = DriverManager.getConnection("jdbc:mysql://173.194.239.209/movieapp?" + "user=twat&password=lel");
+			  }
+			  
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
 			// Result set get the result of the SQL query

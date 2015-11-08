@@ -11,6 +11,9 @@ import com.UZH.MovieApp.client.DBConnection;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.UZH.MovieApp.server.MySQLAccess;
 
+
+
+
 public class MySQLConnection extends RemoteServiceServlet implements DBConnection {
 	
 	public String getDBData(int symbols) {
