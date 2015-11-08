@@ -57,8 +57,8 @@ public class Movie_App implements EntryPoint {
 		final Button sendButton2 = new Button("Check DB");
 		final TextBox nameField = new TextBox();
 		final TextBox nameField2 = new TextBox();
-		nameField.setText("GWT User");
-		nameField2.setText("DB Checker user");
+		nameField.setText("Movie Freak");
+		nameField2.setText("Over 9000");
 		final Label errorLabel = new Label();
 
 
@@ -100,17 +100,18 @@ public class Movie_App implements EntryPoint {
 		// Create the popup dialog box
 		final DialogBox dialogBox2 = new DialogBox();
 		dialogBox2.setText("RPC to DB");
-		dialogBox2.setAnimationEnabled(true);
+		dialogBox2.setAnimationEnabled(false);
 		final Button closeButton2 = new Button("Close");
 		// We can set the id of a widget by accessing its Element
 		closeButton2.getElement().setId("closeButton");
 		final Label textToServerLabel2 = new Label();
 		final HTML serverResponseLabel2 = new HTML();
 		VerticalPanel dialogVPanel2 = new VerticalPanel();
+		dialogVPanel2.setPixelSize(1500, 400);
 		dialogVPanel2.addStyleName("dialogVPanel");
-		dialogVPanel2.add(new HTML("<b>Sending name to the server:</b>"));
+		dialogVPanel2.add(new HTML("<b>Number of Movies:</b>"));
 		dialogVPanel2.add(textToServerLabel2);
-		dialogVPanel2.add(new HTML("<br><b>Server replies:</b>"));
+		dialogVPanel2.add(new HTML("<br><b>Movies from DataBase:</b>"));
 		dialogVPanel2.add(serverResponseLabel2);
 		dialogVPanel2.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
 		dialogVPanel2.add(closeButton2);
@@ -229,8 +230,8 @@ public class Movie_App implements EntryPoint {
 				// First, we validate the input.
 				errorLabel.setText("");
 				String textToServer2 = nameField2.getText();
-				if (!FieldVerifier.isValidName(textToServer2)) {
-					errorLabel.setText("Please enter at least four characters");
+				if (!FieldVerifier.isValidInt(textToServer2)) {
+					errorLabel.setText("Please enter only numbers");
 					return;
 				}
 
@@ -238,7 +239,8 @@ public class Movie_App implements EntryPoint {
 				sendButton2.setEnabled(false);
 				textToServerLabel2.setText(textToServer2);
 				serverResponseLabel2.setText("");
-				dbconnection.getDBData("test", new AsyncCallback<String>() {
+				int foo = Integer.parseInt(textToServer2);
+				dbconnection.getDBData(foo, new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						dialogBox2.setText("Remote Procedure Call - Failure");
