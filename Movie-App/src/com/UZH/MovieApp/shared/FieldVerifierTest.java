@@ -15,7 +15,11 @@ public class FieldVerifierTest {
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		FieldVerifier fieldVerifier=new FieldVerifier();
+		
+		String testString="2";
+		int returnint=fieldVerifier.giveBackInt(testString);
+		assertEquals(returnint,2);
 	}
 
 }
