@@ -39,16 +39,21 @@ public class MySQLAccess extends HttpServlet{
 			  }
 			  else{
 					Class.forName("com.mysql.jdbc.Driver");
-					connect = DriverManager.getConnection("jdbc:mysql://173.194.239.209/movieapp?" + "user=twat&password=lel");
+					connect = DriverManager.getConnection("jdbc:mysql://localhost/movieapp?user=root");
 			  }
-			  
+
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
+
 			// Result set get the result of the SQL query
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
-			resultSet = statement.executeQuery("select * from movieapp.moviedata");
+			String querry = "select * from movieapp.moviedata LIMIT ";
+			querry = querry.concat(Integer.toString(symbols));
+			resultSet = statement.executeQuery(querry);
+
 			ss = ss.concat(writeResultSet(resultSet,symbols));
+
 		//	System.out.println("ss: " + ss);
 
 			
