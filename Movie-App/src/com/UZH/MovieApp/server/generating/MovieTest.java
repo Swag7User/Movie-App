@@ -12,11 +12,20 @@ public class MovieTest {
 		Movie toTest=new Movie(testString);
 		
 		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
-		assertEquals(toTest.getWikiID(),"/m/03vyhn" );
-		assertEquals(toTest.getName(),"/m/03vyhn" );
-		assertEquals(toTest.get,"/m/03vyhn" );
-		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
-		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
+		
+		assertEquals(toTest.getWikiID(),975900 );
+		
+		assertEquals(toTest.getName(),"Ghosts of Mars" );
+		
+		assertEquals(toTest.getYear(),"2001" );
+		
+		assertEquals(toTest.getMonth(),"8" );
+		
+		assertEquals(toTest.getDay(),"24" );
+		
+		assertEquals(toTest.getRevenue(),14010832);
+		
+		assertEquals(toTest.getRuntime(),98.0 );
 	}
 
 }

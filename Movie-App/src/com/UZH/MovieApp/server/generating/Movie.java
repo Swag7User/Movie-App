@@ -190,17 +190,17 @@ public class Movie {
 	}
 	
 	
-	private int getYear() {
+	public int getYear() {
 		return year;
 	}
 
 
-	private int getMonth() {
+	public int getMonth() {
 		return month;
 	}
 
 
-	private int getDay() {
+	public int getDay() {
 		return day;
 	}
 
