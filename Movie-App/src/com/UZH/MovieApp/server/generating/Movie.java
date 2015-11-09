@@ -190,6 +190,21 @@ public class Movie {
 	}
 	
 	
+	private int getYear() {
+		return year;
+	}
+
+
+	private int getMonth() {
+		return month;
+	}
+
+
+	private int getDay() {
+		return day;
+	}
+
+
 	/**
 	 * @return the wikiID
 	 */

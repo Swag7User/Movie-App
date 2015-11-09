@@ -12,6 +12,11 @@ public class MovieTest {
 		Movie toTest=new Movie(testString);
 		
 		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
+		assertEquals(toTest.getWikiID(),"/m/03vyhn" );
+		assertEquals(toTest.getName(),"/m/03vyhn" );
+		assertEquals(toTest.get,"/m/03vyhn" );
+		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
+		assertEquals(toTest.getFreebaseID(),"/m/03vyhn" );
 	}
 
 }
