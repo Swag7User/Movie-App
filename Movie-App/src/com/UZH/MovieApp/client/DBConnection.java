@@ -7,6 +7,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface DBConnection extends RemoteService {
 	
 	
- public String getDBData(int symbols);
+ public String getDBData(String querry);
 
 }

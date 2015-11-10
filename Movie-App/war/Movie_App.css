@@ -20,6 +20,15 @@ h1 {
   width: 400px;
 }
 
+table {
+  border-collapse: separate;
+  border-spacing: 0px 0;
+}
+
+td {
+  padding: 0px 0;
+}
+
 .dialogVPanel {
   margin: 5px;
 }

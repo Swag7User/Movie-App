@@ -4,6 +4,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DBConnectionAsync {
 	
- void getDBData(int symbols, AsyncCallback<String> callback);
+ void getDBData(String querry, AsyncCallback<String> callback);
 
 }

@@ -22,9 +22,8 @@ public class MySQLAccess extends HttpServlet{
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public String readDataBase(int symbols) throws Exception  {
-		String ss = "";
-
+	public String readDataBase(String querry) throws Exception  {
+		String ss;
 		try {
 				
 			// This will load the MySQL driver, each DB has its own driver
@@ -48,15 +47,14 @@ public class MySQLAccess extends HttpServlet{
 			// Result set get the result of the SQL query
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
-			String querry = "select * from movieapp.moviedata LIMIT ";
-			querry = querry.concat(Integer.toString(symbols));
+			int symbols = 100;
+			String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
+			sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
+			System.out.println(querry);
 			resultSet = statement.executeQuery(querry);
-
+			ss = "";
 			ss = ss.concat(writeResultSet(resultSet,symbols));
-
-		//	System.out.println("ss: " + ss);
-
-			
+		
 
 		} catch (Exception e) {
 			throw e;

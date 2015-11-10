@@ -16,13 +16,13 @@ import com.UZH.MovieApp.server.MySQLAccess;
 
 public class MySQLConnection extends RemoteServiceServlet implements DBConnection {
 	
-	public String getDBData(int symbols) {
+	public String getDBData(String querry) {
 		
 		String k = "";
 	
 	    MySQLAccess dao = new MySQLAccess();
 	    try {
-	    	k = k.concat(dao.readDataBase(symbols));
+	    	k = k.concat(dao.readDataBase(querry));
 		//	System.out.println("k: " + k);
 
 		} catch (Exception e) {
