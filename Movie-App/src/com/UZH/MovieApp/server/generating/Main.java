@@ -5,10 +5,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new DataSetImporter("movies_80000.tsv","output_test.sql");
+		new DataSetImporterSQL("movies_80000.tsv","My_shit.sql");
 	}
-	
-	//Initializing countries
-	Country a = new Country("Hallo", 200);
-
 }

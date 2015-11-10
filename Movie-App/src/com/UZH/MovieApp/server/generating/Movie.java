@@ -1,4 +1,5 @@
 package com.UZH.MovieApp.server.generating;
+
 //created and maintained by Sandro Luck
 //13-927-769
 import java.text.DateFormat;
@@ -49,10 +50,15 @@ public class Movie {
 		
 		genre=new ArrayBlockingQueue<String>(20);
 		genreCode=new ArrayBlockingQueue<String>(20);
-		
+		//init all to -1
 		year=-1;
 		month=-1;
 		day=-1;
+		
+		revenue=-1;
+		wikiID=-1;
+		runtime=-1;
+		
 		
 		//in this array is saved if information is missing,true if info available
 		boolean [] tokensFlag=new boolean[tokens.length];
