@@ -100,7 +100,7 @@ public class DataSetImporterSQL {
 			writer.println("  `name` varchar(35) CHARACTER SET utf8 DEFAULT NULL,");
 			writer.println("  `releasedate` DATE,");
 			writer.println("  `boxoffice` double(16,1) DEFAULT NULL,");
-			writer.println("  `runtime` decimal(3,1) DEFAULT NULL,");
+			writer.println("  `runtime` decimal(10,1) DEFAULT NULL,");
 			writer.println("  `languages` varchar(500) CHARACTER SET utf8 DEFAULT NULL,");
 			writer.println("  `countries` varchar(200) CHARACTER SET utf8 DEFAULT NULL,");
 			writer.println("  `genres` varchar(400) CHARACTER SET utf8 DEFAULT NULL");
@@ -154,7 +154,13 @@ public class DataSetImporterSQL {
 	    	    			writer.print("-0"+movie.getDay());
 	    	    			}
 		        	}
+	        		else{
+	        			writer.print("-00");
+	        		}
 	        	}
+	    		else{
+	    			writer.print("-00-00");
+	    		}
 	    		writer.print("', ");
     		}
     		else{

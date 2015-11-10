@@ -8,7 +8,7 @@ import java.nio.charset.Charset;
 
 //created and maintained by Sandro Luck
 //13-927-769
-public class DataSetImporter {
+public class DataSetImporter_OLD {
 	private final String inputFileName;
 	private String outputFileName;
 	private FileReader fileReader;
@@ -21,7 +21,7 @@ public class DataSetImporter {
 	int a=0;
 	private boolean stop = false;
 	
-	public DataSetImporter(String inputFileName, String outputFileName){
+	public DataSetImporter_OLD(String inputFileName, String outputFileName){
 		this.inputFileName=inputFileName;
 		this.outputFileName = outputFileName;
 		try {
