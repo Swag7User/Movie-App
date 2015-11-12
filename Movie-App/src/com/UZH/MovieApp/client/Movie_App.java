@@ -131,7 +131,9 @@ public class Movie_App implements EntryPoint {
 		// ###############freebase ID#################
 		final CheckBox freebaseIdFieldEQUAL = new CheckBox("=");
 		final CheckBox freebaseIdFieldBIGGERTHAN = new CheckBox(">");
+		freebaseIdFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox freebaseIdFieldSMALLERTHAN = new CheckBox("<");
+		freebaseIdFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		freebaseIdFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -176,7 +178,9 @@ public class Movie_App implements EntryPoint {
 		// ###############Movie Name#################
 		final CheckBox movieNameFieldEQUAL = new CheckBox("=");
 		final CheckBox movieNameFieldBIGGERTHAN = new CheckBox(">");
+		movieNameFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox movieNameFieldSMALLERTHAN = new CheckBox("<");
+		movieNameFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		movieNameFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -218,6 +222,53 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
+		// ###############Release Date#################
+		final CheckBox releaseDateFieldEQUAL = new CheckBox("=");
+		final CheckBox releaseDateFieldBIGGERTHAN = new CheckBox(">");
+		releaseDateFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox releaseDateFieldSMALLERTHAN = new CheckBox("<");
+		releaseDateFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		releaseDateFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releaseDateFieldCheck = 2;
+					releaseDateFieldBIGGERTHAN.setValue(false);
+					releaseDateFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					releaseDateFieldCheck = -1;
+				}
+			}
+		});
+		releaseDateFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releaseDateFieldCheck = 3;
+					releaseDateFieldEQUAL.setValue(false);
+					releaseDateFieldSMALLERTHAN.setValue(false);
+				} else {
+					releaseDateFieldCheck = -1;
+				}
+			}
+		});
+		releaseDateFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releaseDateFieldCheck = 4;
+					releaseDateFieldBIGGERTHAN.setValue(false);
+					releaseDateFieldEQUAL.setValue(false);
+				} else {
+					releaseDateFieldCheck = -1;
+				}
+			}
+		});
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 		sendButton2.addStyleName("sendButton2");
@@ -247,8 +298,6 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("movieNameFieldEQUALContainer").add(movieNameFieldEQUAL);
 		RootPanel.get("movieNameFieldBIGGERTHANContainer").add(movieNameFieldBIGGERTHAN);
 		RootPanel.get("movieNameFieldSMALLERTHANContainer").add(movieNameFieldSMALLERTHAN);
-
-
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -394,20 +443,34 @@ public class Movie_App implements EntryPoint {
 			private void sendNameToServer() {
 				// First, we validate the input.
 				errorLabel.setText("");
-				String textToServer2 = wikiIdField.getText();
-				if (!FieldVerifier.isValidID(textToServer2)) {
-					errorLabel.setText("Please enter only numbers");
+				String textWikiId = wikiIdField.getText();
+				String textFreebaseId = freebaseIdField.getText();
+				String movieName = movieNameField.getText();
+				String releasedate = releaseDateField.getText();
+				String boxoffice = boxofficeField.getText();
+				String runtime = runtimeField.getText();
+				String language = languageField.getText();
+				String country = countryField.getText();
+				String genre = genreField.getText();
+				if (
+					( !FieldVerifier.isValidID(textWikiId) ) 		&&
+					( !FieldVerifier.isValidID(textFreebaseId) )	
+					) {
+					errorLabel.setText("Error");
 					return;
 				}
 
 				// Then, we send the input to the server.
 				sendButton2.setEnabled(false);
-				textToServerLabel2.setText(textToServer2);
+				textToServerLabel2.setText(textWikiId);
+				textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
-				String concat = modifyString(textToServer2);
-				Window.alert(concat);
+				String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime, language, country, genre);
 				strQuerry.append(concat);
-				Window.alert(strQuerry.toString());
+				
+		//		Window.alert(concat);
+		//		strQuerry.append(concat);
+		//		Window.alert(strQuerry.toString());
 
 				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<String>() {
 					public void onFailure(Throwable caught) {
@@ -429,35 +492,49 @@ public class Movie_App implements EntryPoint {
 				});
 			}
 
-			private String modifyString(String textToServer2) {
-				if (wikiIdFieldCheck == -1){
+			private String modifyString(String textWikiId, String textFreebaseId, String movieName, String releasedate, String boxoffice, String runtime, String language, String country, String genre) {
+				StringBuilder querryConcatination = new StringBuilder();
+				if (wikiIdFieldCheck == -1) {
+					querryConcatination.append("WHERE 1=1 ");
+				} else {
+					if (wikiIdFieldCheck == 2) {
+						querryConcatination.append(" WHERE wikiid = " + textWikiId);
+					} else if (wikiIdFieldCheck == 3) {
+						querryConcatination.append(" WHERE wikiid > " + textWikiId);
+					} else if (wikiIdFieldCheck == 4) {
+						querryConcatination.append(" WHERE wikiid < " + textWikiId);
+					}
+				}
+				if (freebaseIdFieldCheck == -1) {
+					//
+				} else {
+						querryConcatination.append(" AND freebaseid = '" + textFreebaseId + "'");
+			}
+				if (movieNameFieldCheck == -1){
 					//
 				}
 				else{
-				if (wikiIdFieldCheck == 2) {
-					return "WHERE wikiid = " + textToServer2;
-				} else if (wikiIdFieldCheck == 3) {
-					return "WHERE wikiid > " + textToServer2;
-				} else if (wikiIdFieldCheck == 4) {
-					return "WHERE wikiid < " + textToServer2;
-				} else {
-					return null;
+					querryConcatination.append(" AND name = '" + movieName + "'");
+
 				}
-				}
-				return null;
-			}
 
 			// Add a handler to send the name to the server
+				Window.alert(querryConcatination.toString());
+				return querryConcatination.toString();
 
+
+		}
 		}
 
 		MyHandler2 handler2 = new MyHandler2();
 		sendButton2.addClickHandler(handler2);
 		wikiIdField.addKeyUpHandler(handler2);
+		freebaseIdField.addKeyUpHandler(handler2);
+		movieNameField.addKeyUpHandler(handler2);
 
 	}
-	
-	public String createQuerryString(){
+
+	public String createQuerryString() {
 		return null;
 	}
 
