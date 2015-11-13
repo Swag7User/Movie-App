@@ -110,7 +110,12 @@ public class MySQLAccess extends HttpServlet{
 			s = s.concat(releasedate);
 			}
 			s = s.concat(" ");
-			s = s.concat(boxoffice);
+			if (boxoffice == null){
+				s = s.concat("0");
+				}
+				else{
+				s = s.concat(boxoffice);
+				}
 			s = s.concat(" ");
 			if (runtime == null){
 			s = s.concat("0");
