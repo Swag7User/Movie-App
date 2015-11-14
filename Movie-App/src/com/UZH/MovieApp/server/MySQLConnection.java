@@ -16,17 +16,18 @@ import com.UZH.MovieApp.server.MySQLAccess;
 
 public class MySQLConnection extends RemoteServiceServlet implements DBConnection {
 	
-	public String getDBData(String querry) {
+	public Vector<String> getDBData(String querry) {
 		
-		String k = "";
+	//	String k = "";
+		Vector<String> k = null;
 	
 	    MySQLAccess dao = new MySQLAccess();
 	    try {
-	    	k = k.concat(dao.readDataBase(querry));
+			k = new Vector<String>(dao.readDataBase(querry));
 		//	System.out.println("k: " + k);
 
 		} catch (Exception e) {
-	    	k = k.concat("something borkered");
+	    	
 			e.printStackTrace();
 		}
 	

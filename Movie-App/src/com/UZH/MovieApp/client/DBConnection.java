@@ -1,5 +1,7 @@
 package com.UZH.MovieApp.client;
 
+import java.util.Vector;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -7,6 +9,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface DBConnection extends RemoteService {
 	
 	
- public String getDBData(String querry);
+ public Vector<String> getDBData(String querry);
 
 }

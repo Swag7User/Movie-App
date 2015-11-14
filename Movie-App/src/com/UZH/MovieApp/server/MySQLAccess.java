@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-
+import java.util.Vector;
 import java.io.*;
 import javax.servlet.http.*;
 
@@ -22,8 +22,9 @@ public class MySQLAccess extends HttpServlet{
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 
-	public String readDataBase(String querry) throws Exception  {
-		String ss;
+	public Vector<String> readDataBase(String querry) throws Exception  {
+		String ss = "";
+		Vector<String> ss_new = null;
 		try {
 				
 			// This will load the MySQL driver, each DB has its own driver
@@ -52,8 +53,9 @@ public class MySQLAccess extends HttpServlet{
 			sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
 			System.out.println(querry);
 			resultSet = statement.executeQuery(querry);
-			ss = "";
-			ss = ss.concat(writeResultSet(resultSet,symbols));
+		//	ss = "";
+		//	ss = ss.concat(writeResultSet(resultSet,symbols));
+			ss_new = writeResultSet(resultSet,symbols);
 		
 
 		} catch (Exception e) {
@@ -61,8 +63,10 @@ public class MySQLAccess extends HttpServlet{
 		} finally {
 			close();
 		}
-
-		return ss;
+/*		for ( String o : ss_new){
+			System.out.println(o);
+		}*/
+		return ss_new;
 
 	}
 
@@ -78,10 +82,11 @@ public class MySQLAccess extends HttpServlet{
 		}
 	}
 
-	private String writeResultSet(ResultSet resultSet, int symbols) throws SQLException {
+	private Vector<String> writeResultSet(ResultSet resultSet, int symbols) throws SQLException {
 		// ResultSet is initially before the first data set
 		int i = 0;
 		String s = "";
+		Vector<String> s_new = new Vector<String>();
 		// String[] strarray = new String[10];
 		while (resultSet.next() && i < symbols) {
 			// It is possible to get the columns via name
@@ -97,12 +102,16 @@ public class MySQLAccess extends HttpServlet{
 			String languages = resultSet.getString(7);
 			String countries = resultSet.getString(8);
 			String genres = resultSet.getString(9);
-			s = s.concat(wikiid);
-			s = s.concat(" ");
-			s = s.concat(freebaseid);
-			s = s.concat(" ");
-			s = s.concat(name);
-			s = s.concat(" ");
+			s_new.add(wikiid);
+			s_new.add(freebaseid);
+			s_new.add(name);
+			s_new.add(releasedate);
+			s_new.add(boxoffice);
+			s_new.add(runtime);
+			s_new.add(languages);
+			s_new.add(countries);
+			s_new.add(genres);
+
 			if (releasedate == null){
 				s = s.concat("0");
 			}
@@ -124,16 +133,30 @@ public class MySQLAccess extends HttpServlet{
 			s = s.concat(runtime);
 			}
 			s = s.concat(" ");
+			if (languages == null){
+			s = s.concat("0");
+			}
+			else{
 			s = s.concat(languages);
+			}
 			s = s.concat(" ");
+			if (countries == null){
+			s = s.concat("0");
+			}
+			else{
 			s = s.concat(countries);
+			}
 			s = s.concat(" ");
-			s = s.concat(genres); 
+			if (genres == null){
+			s = s.concat("0");
+			}
+			else{
+			s = s.concat(genres);
+			}
 			s = s.concat(" --- ");
-			//System.out.println("s: " + s);
 			i++;
 		}
-		return s;
+		return s_new;
 	}
 
 	// You need to close the resultSet

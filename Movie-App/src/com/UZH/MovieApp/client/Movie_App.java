@@ -1,6 +1,8 @@
 package com.UZH.MovieApp.client;
 
 import java.lang.StringBuilder;
+import java.util.Vector;
+
 import com.UZH.MovieApp.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -50,7 +52,12 @@ public class Movie_App implements EntryPoint {
 	int languageFieldCheck = -1;
 	int countryFieldCheck = -1;
 	int genreFieldCheck = -1;
+	int limitFieldCheck = -1;
+	Vector<String> tableString = new Vector<String>();
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
+	public void clearStringquerry(){
+		strQuerry = new StringBuilder("select * from movieapp.moviedata ");
+	}
 
 	/**
 	 * This is the entry point method.
@@ -69,6 +76,7 @@ public class Movie_App implements EntryPoint {
 		final TextBox languageField = new TextBox();
 		final TextBox countryField = new TextBox();
 		final TextBox genreField = new TextBox();
+		final TextBox limitField = new TextBox();
 		final Label errorLabel = new Label();
 		// Set standard Text inside textboxes
 		nameField.setText("Movie Freak");
@@ -80,7 +88,8 @@ public class Movie_App implements EntryPoint {
 		runtimeField.setText("run time");
 		languageField.setText("Language");
 		countryField.setText("Country");
-		genreField.setText("Ganre");
+		genreField.setText("Genre");
+		limitField.setText("Limit");
 
 		// Make new check boxes
 		// ###############Wikipedia ID#################
@@ -225,9 +234,9 @@ public class Movie_App implements EntryPoint {
 		// ###############Release Date#################
 		final CheckBox releaseDateFieldEQUAL = new CheckBox("=");
 		final CheckBox releaseDateFieldBIGGERTHAN = new CheckBox(">");
-		releaseDateFieldBIGGERTHAN.setEnabled(false);
+	//	releaseDateFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox releaseDateFieldSMALLERTHAN = new CheckBox("<");
-		releaseDateFieldSMALLERTHAN.setEnabled(false);
+	//	releaseDateFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		releaseDateFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -269,6 +278,257 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
+		// ###############Boxoffice#################
+		final CheckBox boxofficeFieldEQUAL = new CheckBox("=");
+		final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
+	//	boxofficeFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
+	//	boxofficeFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		boxofficeFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeFieldCheck = 2;
+					boxofficeFieldBIGGERTHAN.setValue(false);
+					boxofficeFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					boxofficeFieldCheck = -1;
+				}
+			}
+		});
+		boxofficeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeFieldCheck = 3;
+					boxofficeFieldEQUAL.setValue(false);
+					boxofficeFieldSMALLERTHAN.setValue(false);
+				} else {
+					boxofficeFieldCheck = -1;
+				}
+			}
+		});
+		boxofficeFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeFieldCheck = 4;
+					boxofficeFieldBIGGERTHAN.setValue(false);
+					boxofficeFieldEQUAL.setValue(false);
+				} else {
+					boxofficeFieldCheck = -1;
+				}
+			}
+		});
+		// ###############Runtime#################
+		final CheckBox runtimeFieldEQUAL = new CheckBox("=");
+		final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
+	//	runtimeFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
+	//	runtimeFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		runtimeFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeFieldCheck = 2;
+					runtimeFieldBIGGERTHAN.setValue(false);
+					runtimeFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					runtimeFieldCheck = -1;
+				}
+			}
+		});
+		runtimeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeFieldCheck = 3;
+					runtimeFieldEQUAL.setValue(false);
+					runtimeFieldSMALLERTHAN.setValue(false);
+				} else {
+					runtimeFieldCheck = -1;
+				}
+			}
+		});
+		runtimeFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeFieldCheck = 4;
+					runtimeFieldBIGGERTHAN.setValue(false);
+					runtimeFieldEQUAL.setValue(false);
+				} else {
+					runtimeFieldCheck = -1;
+				}
+			}
+		});
+		// ###############language#################
+		final CheckBox languageFieldEQUAL = new CheckBox("=");
+		final CheckBox languageFieldBIGGERTHAN = new CheckBox(">");
+		languageFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox languageFieldSMALLERTHAN = new CheckBox("<");
+		languageFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		languageFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languageFieldCheck = 2;
+					languageFieldBIGGERTHAN.setValue(false);
+					languageFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					languageFieldCheck = -1;
+				}
+			}
+		});
+		languageFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languageFieldCheck = 3;
+					languageFieldEQUAL.setValue(false);
+					languageFieldSMALLERTHAN.setValue(false);
+				} else {
+					languageFieldCheck = -1;
+				}
+			}
+		});
+		languageFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languageFieldCheck = 4;
+					languageFieldBIGGERTHAN.setValue(false);
+					languageFieldEQUAL.setValue(false);
+				} else {
+					languageFieldCheck = -1;
+				}
+			}
+		});
+		// ###############country#################
+		final CheckBox countryFieldEQUAL = new CheckBox("=");
+		final CheckBox countryFieldBIGGERTHAN = new CheckBox(">");
+		countryFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox countryFieldSMALLERTHAN = new CheckBox("<");
+		countryFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		countryFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryFieldCheck = 2;
+					countryFieldBIGGERTHAN.setValue(false);
+					countryFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					countryFieldCheck = -1;
+				}
+			}
+		});
+		countryFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryFieldCheck = 3;
+					countryFieldEQUAL.setValue(false);
+					countryFieldSMALLERTHAN.setValue(false);
+				} else {
+					countryFieldCheck = -1;
+				}
+			}
+		});
+		countryFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryFieldCheck = 4;
+					countryFieldBIGGERTHAN.setValue(false);
+					countryFieldEQUAL.setValue(false);
+				} else {
+					countryFieldCheck = -1;
+				}
+			}
+		});
+		// ###############genre#################
+		final CheckBox genreFieldEQUAL = new CheckBox("=");
+		final CheckBox genreFieldBIGGERTHAN = new CheckBox(">");
+		genreFieldBIGGERTHAN.setEnabled(false);
+		final CheckBox genreFieldSMALLERTHAN = new CheckBox("<");
+		genreFieldSMALLERTHAN.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		genreFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					genreFieldCheck = 2;
+					genreFieldBIGGERTHAN.setValue(false);
+					genreFieldSMALLERTHAN.setValue(false);
+
+				} else {
+					genreFieldCheck = -1;
+				}
+			}
+		});
+		genreFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					genreFieldCheck = 3;
+					genreFieldEQUAL.setValue(false);
+					genreFieldSMALLERTHAN.setValue(false);
+				} else {
+					genreFieldCheck = -1;
+				}
+			}
+		});
+		genreFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					genreFieldCheck = 4;
+					genreFieldBIGGERTHAN.setValue(false);
+					genreFieldEQUAL.setValue(false);
+				} else {
+					genreFieldCheck = -1;
+				}
+			}
+		});
+		// ###############limit#################
+		final CheckBox limitFieldEQUAL = new CheckBox("=");
+		// Hook up a handler to find out when they're clicked clicked.
+		limitFieldEQUAL.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					limitFieldCheck = 2;
+				} else {
+					limitFieldCheck = -1;
+				}
+			}
+		});
+
+		
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 		sendButton2.addStyleName("sendButton2");
@@ -287,6 +547,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("languageFieldContainer").add(languageField);
 		RootPanel.get("countryFieldContainer").add(countryField);
 		RootPanel.get("genreFieldContainer").add(genreField);
+		RootPanel.get("limitFieldContainer").add(limitField);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 		// get checkboxes
 		RootPanel.get("wikiIdFieldEQUALContainer").add(wikiIdFieldEQUAL);
@@ -298,6 +559,26 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("movieNameFieldEQUALContainer").add(movieNameFieldEQUAL);
 		RootPanel.get("movieNameFieldBIGGERTHANContainer").add(movieNameFieldBIGGERTHAN);
 		RootPanel.get("movieNameFieldSMALLERTHANContainer").add(movieNameFieldSMALLERTHAN);
+		RootPanel.get("releaseDateFieldEQUALContainer").add(releaseDateFieldEQUAL);
+		RootPanel.get("releaseDateFieldBIGGERTHANContainer").add(releaseDateFieldBIGGERTHAN);
+		RootPanel.get("releaseDateFieldSMALLERTHANContainer").add(releaseDateFieldSMALLERTHAN);
+		RootPanel.get("boxofficeFieldEQUALContainer").add(boxofficeFieldEQUAL);
+		RootPanel.get("boxofficeFieldBIGGERTHANContainer").add(boxofficeFieldBIGGERTHAN);
+		RootPanel.get("boxofficeFieldSMALLERTHANContainer").add(boxofficeFieldSMALLERTHAN);
+		RootPanel.get("runtimeFieldEQUALContainer").add(runtimeFieldEQUAL);
+		RootPanel.get("runtimeFieldBIGGERTHANContainer").add(runtimeFieldBIGGERTHAN);
+		RootPanel.get("runtimeFieldSMALLERTHANContainer").add(runtimeFieldSMALLERTHAN);
+		RootPanel.get("languageFieldEQUALContainer").add(languageFieldEQUAL);
+		RootPanel.get("languageFieldBIGGERTHANContainer").add(languageFieldBIGGERTHAN);
+		RootPanel.get("languageFieldSMALLERTHANContainer").add(languageFieldSMALLERTHAN);
+		RootPanel.get("countryFieldEQUALContainer").add(countryFieldEQUAL);
+		RootPanel.get("countryFieldBIGGERTHANContainer").add(countryFieldBIGGERTHAN);
+		RootPanel.get("countryFieldSMALLERTHANContainer").add(countryFieldSMALLERTHAN);
+		RootPanel.get("genreFieldEQUALContainer").add(genreFieldEQUAL);
+		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
+		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
+		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
+
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -418,6 +699,8 @@ public class Movie_App implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
+		
+
 
 		class MyHandler2 implements ClickHandler, KeyUpHandler {
 			/**
@@ -452,10 +735,8 @@ public class Movie_App implements EntryPoint {
 				String language = languageField.getText();
 				String country = countryField.getText();
 				String genre = genreField.getText();
-				if (
-					( !FieldVerifier.isValidID(textWikiId) ) 		&&
-					( !FieldVerifier.isValidID(textFreebaseId) )	
-					) {
+				String limit = limitField.getText();
+				if ((!FieldVerifier.isValidID(textWikiId)) && (!FieldVerifier.isValidID(textFreebaseId))) {
 					errorLabel.setText("Error");
 					return;
 				}
@@ -465,14 +746,11 @@ public class Movie_App implements EntryPoint {
 				textToServerLabel2.setText(textWikiId);
 				textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
-				String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime, language, country, genre);
+				String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime,
+						language, country, genre, limit);
 				strQuerry.append(concat);
-				
-		//		Window.alert(concat);
-		//		strQuerry.append(concat);
-		//		Window.alert(strQuerry.toString());
 
-				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<String>() {
+				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<Vector<String>>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						dialogBox2.setText("Remote Procedure Call - Failure");
@@ -482,18 +760,36 @@ public class Movie_App implements EntryPoint {
 						closeButton2.setFocus(true);
 					}
 
-					public void onSuccess(String result) {
-						dialogBox2.setText("Remote Procedure Call");
+					public void onSuccess(Vector<String> result) {
+						dialogBox2.setText("Your querry returned some stuff:");
 						serverResponseLabel2.removeStyleName("serverResponseLabelError");
-						serverResponseLabel2.setHTML(result);
+						StringBuilder test = new StringBuilder();
+						try {
+							for (String o : result) {
+								if (o == null) {
+									test.append("0");
+								} else {
+									test.append(o);
+									test.append(" - ");									
+								}
+							}
+							serverResponseLabel2.setHTML(test.toString());
+						} catch (NullPointerException e) {
+							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+							;
+						}
 						dialogBox2.center();
 						closeButton2.setFocus(true);
+						clearStringquerry();
 					}
+
 				});
 			}
 
-			private String modifyString(String textWikiId, String textFreebaseId, String movieName, String releasedate, String boxoffice, String runtime, String language, String country, String genre) {
+			private String modifyString(String textWikiId, String textFreebaseId, String movieName, String releasedate,
+					String boxoffice, String runtime, String language, String country, String genre, String limit) {
 				StringBuilder querryConcatination = new StringBuilder();
+	
 				if (wikiIdFieldCheck == -1) {
 					querryConcatination.append("WHERE 1=1 ");
 				} else {
@@ -506,24 +802,75 @@ public class Movie_App implements EntryPoint {
 					}
 				}
 				if (freebaseIdFieldCheck == -1) {
-					//
+					// do nothing I guess
 				} else {
-						querryConcatination.append(" AND freebaseid = '" + textFreebaseId + "'");
-			}
-				if (movieNameFieldCheck == -1){
-					//
+					querryConcatination.append(" AND freebaseid = '" + textFreebaseId + "'");
 				}
-				else{
-					querryConcatination.append(" AND name = '" + movieName + "'");
-
+				if (movieNameFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					querryConcatination.append(" AND name LIKE '" + movieName + "'");
+				}
+				if (releaseDateFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					if (releaseDateFieldCheck == 2) {
+						querryConcatination.append(" AND releasedate = " + "'" + releasedate + "'");
+					} else if (releaseDateFieldCheck == 3) {
+						querryConcatination.append(" AND releasedate > " + "'" + releasedate + "'");
+					} else if (releaseDateFieldCheck == 4) {
+						querryConcatination.append(" AND releasedate < " + "'" + releasedate + "'");
+					}
+				}
+				if (boxofficeFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					if (boxofficeFieldCheck == 2) {
+						querryConcatination.append(" AND boxoffice = " + boxoffice);
+					} else if (boxofficeFieldCheck == 3) {
+						querryConcatination.append(" AND boxoffice > " + boxoffice);
+					} else if (boxofficeFieldCheck == 4) {
+						querryConcatination.append(" AND boxoffice < " + boxoffice);
+					}
+				}
+				if (runtimeFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					if (runtimeFieldCheck == 2) {
+						querryConcatination.append(" AND runtime = " + runtime);
+					} else if (runtimeFieldCheck == 3) {
+						querryConcatination.append(" AND runtime > " + runtime);
+					} else if (runtimeFieldCheck == 4) {
+						querryConcatination.append(" AND runtime < " + runtime);
+					}
+				}
+				if (languageFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					querryConcatination.append(" AND languages LIKE '" + language + "'");
+				}
+				if (countryFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					querryConcatination.append(" AND countries LIKE '" + country + "'");
+				}
+				if (genreFieldCheck == -1) {
+					// do nothing I guess
+				} else {
+					querryConcatination.append(" AND genres LIKE '" + genre + "'");
+				}
+				if (limitFieldCheck == -1) {
+					// do nothing I guess
+					} else {
+						querryConcatination.append(" LIMIT " + limit);
 				}
 
-			// Add a handler to send the name to the server
-				Window.alert(querryConcatination.toString());
+
+				// Add a handler to send the name to the server
+		//		Window.alert(querryConcatination.toString());
 				return querryConcatination.toString();
 
-
-		}
+			}
 		}
 
 		MyHandler2 handler2 = new MyHandler2();
@@ -532,10 +879,6 @@ public class Movie_App implements EntryPoint {
 		freebaseIdField.addKeyUpHandler(handler2);
 		movieNameField.addKeyUpHandler(handler2);
 
-	}
-
-	public String createQuerryString() {
-		return null;
 	}
 
 }
