@@ -1,9 +1,13 @@
 package com.UZH.MovieApp.client;
 
 import java.lang.StringBuilder;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Vector;
 
 import com.UZH.MovieApp.shared.FieldVerifier;
+import com.UZH.MovieApp.shared.Movie;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -11,6 +15,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -24,11 +31,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Movie_App implements EntryPoint {
+
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
@@ -55,7 +64,8 @@ public class Movie_App implements EntryPoint {
 	int limitFieldCheck = -1;
 	Vector<String> tableString = new Vector<String>();
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
-	public void clearStringquerry(){
+
+	public void clearStringquerry() {
 		strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 	}
 
@@ -234,9 +244,9 @@ public class Movie_App implements EntryPoint {
 		// ###############Release Date#################
 		final CheckBox releaseDateFieldEQUAL = new CheckBox("=");
 		final CheckBox releaseDateFieldBIGGERTHAN = new CheckBox(">");
-	//	releaseDateFieldBIGGERTHAN.setEnabled(false);
+		// releaseDateFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox releaseDateFieldSMALLERTHAN = new CheckBox("<");
-	//	releaseDateFieldSMALLERTHAN.setEnabled(false);
+		// releaseDateFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		releaseDateFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -281,9 +291,9 @@ public class Movie_App implements EntryPoint {
 		// ###############Boxoffice#################
 		final CheckBox boxofficeFieldEQUAL = new CheckBox("=");
 		final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
-	//	boxofficeFieldBIGGERTHAN.setEnabled(false);
+		// boxofficeFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
-	//	boxofficeFieldSMALLERTHAN.setEnabled(false);
+		// boxofficeFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		boxofficeFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -328,9 +338,9 @@ public class Movie_App implements EntryPoint {
 		// ###############Runtime#################
 		final CheckBox runtimeFieldEQUAL = new CheckBox("=");
 		final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
-	//	runtimeFieldBIGGERTHAN.setEnabled(false);
+		// runtimeFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
-	//	runtimeFieldSMALLERTHAN.setEnabled(false);
+		// runtimeFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		runtimeFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -528,7 +538,6 @@ public class Movie_App implements EntryPoint {
 			}
 		});
 
-		
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
 		sendButton2.addStyleName("sendButton2");
@@ -578,7 +587,6 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
 		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
 		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
-
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -699,10 +707,8 @@ public class Movie_App implements EntryPoint {
 		MyHandler handler = new MyHandler();
 		sendButton.addClickHandler(handler);
 		nameField.addKeyUpHandler(handler);
-		
 
-
-		class MyHandler2 implements ClickHandler, KeyUpHandler {
+		class MyHandler2 implements ClickHandler, KeyUpHandler, java.io.Serializable {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
@@ -744,13 +750,13 @@ public class Movie_App implements EntryPoint {
 				// Then, we send the input to the server.
 				sendButton2.setEnabled(false);
 				textToServerLabel2.setText(textWikiId);
-				textToServerLabel2.setText(textFreebaseId);
+				// textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
 				String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime,
 						language, country, genre, limit);
 				strQuerry.append(concat);
 
-				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<Vector<String>>() {
+				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user
 						dialogBox2.setText("Remote Procedure Call - Failure");
@@ -760,27 +766,206 @@ public class Movie_App implements EntryPoint {
 						closeButton2.setFocus(true);
 					}
 
-					public void onSuccess(Vector<String> result) {
-						dialogBox2.setText("Your querry returned some stuff:");
-						serverResponseLabel2.removeStyleName("serverResponseLabelError");
-						StringBuilder test = new StringBuilder();
+					public void onSuccess(ArrayList<Movie> result) {
+						// dialogBox2.setText("Your querry returned some
+						// stuff:");
+						// serverResponseLabel2.removeStyleName("serverResponseLabelError");
 						try {
-							for (String o : result) {
-								if (o == null) {
-									test.append("0");
-								} else {
-									test.append(o);
-									test.append(" - ");									
+							// ############ table ############
+
+							// Create a CellTable.
+							CellTable<Movie> movieTable = new CellTable<Movie>();
+
+							// Create wikiid column.
+							TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.wikiid;
 								}
+							};
+							// Create freebaseid column.
+							TextColumn<Movie> freebaseidColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.freebaseid;
+								}
+							};
+							// Create name column.
+							TextColumn<Movie> nameColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.name;
+								}
+							};
+							// Create releasedate column.
+							TextColumn<Movie> releasedateColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.releasedate;
+								}
+							};
+							// Create boxoffice column.
+							TextColumn<Movie> boxofficeColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.boxoffice;
+								}
+							};
+							// Create runtime column.
+							TextColumn<Movie> runtimeColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.runtime;
+								}
+							};
+							// Create languages column.
+							TextColumn<Movie> languagesColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.languages;
+								}
+							};
+							// Create countries column.
+							TextColumn<Movie> countriesColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.countries;
+								}
+							};
+							// Create genres column.
+							TextColumn<Movie> genresColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.genres;
+								}
+							};
+							nameColumn.setSortable(true);
+							wikiidColumn.setSortable(true);
+						/*	releasedateColumn.setSortable(true);
+							boxofficeColumn.setSortable(true);
+							runtimeColumn.setSortable(true);
+*/
+							// Add the columns.
+							movieTable.addColumn(wikiidColumn, "Wiki ID");
+							movieTable.addColumn(freebaseidColumn, "Freebase ID");
+							movieTable.addColumn(nameColumn, "Name");
+							movieTable.addColumn(releasedateColumn, "Release Date");
+							movieTable.addColumn(boxofficeColumn, "Boxoffice");
+							movieTable.addColumn(runtimeColumn, "Runtime");
+							movieTable.addColumn(languagesColumn, "Languages");
+							movieTable.addColumn(countriesColumn, "Countries");
+							movieTable.addColumn(genresColumn, "Genres");
+
+							// Create a data provider.
+							ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
+
+							// Connect the table to the data provider.
+							dataProvider.addDataDisplay(movieTable);
+
+							// Add the data to the data provider, which
+							// automatically pushes it to the
+							// widget.
+							List<Movie> list = dataProvider.getList();
+
+							for (Movie movie : result) {
+								list.add(movie);
+						//		movie.printMovie();
 							}
-							serverResponseLabel2.setHTML(test.toString());
+
+							// Add a ColumnSortEvent.ListHandler to connect
+							// sorting to the
+							// java.util.List.
+							ListHandler<Movie> columnSortHandler = new ListHandler<Movie>(list);
+							// name sorting
+							columnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? o1.name.compareTo(o2.name) : 1;
+									}
+									return -1;
+								}
+							});
+							// wiki id sorting
+							columnSortHandler.setComparator(wikiidColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the wikiid columns.
+									if (o1 != null) {
+										return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+									}
+									return -1;
+								}
+							});
+							// boxoffice sorting
+							columnSortHandler.setComparator(boxofficeColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
+									}
+									return -1;
+								}
+							});
+							// runtime sorting
+							columnSortHandler.setComparator(runtimeColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
+									}
+									return -1;
+								}
+							});
+							// releasedate sorting
+							columnSortHandler.setComparator(releasedateColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate)) : 1;
+									}
+									return -1;
+								}
+							});
+							movieTable.addColumnSortHandler(columnSortHandler);
+
+							// We know that the data is sorted alphabetically by
+							// default.
+							movieTable.getColumnSortList().push(nameColumn);
+
+
+							RootPanel.get().add(movieTable);
+
+							// ############ table ############
+
+							// serverResponseLabel2.setHTML(test.toString());
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
 							;
 						}
-						dialogBox2.center();
-						closeButton2.setFocus(true);
+						// dialogBox2.center();
+						// closeButton2.setFocus(true);
 						clearStringquerry();
+						sendButton2.setEnabled(true);
 					}
 
 				});
@@ -789,7 +974,7 @@ public class Movie_App implements EntryPoint {
 			private String modifyString(String textWikiId, String textFreebaseId, String movieName, String releasedate,
 					String boxoffice, String runtime, String language, String country, String genre, String limit) {
 				StringBuilder querryConcatination = new StringBuilder();
-	
+
 				if (wikiIdFieldCheck == -1) {
 					querryConcatination.append("WHERE 1=1 ");
 				} else {
@@ -809,7 +994,7 @@ public class Movie_App implements EntryPoint {
 				if (movieNameFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND name LIKE '" + movieName + "'");
+					querryConcatination.append(" AND name LIKE '" + "%" + movieName + "%" + "'");
 				}
 				if (releaseDateFieldCheck == -1) {
 					// do nothing I guess
@@ -857,17 +1042,16 @@ public class Movie_App implements EntryPoint {
 				if (genreFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND genres LIKE '" + genre + "'");
+					querryConcatination.append(" AND genres LIKE '" + "%" + genre + "%" + "'");
 				}
 				if (limitFieldCheck == -1) {
 					// do nothing I guess
-					} else {
-						querryConcatination.append(" LIMIT " + limit);
+				} else {
+					querryConcatination.append(" LIMIT " + limit);
 				}
 
-
 				// Add a handler to send the name to the server
-		//		Window.alert(querryConcatination.toString());
+				// Window.alert(querryConcatination.toString());
 				return querryConcatination.toString();
 
 			}
