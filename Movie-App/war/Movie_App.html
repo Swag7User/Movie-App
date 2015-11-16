@@ -1,29 +1,16 @@
 <!doctype html>
-<!-- The DOCTYPE declaration above will set the     -->
-<!-- browser's rendering engine into                -->
-<!-- "Standards Mode". Replacing this declaration   -->
-<!-- with a "Quirks Mode" doctype is not supported. -->
 
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <!--                                                               -->
-    <!-- Consider inlining CSS to reduce the number of requested files -->
-    <!--                                                               -->
     <link type="text/css" rel="stylesheet" href="Movie_App.css">
-
-    <!--                                           -->
-    <!-- Any title is fine                         -->
-    <!--                                           -->
-    <title>Web Application Starter Project</title>
     
-    <!--                                           -->
-    <!-- This script loads your compiled module.   -->
-    <!-- If you add any GWT meta tags, they must   -->
-    <!-- be added before this line.                -->
-    <!--                                           -->
+    <title>Web Application Starter Project</title>
+   
     <script type="text/javascript" language="javascript" src="movie_app/movie_app.nocache.js"></script>
+    
+    
   </head>
 
   <!--                                           -->
@@ -45,6 +32,10 @@
     </noscript>
 
     <h1>Totally rad Movie App!</h1>
+    
+    <div id="regions_div" style="width: 900px; height: 500px; text-align: center;"></div>
+    	
+    
 
     <table align="center">
       <tr>
@@ -65,5 +56,36 @@
         <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
       </tr>
     </table>
+    
+    
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+    google.load("visualization", "1", {packages:["geomap"]});
+	google.setOnLoadCallback(drawMap);
+
+    function drawMap() {
+      var data = google.visualization.arrayToDataTable([
+        ['Country', 'Number of Movies'],
+        ['Germany', 200],
+        ['United States', 300],
+        ['Brazil', 400],
+        ['Canada', 500],
+        ['France', 600],
+        ['RU', 700],
+        ['Italy', 1000]
+      ]);
+
+      var options = {};
+      options['dataMode'] = 'regions';
+      //options['width'] = 900;
+      //options['height'] = 500; 
+
+      var container = document.getElementById('regions_div');
+      var geomap = new google.visualization.GeoMap(container);
+
+      geomap.draw(data, options);
+    };
+    </script>
+    
   </body>
 </html>
