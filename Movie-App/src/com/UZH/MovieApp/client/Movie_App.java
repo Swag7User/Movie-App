@@ -52,6 +52,7 @@ public class Movie_App implements EntryPoint {
 	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
 
+	// =, <, >, Checkboxes
 	int wikiIdFieldCheck = -1;
 	int freebaseIdFieldCheck = -1;
 	int movieNameFieldCheck = -1;
@@ -62,6 +63,17 @@ public class Movie_App implements EntryPoint {
 	int countryFieldCheck = -1;
 	int genreFieldCheck = -1;
 	int limitFieldCheck = -1;
+	// AND OR Checkboxes
+	int wikiCheck = 0;
+	int freebaseCheck = 0;
+	int nameCheck = 0;
+	int releasedateCheck = 0;
+	int boxofficeCheck = 0;
+	int runtimeCheck = 0;
+	int languagesCheck = 0;
+	int countryCheck = 0;
+	int genreCheck = 0;
+
 	Vector<String> tableString = new Vector<String>();
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 
@@ -537,6 +549,264 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
+		
+		// ############### AND ORS #################
+		// ############### wiki AND OR #################
+		final CheckBox wikiAND = new CheckBox("&");
+		final CheckBox wikiOR = new CheckBox("||");
+		wikiOR.setEnabled(true);
+		// Hook up a handler to find out when they're clicked clicked.
+		wikiAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					wikiCheck = 0;
+					wikiOR.setValue(false);
+				} else {
+					wikiCheck = -1;
+				}
+			}
+		});
+		wikiOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					wikiCheck = 1;
+					wikiAND.setValue(false);
+				} else {
+					wikiCheck = -1;
+				}
+			}
+		});
+		// ############### freebase AND OR #################
+		final CheckBox freebaseAND = new CheckBox("&");
+		final CheckBox freebaseOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		freebaseAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					freebaseCheck = 0;
+					freebaseOR.setValue(false);
+				} else {
+					freebaseCheck = -1;
+				}
+			}
+		});
+		freebaseOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					freebaseCheck = 1;
+					freebaseAND.setValue(false);
+				} else {
+					freebaseCheck = -1;
+				}
+			}
+		});
+		// ############### name AND OR #################
+		final CheckBox nameAND = new CheckBox("&");
+		final CheckBox nameOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		nameAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					nameCheck = 0;
+					nameOR.setValue(false);
+				} else {
+					nameCheck = -1;
+				}
+			}
+		});
+		nameOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					nameCheck = 1;
+					nameAND.setValue(false);
+				} else {
+					nameCheck = -1;
+				}
+			}
+		});
+		// ############### releasedate AND OR #################
+		final CheckBox releasedateAND = new CheckBox("&");
+		final CheckBox releasedateOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		releasedateAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releasedateCheck = 0;
+					releasedateOR.setValue(false);
+				} else {
+					releasedateCheck = -1;
+				}
+			}
+		});
+		releasedateOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releasedateCheck = 1;
+					releasedateAND.setValue(false);
+				} else {
+					releasedateCheck = -1;
+				}
+			}
+		});
+		// ############### boxoffice AND OR #################
+		final CheckBox boxofficeAND = new CheckBox("&");
+		final CheckBox boxofficeOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		boxofficeAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeCheck = 0;
+					boxofficeOR.setValue(false);
+				} else {
+					boxofficeCheck = -1;
+				}
+			}
+		});
+		boxofficeOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeCheck = 1;
+					boxofficeAND.setValue(false);
+				} else {
+					boxofficeCheck = -1;
+				}
+			}
+		});
+		// ############### runtime AND OR #################
+		final CheckBox runtimeAND = new CheckBox("&");
+		final CheckBox runtimeOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		runtimeAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeCheck = 0;
+					runtimeOR.setValue(false);
+				} else {
+					runtimeCheck = -1;
+				}
+			}
+		});
+		runtimeOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeCheck = 1;
+					runtimeAND.setValue(false);
+				} else {
+					runtimeCheck = -1;
+				}
+			}
+		});
+		// ############### languages AND OR #################
+		final CheckBox languagesAND = new CheckBox("&");
+		final CheckBox languagesOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		languagesAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languagesCheck = 0;
+					languagesOR.setValue(false);
+				} else {
+					languagesCheck = -1;
+				}
+			}
+		});
+		languagesOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languagesCheck = 1;
+					languagesAND.setValue(false);
+				} else {
+					languagesCheck = -1;
+				}
+			}
+		});
+		// ############### country AND OR #################
+		final CheckBox countryAND = new CheckBox("&");
+		final CheckBox countryOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		countryAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryCheck = 0;
+					countryOR.setValue(false);
+				} else {
+					countryCheck = -1;
+				}
+			}
+		});
+		countryOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryCheck = 1;
+					countryAND.setValue(false);
+				} else {
+					countryCheck = -1;
+				}
+			}
+		});
+		// ############### genre AND OR #################
+		final CheckBox genreAND = new CheckBox("&");
+		final CheckBox genreOR = new CheckBox("||");
+		// Hook up a handler to find out when they're clicked clicked.
+		genreAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					genreCheck = 0;
+					genreOR.setValue(false);
+				} else {
+					genreCheck = -1;
+				}
+			}
+		});
+		genreOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					genreCheck = 1;
+					genreAND.setValue(false);
+				} else {
+					genreCheck = -1;
+				}
+			}
+		});
+
+	//	final CheckBox genreFieldSMALLERTHAN = new CheckBox("<");
+		
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
@@ -587,6 +857,24 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
 		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
 		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
+		// AND OR CHECKBOXES
+		RootPanel.get("wikiAND").add(wikiAND);
+		RootPanel.get("wikiOR").add(wikiOR);
+		RootPanel.get("freebaseAND").add(freebaseAND);
+		RootPanel.get("freebaseOR").add(freebaseOR);
+		RootPanel.get("nameAND").add(nameAND);
+		RootPanel.get("nameOR").add(nameOR);
+		RootPanel.get("releasedateAND").add(releasedateAND);
+		RootPanel.get("releasedateOR").add(releasedateOR);
+		RootPanel.get("boxofficeAND").add(boxofficeAND);
+		RootPanel.get("boxofficeOR").add(boxofficeOR);
+		RootPanel.get("runtimeAND").add(runtimeAND);
+		RootPanel.get("runtimeOR").add(runtimeOR);
+		RootPanel.get("languagesAND").add(languagesAND);
+		RootPanel.get("languagesOR").add(languagesOR);
+		RootPanel.get("countryAND").add(countryAND);
+		RootPanel.get("countryOR").add(countryOR);
+
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -986,63 +1274,118 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append(" WHERE wikiid < " + textWikiId);
 					}
 				}
+				if (wikiCheck == 0 && freebaseIdFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if(wikiCheck == 1 && freebaseIdFieldCheck != -1) {
+					querryConcatination.append(" OR ");
+				}
 				if (freebaseIdFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND freebaseid = '" + textFreebaseId + "'");
+					querryConcatination.append("freebaseid = '" + textFreebaseId + "'");
 				}
+				if (freebaseCheck == 0 &&  movieNameFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if(freebaseCheck == 1 &&  movieNameFieldCheck != -1) {
+					querryConcatination.append(" OR ");
+				}
+
 				if (movieNameFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND name LIKE '" + "%" + movieName + "%" + "'");
+					querryConcatination.append("name LIKE '" + "%" + movieName + "%" + "'");
 				}
+				if (nameCheck == 0 && releaseDateFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (nameCheck == 1 && releaseDateFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (releaseDateFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (releaseDateFieldCheck == 2) {
-						querryConcatination.append(" AND releasedate = " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate = " + "'" + releasedate + "'");
 					} else if (releaseDateFieldCheck == 3) {
-						querryConcatination.append(" AND releasedate > " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate > " + "'" + releasedate + "'");
 					} else if (releaseDateFieldCheck == 4) {
-						querryConcatination.append(" AND releasedate < " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate < " + "'" + releasedate + "'");
 					}
 				}
+				if (releasedateCheck == 0 && boxofficeFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (releasedateCheck == 1 && boxofficeFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (boxofficeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (boxofficeFieldCheck == 2) {
-						querryConcatination.append(" AND boxoffice = " + boxoffice);
+						querryConcatination.append("boxoffice = " + boxoffice);
 					} else if (boxofficeFieldCheck == 3) {
-						querryConcatination.append(" AND boxoffice > " + boxoffice);
+						querryConcatination.append("boxoffice > " + boxoffice);
 					} else if (boxofficeFieldCheck == 4) {
-						querryConcatination.append(" AND boxoffice < " + boxoffice);
+						querryConcatination.append("boxoffice < " + boxoffice);
 					}
 				}
+				if (boxofficeCheck == 0 && runtimeFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (boxofficeCheck == 1 && runtimeFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (runtimeFieldCheck == 2) {
-						querryConcatination.append(" AND runtime = " + runtime);
+						querryConcatination.append("runtime = " + runtime);
 					} else if (runtimeFieldCheck == 3) {
-						querryConcatination.append(" AND runtime > " + runtime);
+						querryConcatination.append("runtime > " + runtime);
 					} else if (runtimeFieldCheck == 4) {
-						querryConcatination.append(" AND runtime < " + runtime);
+						querryConcatination.append("runtime < " + runtime);
 					}
 				}
+				if (runtimeCheck == 0 && languageFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (runtimeCheck == 1 && languageFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (languageFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND languages LIKE '" + language + "'");
+					querryConcatination.append("languages LIKE '" + language + "'");
 				}
+				if (languagesCheck == 0 && countryFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (languagesCheck == 1 && countryFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND countries LIKE '" + country + "'");
+					querryConcatination.append("countries LIKE '" + country + "'");
 				}
+				if (countryCheck == 0 && genreFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (countryCheck == 1 && genreFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (genreFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND genres LIKE '" + "%" + genre + "%" + "'");
+					querryConcatination.append("genres LIKE '" + "%" + genre + "%" + "'");
 				}
 				if (limitFieldCheck == -1) {
 					// do nothing I guess
