@@ -1339,7 +1339,7 @@ public class Movie_App implements EntryPoint {
 				else if (boxofficeCheck == 1 && runtimeFieldCheck != -1){
 					querryConcatination.append(" OR ");
 				}
-
+// test
 				if (runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
