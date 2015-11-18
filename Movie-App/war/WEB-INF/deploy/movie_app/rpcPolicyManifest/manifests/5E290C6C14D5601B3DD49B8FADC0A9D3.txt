@@ -1,2 +1,0 @@
-serviceClass: com.UZH.MovieApp.client.GreetingService
-path: 07F2BA070ACDCAC544E6A2A4A4D99E27.gwt.rpc

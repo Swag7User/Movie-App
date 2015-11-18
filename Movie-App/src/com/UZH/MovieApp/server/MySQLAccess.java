@@ -34,10 +34,6 @@ public class MySQLAccess extends HttpServlet{
 			  if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
 			  
 			Class.forName("com.mysql.jdbc.GoogleDriver");
-			// Setup the connection with the DB
-			// connect =
-			// DriverManager.getConnection("jdbc:mysql://localhost/feedback?" +
-			// "user=root&password=lel");
 			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
 			  }
 			  else{

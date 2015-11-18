@@ -50,7 +50,6 @@ public class Movie_App implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
 
 	int wikiIdFieldCheck = -1;
@@ -73,7 +72,6 @@ public class Movie_App implements EntryPoint {
 	int languagesCheck = 0;
 	int countryCheck = 0;
 
-	Vector<String> tableString = new Vector<String>();
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 
 	public void clearStringquerry() {
@@ -85,9 +83,8 @@ public class Movie_App implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		// create text boxes
-		final Button sendButton = new Button("Send");
 		final Button sendButton2 = new Button("Check DB");
-		final TextBox nameField = new TextBox();
+		final Button masterSendButton = new Button("Go!");
 		final TextBox wikiIdField = new TextBox();
 		wikiIdField.setEnabled(false);
 		final TextBox freebaseIdField = new TextBox();
@@ -108,9 +105,10 @@ public class Movie_App implements EntryPoint {
 		genreField.setEnabled(false);
 		final TextBox limitField = new TextBox();
 		limitField.setEnabled(false);
+		final TextBox masterField = new TextBox();
+		masterField.setSize("250Px", "20Px");
 		final Label errorLabel = new Label();
 		// Set standard Text inside textboxes
-		nameField.setText("Movie Freak");
 		wikiIdField.setText("Wiki-ID");
 		freebaseIdField.setText("freebase-ID");
 		movieNameField.setText("Movie Name");
@@ -121,9 +119,10 @@ public class Movie_App implements EntryPoint {
 		countryField.setText("Country");
 		genreField.setText("Genre");
 		limitField.setText("Limit");
+		masterField.setText("SQL Querry");
 
 		// Make new check boxes
-		
+
 		// ############### AND ORS #################
 		// ############### wiki AND OR #################
 		final CheckBox wikiAND = new CheckBox("&");
@@ -946,19 +945,16 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
-		
-
 
 		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
 		sendButton2.addStyleName("sendButton2");
+		masterSendButton.addStyleName("masterSendButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
 		RootPanel.get("nameFieldContainer2").add(wikiIdField);
 		RootPanel.get("sendButtonContainer2").add(sendButton2);
+		RootPanel.get("masterSendButton").add(masterSendButton);
 		RootPanel.get("freebaseIdFieldContainer").add(freebaseIdField);
 		RootPanel.get("movieNameFieldContainer").add(movieNameField);
 		RootPanel.get("releaseDateFieldContainer").add(releaseDateField);
@@ -968,6 +964,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("countryFieldContainer").add(countryField);
 		RootPanel.get("genreFieldContainer").add(genreField);
 		RootPanel.get("limitFieldContainer").add(limitField);
+		RootPanel.get("masterFieldContainer").add(masterField);
 		RootPanel.get("errorLabelContainer").add(errorLabel);
 		// get checkboxes
 		RootPanel.get("wikiIdFieldEQUALContainer").add(wikiIdFieldEQUAL);
@@ -998,7 +995,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
 		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
 		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
-		
+
 		// AND OR CHECKBOXES
 		RootPanel.get("wikiAND").add(wikiAND);
 		RootPanel.get("wikiOR").add(wikiOR);
@@ -1016,7 +1013,6 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("languagesOR").add(languagesOR);
 		RootPanel.get("countryAND").add(countryAND);
 		RootPanel.get("countryOR").add(countryOR);
-
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -1045,7 +1041,9 @@ public class Movie_App implements EntryPoint {
 		// We can set the id of a widget by accessing its Element
 		closeButton2.getElement().setId("closeButton");
 		final Label textToServerLabel2 = new Label();
+		final Label textToServerLabel3 = new Label();
 		final HTML serverResponseLabel2 = new HTML();
+		final HTML serverResponseLabel3 = new HTML();
 		VerticalPanel dialogVPanel2 = new VerticalPanel();
 		dialogVPanel2.setPixelSize(1500, 400);
 		dialogVPanel2.addStyleName("dialogVPanel");
@@ -1057,88 +1055,19 @@ public class Movie_App implements EntryPoint {
 		dialogVPanel2.add(closeButton2);
 		dialogBox2.setWidget(dialogVPanel2);
 
-		// Add a handler to close the DialogBox greeting message
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
-				sendButton.setEnabled(true);
-				sendButton.setFocus(true);
-			}
-		});
 		// Add a handler to close the DialogBox movie data
 		closeButton2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dialogBox2.hide();
 				sendButton2.setEnabled(true);
 				sendButton2.setFocus(true);
+				masterSendButton.setEnabled(true);
 			}
 		});
 
 		// Create a handler for the sendButton and nameField
 
-		class MyHandler implements ClickHandler, KeyUpHandler {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
-			public void onClick(ClickEvent event) {
-				sendNameToServer();
-			}
-
-			/**
-			 * Fired when the user types in the nameField.
-			 */
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendNameToServer();
-				}
-			}
-
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
-			private void sendNameToServer() {
-				// First, we validate the input.
-				errorLabel.setText("");
-				String textToServer = nameField.getText();
-				if (!FieldVerifier.isValidName(textToServer)) {
-					errorLabel.setText("Please enter at least four characters");
-					return;
-				}
-
-				// Then, we send the input to the server.
-				sendButton.setEnabled(false);
-				textToServerLabel.setText(textToServer);
-				serverResponseLabel.setText("");
-				greetingService.greetServer(textToServer, new AsyncCallback<String>() {
-					public void onFailure(Throwable caught) {
-						// Show the RPC error message to the user
-						dialogBox.setText("Remote Procedure Call - Failure");
-						serverResponseLabel.addStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(SERVER_ERROR);
-						dialogBox.center();
-						closeButton.setFocus(true);
-					}
-
-					public void onSuccess(String result) {
-						dialogBox.setText("Remote Procedure Call");
-						serverResponseLabel.removeStyleName("serverResponseLabelError");
-						serverResponseLabel.setHTML(result);
-						dialogBox.center();
-						closeButton.setFocus(true);
-					}
-				});
-			}
-		}
-
-		// create a handler for the send2 button
-
-		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
-
-		class MyHandler2 implements ClickHandler, KeyUpHandler, java.io.Serializable {
+		class FilteringHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
 			/**
 			 * Fired when the user clicks on the sendButton.
 			 */
@@ -1271,10 +1200,11 @@ public class Movie_App implements EntryPoint {
 							};
 							nameColumn.setSortable(true);
 							wikiidColumn.setSortable(true);
-						/*	releasedateColumn.setSortable(true);
-							boxofficeColumn.setSortable(true);
-							runtimeColumn.setSortable(true);
-*/
+							/*
+							 * releasedateColumn.setSortable(true);
+							 * boxofficeColumn.setSortable(true);
+							 * runtimeColumn.setSortable(true);
+							 */
 							// Add the columns.
 							movieTable.addColumn(wikiidColumn, "Wiki ID");
 							movieTable.addColumn(freebaseidColumn, "Freebase ID");
@@ -1290,7 +1220,7 @@ public class Movie_App implements EntryPoint {
 							ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
 
 							// Connect the table to the data provider.
-							
+
 							dataProvider.addDataDisplay(movieTable);
 
 							// Add the data to the data provider, which
@@ -1300,13 +1230,13 @@ public class Movie_App implements EntryPoint {
 
 							for (Movie movie : result) {
 								list.add(movie);
-				//				movie.printMovie();
+								// movie.printMovie();
 							}
-						    SimplePager pager = new SimplePager();
-						    pager.setDisplay(movieTable);
-						    VerticalPanel vPanel = new VerticalPanel();
-						    vPanel.add(pager);
-						    vPanel.add(movieTable);
+							SimplePager pager = new SimplePager();
+							pager.setDisplay(movieTable);
+							VerticalPanel vPanel = new VerticalPanel();
+							vPanel.add(pager);
+							vPanel.add(movieTable);
 
 							// Add a ColumnSortEvent.ListHandler to connect
 							// sorting to the
@@ -1335,7 +1265,8 @@ public class Movie_App implements EntryPoint {
 
 									// Compare the wikiid columns.
 									if (o1 != null) {
-										return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+										return (o2 != null)
+												? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
 									}
 									return -1;
 								}
@@ -1349,7 +1280,9 @@ public class Movie_App implements EntryPoint {
 
 									// Compare the name columns.
 									if (o1 != null) {
-										return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
+										return (o2 != null)
+												? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice))
+												: 1;
 									}
 									return -1;
 								}
@@ -1363,7 +1296,9 @@ public class Movie_App implements EntryPoint {
 
 									// Compare the name columns.
 									if (o1 != null) {
-										return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
+										return (o2 != null)
+												? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime))
+												: 1;
 									}
 									return -1;
 								}
@@ -1377,7 +1312,8 @@ public class Movie_App implements EntryPoint {
 
 									// Compare the name columns.
 									if (o1 != null) {
-										return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate)) : 1;
+										return (o2 != null) ? Integer.valueOf(o1.releasedate)
+												.compareTo(Integer.valueOf(o2.releasedate)) : 1;
 									}
 									return -1;
 								}
@@ -1387,7 +1323,6 @@ public class Movie_App implements EntryPoint {
 							// We know that the data is sorted alphabetically by
 							// default.
 							movieTable.getColumnSortList().push(nameColumn);
-
 
 							RootPanel.get().add(vPanel);
 
@@ -1422,10 +1357,9 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append(" WHERE wikiid < " + textWikiId);
 					}
 				}
-				if (wikiCheck == 0 && freebaseIdFieldCheck != -1){
+				if (wikiCheck == 0 && freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if(wikiCheck == 1 && freebaseIdFieldCheck != -1) {
+				} else if (wikiCheck == 1 && freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 				if (freebaseIdFieldCheck == -1) {
@@ -1433,10 +1367,9 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append("freebaseid = '" + textFreebaseId + "'");
 				}
-				if (freebaseCheck == 0 &&  movieNameFieldCheck != -1){
+				if (freebaseCheck == 0 && movieNameFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if(freebaseCheck == 1 &&  movieNameFieldCheck != -1) {
+				} else if (freebaseCheck == 1 && movieNameFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1445,10 +1378,9 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append("name LIKE '" + "%" + movieName + "%" + "'");
 				}
-				if (nameCheck == 0 && releaseDateFieldCheck != -1){
+				if (nameCheck == 0 && releaseDateFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (nameCheck == 1 && releaseDateFieldCheck != -1){
+				} else if (nameCheck == 1 && releaseDateFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1463,10 +1395,9 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append("releasedate < " + "'" + releasedate + "'");
 					}
 				}
-				if (releasedateCheck == 0 && boxofficeFieldCheck != -1){
+				if (releasedateCheck == 0 && boxofficeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (releasedateCheck == 1 && boxofficeFieldCheck != -1){
+				} else if (releasedateCheck == 1 && boxofficeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1481,13 +1412,12 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append("boxoffice < " + boxoffice);
 					}
 				}
-				if (boxofficeCheck == 0 && runtimeFieldCheck != -1){
+				if (boxofficeCheck == 0 && runtimeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (boxofficeCheck == 1 && runtimeFieldCheck != -1){
+				} else if (boxofficeCheck == 1 && runtimeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
-// test
+				// test
 				if (runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
@@ -1499,10 +1429,9 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append("runtime < " + runtime);
 					}
 				}
-				if (runtimeCheck == 0 && languageFieldCheck != -1){
+				if (runtimeCheck == 0 && languageFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (runtimeCheck == 1 && languageFieldCheck != -1){
+				} else if (runtimeCheck == 1 && languageFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1511,10 +1440,9 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append("languages LIKE '" + language + "'");
 				}
-				if (languagesCheck == 0 && countryFieldCheck != -1){
+				if (languagesCheck == 0 && countryFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (languagesCheck == 1 && countryFieldCheck != -1){
+				} else if (languagesCheck == 1 && countryFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1523,10 +1451,9 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append("countries LIKE '" + country + "'");
 				}
-				if (countryCheck == 0 && genreFieldCheck != -1){
+				if (countryCheck == 0 && genreFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				}
-				else if (countryCheck == 1 && genreFieldCheck != -1){
+				} else if (countryCheck == 1 && genreFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
@@ -1548,11 +1475,271 @@ public class Movie_App implements EntryPoint {
 			}
 		}
 
-		MyHandler2 handler2 = new MyHandler2();
-		sendButton2.addClickHandler(handler2);
-		wikiIdField.addKeyUpHandler(handler2);
-		freebaseIdField.addKeyUpHandler(handler2);
-		movieNameField.addKeyUpHandler(handler2);
+		class MasterHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
+			/**
+			 * Fired when the user clicks on the sendButton.
+			 */
+			public void onClick(ClickEvent event) {
+				sendNameToServer();
+			}
+
+			/**
+			 * Fired when the user types in the nameField.
+			 */
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					sendNameToServer();
+				}
+			}
+
+			/**
+			 * Send the name from the nameField to the server and wait for a
+			 * response.
+			 */
+			private void sendNameToServer() {
+				// First, we validate the input.
+				errorLabel.setText("");
+				String masterText = masterField.getText();
+
+				// Then, we send the input to the server.
+				masterSendButton.setEnabled(false);
+				textToServerLabel3.setText(masterText);
+				// textToServerLabel2.setText(textFreebaseId);
+				textToServerLabel3.setText("");
+				StringBuilder masterQuerry = new StringBuilder("select * from movieapp.moviedata WHERE ");
+				masterQuerry.append(masterText);
+
+				dbconnection.getDBData(masterQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+					public void onFailure(Throwable caught) {
+						// Show the RPC error message to the user
+						dialogBox2.setText("Remote Procedure Call - Failure");
+						serverResponseLabel3.addStyleName("serverResponseLabelError");
+						serverResponseLabel3.setHTML(SERVER_ERROR);
+						dialogBox2.center();
+						closeButton2.setFocus(true);
+					}
+
+					public void onSuccess(ArrayList<Movie> result) {
+						try {
+
+							// ############ table ############
+
+							// Create a CellTable.
+							CellTable<Movie> movieTable = new CellTable<Movie>();
+
+							// Create wikiid column.
+							TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.wikiid;
+								}
+							};
+							// Create freebaseid column.
+							TextColumn<Movie> freebaseidColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.freebaseid;
+								}
+							};
+							// Create name column.
+							TextColumn<Movie> nameColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.name;
+								}
+							};
+							// Create releasedate column.
+							TextColumn<Movie> releasedateColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.releasedate;
+								}
+							};
+							// Create boxoffice column.
+							TextColumn<Movie> boxofficeColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.boxoffice;
+								}
+							};
+							// Create runtime column.
+							TextColumn<Movie> runtimeColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.runtime;
+								}
+							};
+							// Create languages column.
+							TextColumn<Movie> languagesColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.languages;
+								}
+							};
+							// Create countries column.
+							TextColumn<Movie> countriesColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.countries;
+								}
+							};
+							// Create genres column.
+							TextColumn<Movie> genresColumn = new TextColumn<Movie>() {
+								@Override
+								public String getValue(Movie movie) {
+									return movie.genres;
+								}
+							};
+							nameColumn.setSortable(true);
+							wikiidColumn.setSortable(true);
+							/*
+							 * releasedateColumn.setSortable(true);
+							 * boxofficeColumn.setSortable(true);
+							 * runtimeColumn.setSortable(true);
+							 */
+							// Add the columns.
+							movieTable.addColumn(wikiidColumn, "Wiki ID");
+							movieTable.addColumn(freebaseidColumn, "Freebase ID");
+							movieTable.addColumn(nameColumn, "Name");
+							movieTable.addColumn(releasedateColumn, "Release Date");
+							movieTable.addColumn(boxofficeColumn, "Boxoffice");
+							movieTable.addColumn(runtimeColumn, "Runtime");
+							movieTable.addColumn(languagesColumn, "Languages");
+							movieTable.addColumn(countriesColumn, "Countries");
+							movieTable.addColumn(genresColumn, "Genres");
+
+							// Create a data provider.
+							ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
+
+							// Connect the table to the data provider.
+
+							dataProvider.addDataDisplay(movieTable);
+
+							// Add the data to the data provider, which
+							// automatically pushes it to the
+							// widget.
+							List<Movie> list = dataProvider.getList();
+
+							for (Movie movie : result) {
+								list.add(movie);
+								// movie.printMovie();
+							}
+							SimplePager pager = new SimplePager();
+							pager.setDisplay(movieTable);
+							VerticalPanel vPanel = new VerticalPanel();
+							vPanel.add(pager);
+							vPanel.add(movieTable);
+
+							// Add a ColumnSortEvent.ListHandler to connect
+							// sorting to the
+							// java.util.List.
+							ListHandler<Movie> columnSortHandler = new ListHandler<Movie>(list);
+							// name sorting
+							columnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? o1.name.compareTo(o2.name) : 1;
+									}
+									return -1;
+								}
+							});
+							// wiki id sorting
+							columnSortHandler.setComparator(wikiidColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the wikiid columns.
+									if (o1 != null) {
+										return (o2 != null)
+												? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+									}
+									return -1;
+								}
+							});
+							// boxoffice sorting
+							columnSortHandler.setComparator(boxofficeColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null)
+												? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice))
+												: 1;
+									}
+									return -1;
+								}
+							});
+							// runtime sorting
+							columnSortHandler.setComparator(runtimeColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null)
+												? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime))
+												: 1;
+									}
+									return -1;
+								}
+							});
+							// releasedate sorting
+							columnSortHandler.setComparator(releasedateColumn, new Comparator<Movie>() {
+								public int compare(Movie o1, Movie o2) {
+									if (o1 == o2) {
+										return 0;
+									}
+
+									// Compare the name columns.
+									if (o1 != null) {
+										return (o2 != null) ? Integer.valueOf(o1.releasedate)
+												.compareTo(Integer.valueOf(o2.releasedate)) : 1;
+									}
+									return -1;
+								}
+							});
+							movieTable.addColumnSortHandler(columnSortHandler);
+
+							// We know that the data is sorted alphabetically by
+							// default.
+							movieTable.getColumnSortList().push(nameColumn);
+
+							RootPanel.get().add(vPanel);
+
+							// ############ table ############
+
+							// serverResponseLabel2.setHTML(test.toString());
+						} catch (NullPointerException e) {
+							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+							;
+						}
+						// dialogBox2.center();
+						// closeButton2.setFocus(true);
+						clearStringquerry();
+						masterSendButton.setEnabled(true);
+					}
+
+				});
+			}
+		}
+
+		FilteringHandler filteringHandler = new FilteringHandler();
+		sendButton2.addClickHandler(filteringHandler);
+		
+		MasterHandler masterHandler = new MasterHandler();
+		masterSendButton.addClickHandler(masterHandler);
 
 	}
 
