@@ -38,7 +38,7 @@ public class MySQLAccess extends HttpServlet{
 			// connect =
 			// DriverManager.getConnection("jdbc:mysql://localhost/feedback?" +
 			// "user=root&password=lel");
-			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=root");
+			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
 			  }
 			  else{
 					Class.forName("com.mysql.jdbc.Driver");
@@ -51,9 +51,10 @@ public class MySQLAccess extends HttpServlet{
 			// Result set get the result of the SQL query
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
-			int symbols = 100;
-			String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
-			sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
+			int symbols = 50000;
+			
+		//	String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
+		//	sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
 			System.out.println(querry);
 			resultSet = statement.executeQuery(querry);
 		//	ss = "";

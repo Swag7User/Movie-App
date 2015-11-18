@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -62,6 +63,16 @@ public class Movie_App implements EntryPoint {
 	int countryFieldCheck = -1;
 	int genreFieldCheck = -1;
 	int limitFieldCheck = -1;
+	// AND OR Checkboxes
+	int wikiCheck = 0;
+	int freebaseCheck = 0;
+	int nameCheck = 0;
+	int releasedateCheck = 0;
+	int boxofficeCheck = 0;
+	int runtimeCheck = 0;
+	int languagesCheck = 0;
+	int countryCheck = 0;
+
 	Vector<String> tableString = new Vector<String>();
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 
@@ -78,15 +89,25 @@ public class Movie_App implements EntryPoint {
 		final Button sendButton2 = new Button("Check DB");
 		final TextBox nameField = new TextBox();
 		final TextBox wikiIdField = new TextBox();
+		wikiIdField.setEnabled(false);
 		final TextBox freebaseIdField = new TextBox();
+		freebaseIdField.setEnabled(false);
 		final TextBox movieNameField = new TextBox();
+		movieNameField.setEnabled(false);
 		final TextBox releaseDateField = new TextBox();
+		releaseDateField.setEnabled(false);
 		final TextBox boxofficeField = new TextBox();
+		boxofficeField.setEnabled(false);
 		final TextBox runtimeField = new TextBox();
+		runtimeField.setEnabled(false);
 		final TextBox languageField = new TextBox();
+		languageField.setEnabled(false);
 		final TextBox countryField = new TextBox();
+		countryField.setEnabled(false);
 		final TextBox genreField = new TextBox();
+		genreField.setEnabled(false);
 		final TextBox limitField = new TextBox();
+		limitField.setEnabled(false);
 		final Label errorLabel = new Label();
 		// Set standard Text inside textboxes
 		nameField.setText("Movie Freak");
@@ -102,6 +123,250 @@ public class Movie_App implements EntryPoint {
 		limitField.setText("Limit");
 
 		// Make new check boxes
+		
+		// ############### AND ORS #################
+		// ############### wiki AND OR #################
+		final CheckBox wikiAND = new CheckBox("&");
+		final CheckBox wikiOR = new CheckBox("||");
+		wikiAND.setEnabled(false);
+		wikiOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		wikiAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					wikiCheck = 0;
+					wikiOR.setValue(false);
+				} else {
+					wikiCheck = 0;
+				}
+			}
+		});
+		wikiOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					wikiCheck = 1;
+					wikiAND.setValue(false);
+				} else {
+					wikiCheck = 0;
+				}
+			}
+		});
+		// ############### freebase AND OR #################
+		final CheckBox freebaseAND = new CheckBox("&");
+		final CheckBox freebaseOR = new CheckBox("||");
+		freebaseAND.setEnabled(false);
+		freebaseOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		freebaseAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					freebaseCheck = 0;
+					freebaseOR.setValue(false);
+				} else {
+					freebaseCheck = 0;
+				}
+			}
+		});
+		freebaseOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					freebaseCheck = 1;
+					freebaseAND.setValue(false);
+				} else {
+					freebaseCheck = 0;
+				}
+			}
+		});
+		// ############### name AND OR #################
+		final CheckBox nameAND = new CheckBox("&");
+		final CheckBox nameOR = new CheckBox("||");
+		nameAND.setEnabled(false);
+		nameOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		nameAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					nameCheck = 0;
+					nameOR.setValue(false);
+				} else {
+					nameCheck = 0;
+				}
+			}
+		});
+		nameOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					nameCheck = 1;
+					nameAND.setValue(false);
+				} else {
+					nameCheck = 0;
+				}
+			}
+		});
+		// ############### releasedate AND OR #################
+		final CheckBox releasedateAND = new CheckBox("&");
+		final CheckBox releasedateOR = new CheckBox("||");
+		releasedateAND.setEnabled(false);
+		releasedateOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		releasedateAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releasedateCheck = 0;
+					releasedateOR.setValue(false);
+				} else {
+					releasedateCheck = 0;
+				}
+			}
+		});
+		releasedateOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					releasedateCheck = 1;
+					releasedateAND.setValue(false);
+				} else {
+					releasedateCheck = 0;
+				}
+			}
+		});
+		// ############### boxoffice AND OR #################
+		final CheckBox boxofficeAND = new CheckBox("&");
+		final CheckBox boxofficeOR = new CheckBox("||");
+		boxofficeAND.setEnabled(false);
+		boxofficeOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		boxofficeAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeCheck = 0;
+					boxofficeOR.setValue(false);
+				} else {
+					boxofficeCheck = 0;
+				}
+			}
+		});
+		boxofficeOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					boxofficeCheck = 1;
+					boxofficeAND.setValue(false);
+				} else {
+					boxofficeCheck = 0;
+				}
+			}
+		});
+		// ############### runtime AND OR #################
+		final CheckBox runtimeAND = new CheckBox("&");
+		final CheckBox runtimeOR = new CheckBox("||");
+		runtimeAND.setEnabled(false);
+		runtimeOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		runtimeAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeCheck = 0;
+					runtimeOR.setValue(false);
+				} else {
+					runtimeCheck = 0;
+				}
+			}
+		});
+		runtimeOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					runtimeCheck = 1;
+					runtimeAND.setValue(false);
+				} else {
+					runtimeCheck = 0;
+				}
+			}
+		});
+		// ############### languages AND OR #################
+		final CheckBox languagesAND = new CheckBox("&");
+		final CheckBox languagesOR = new CheckBox("||");
+		languagesAND.setEnabled(false);
+		languagesOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		languagesAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languagesCheck = 0;
+					languagesOR.setValue(false);
+				} else {
+					languagesCheck = 0;
+				}
+			}
+		});
+		languagesOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					languagesCheck = 1;
+					languagesAND.setValue(false);
+				} else {
+					languagesCheck = 0;
+				}
+			}
+		});
+		// ############### country AND OR #################
+		final CheckBox countryAND = new CheckBox("&");
+		final CheckBox countryOR = new CheckBox("||");
+		countryAND.setEnabled(false);
+		countryOR.setEnabled(false);
+		// Hook up a handler to find out when they're clicked clicked.
+		countryAND.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryCheck = 0;
+					countryOR.setValue(false);
+				} else {
+					countryCheck = 0;
+				}
+			}
+		});
+		countryOR.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean checked = ((CheckBox) event.getSource()).getValue();
+				if (checked) {
+					countryCheck = 1;
+					countryAND.setValue(false);
+				} else {
+					countryCheck = 0;
+				}
+			}
+		});
+
+		// ########### Field Checkboxes ###############
 		// ###############Wikipedia ID#################
 		final CheckBox wikiIdFieldEQUAL = new CheckBox("=");
 		final CheckBox wikiIdFieldBIGGERTHAN = new CheckBox(">");
@@ -115,9 +380,10 @@ public class Movie_App implements EntryPoint {
 					wikiIdFieldCheck = 2;
 					wikiIdFieldBIGGERTHAN.setValue(false);
 					wikiIdFieldSMALLERTHAN.setValue(false);
-
+					wikiIdField.setEnabled(true);
 				} else {
 					wikiIdFieldCheck = -1;
+					wikiIdField.setEnabled(false);
 				}
 			}
 		});
@@ -129,8 +395,10 @@ public class Movie_App implements EntryPoint {
 					wikiIdFieldCheck = 3;
 					wikiIdFieldEQUAL.setValue(false);
 					wikiIdFieldSMALLERTHAN.setValue(false);
+					wikiIdField.setEnabled(true);
 				} else {
 					wikiIdFieldCheck = -1;
+					wikiIdField.setEnabled(false);
 				}
 			}
 		});
@@ -142,8 +410,10 @@ public class Movie_App implements EntryPoint {
 					wikiIdFieldCheck = 4;
 					wikiIdFieldBIGGERTHAN.setValue(false);
 					wikiIdFieldEQUAL.setValue(false);
+					wikiIdField.setEnabled(true);
 				} else {
 					wikiIdFieldCheck = -1;
+					wikiIdField.setEnabled(false);
 				}
 			}
 		});
@@ -162,9 +432,14 @@ public class Movie_App implements EntryPoint {
 					freebaseIdFieldCheck = 2;
 					freebaseIdFieldBIGGERTHAN.setValue(false);
 					freebaseIdFieldSMALLERTHAN.setValue(false);
-
+					freebaseIdField.setEnabled(true);
+					wikiAND.setEnabled(true);
+					wikiOR.setEnabled(true);
 				} else {
 					freebaseIdFieldCheck = -1;
+					freebaseIdField.setEnabled(false);
+					wikiAND.setEnabled(false);
+					wikiOR.setEnabled(false);
 				}
 			}
 		});
@@ -176,8 +451,14 @@ public class Movie_App implements EntryPoint {
 					freebaseIdFieldCheck = 3;
 					freebaseIdFieldEQUAL.setValue(false);
 					freebaseIdFieldSMALLERTHAN.setValue(false);
+					freebaseIdField.setEnabled(true);
+					wikiAND.setEnabled(true);
+					wikiOR.setEnabled(true);
 				} else {
 					freebaseIdFieldCheck = -1;
+					freebaseIdField.setEnabled(false);
+					wikiAND.setEnabled(false);
+					wikiOR.setEnabled(false);
 				}
 			}
 		});
@@ -189,8 +470,14 @@ public class Movie_App implements EntryPoint {
 					freebaseIdFieldCheck = 4;
 					freebaseIdFieldBIGGERTHAN.setValue(false);
 					freebaseIdFieldEQUAL.setValue(false);
+					freebaseIdField.setEnabled(true);
+					wikiAND.setEnabled(true);
+					wikiOR.setEnabled(true);
 				} else {
 					freebaseIdFieldCheck = -1;
+					freebaseIdField.setEnabled(false);
+					wikiAND.setEnabled(false);
+					wikiOR.setEnabled(false);
 				}
 			}
 		});
@@ -209,9 +496,15 @@ public class Movie_App implements EntryPoint {
 					movieNameFieldCheck = 2;
 					movieNameFieldBIGGERTHAN.setValue(false);
 					movieNameFieldSMALLERTHAN.setValue(false);
+					movieNameField.setEnabled(true);
+					freebaseAND.setEnabled(true);
+					freebaseOR.setEnabled(true);
 
 				} else {
 					movieNameFieldCheck = -1;
+					movieNameField.setEnabled(false);
+					freebaseAND.setEnabled(false);
+					freebaseOR.setEnabled(false);
 				}
 			}
 		});
@@ -223,8 +516,14 @@ public class Movie_App implements EntryPoint {
 					movieNameFieldCheck = 3;
 					movieNameFieldEQUAL.setValue(false);
 					movieNameFieldSMALLERTHAN.setValue(false);
+					movieNameField.setEnabled(true);
+					freebaseAND.setEnabled(true);
+					freebaseOR.setEnabled(true);
 				} else {
 					movieNameFieldCheck = -1;
+					movieNameField.setEnabled(false);
+					freebaseAND.setEnabled(false);
+					freebaseOR.setEnabled(false);
 				}
 			}
 		});
@@ -236,8 +535,14 @@ public class Movie_App implements EntryPoint {
 					movieNameFieldCheck = 4;
 					movieNameFieldBIGGERTHAN.setValue(false);
 					movieNameFieldEQUAL.setValue(false);
+					movieNameField.setEnabled(true);
+					freebaseAND.setEnabled(true);
+					freebaseOR.setEnabled(true);
 				} else {
 					movieNameFieldCheck = -1;
+					movieNameField.setEnabled(false);
+					freebaseAND.setEnabled(false);
+					freebaseOR.setEnabled(false);
 				}
 			}
 		});
@@ -256,9 +561,14 @@ public class Movie_App implements EntryPoint {
 					releaseDateFieldCheck = 2;
 					releaseDateFieldBIGGERTHAN.setValue(false);
 					releaseDateFieldSMALLERTHAN.setValue(false);
-
+					releaseDateField.setEnabled(true);
+					nameAND.setEnabled(true);
+					nameOR.setEnabled(true);
 				} else {
 					releaseDateFieldCheck = -1;
+					releaseDateField.setEnabled(false);
+					nameAND.setEnabled(false);
+					nameOR.setEnabled(false);
 				}
 			}
 		});
@@ -270,8 +580,14 @@ public class Movie_App implements EntryPoint {
 					releaseDateFieldCheck = 3;
 					releaseDateFieldEQUAL.setValue(false);
 					releaseDateFieldSMALLERTHAN.setValue(false);
+					releaseDateField.setEnabled(true);
+					nameAND.setEnabled(true);
+					nameOR.setEnabled(true);
 				} else {
 					releaseDateFieldCheck = -1;
+					releaseDateField.setEnabled(false);
+					nameAND.setEnabled(false);
+					nameOR.setEnabled(false);
 				}
 			}
 		});
@@ -283,8 +599,14 @@ public class Movie_App implements EntryPoint {
 					releaseDateFieldCheck = 4;
 					releaseDateFieldBIGGERTHAN.setValue(false);
 					releaseDateFieldEQUAL.setValue(false);
+					releaseDateField.setEnabled(true);
+					nameAND.setEnabled(true);
+					nameOR.setEnabled(true);
 				} else {
 					releaseDateFieldCheck = -1;
+					releaseDateField.setEnabled(false);
+					nameAND.setEnabled(false);
+					nameOR.setEnabled(false);
 				}
 			}
 		});
@@ -303,9 +625,14 @@ public class Movie_App implements EntryPoint {
 					boxofficeFieldCheck = 2;
 					boxofficeFieldBIGGERTHAN.setValue(false);
 					boxofficeFieldSMALLERTHAN.setValue(false);
-
+					boxofficeField.setEnabled(true);
+					releasedateAND.setEnabled(true);
+					releasedateOR.setEnabled(true);
 				} else {
 					boxofficeFieldCheck = -1;
+					boxofficeField.setEnabled(false);
+					releasedateAND.setEnabled(false);
+					releasedateOR.setEnabled(false);
 				}
 			}
 		});
@@ -317,8 +644,14 @@ public class Movie_App implements EntryPoint {
 					boxofficeFieldCheck = 3;
 					boxofficeFieldEQUAL.setValue(false);
 					boxofficeFieldSMALLERTHAN.setValue(false);
+					boxofficeField.setEnabled(true);
+					releasedateAND.setEnabled(true);
+					releasedateOR.setEnabled(true);
 				} else {
 					boxofficeFieldCheck = -1;
+					boxofficeField.setEnabled(false);
+					releasedateAND.setEnabled(false);
+					releasedateOR.setEnabled(false);
 				}
 			}
 		});
@@ -330,8 +663,14 @@ public class Movie_App implements EntryPoint {
 					boxofficeFieldCheck = 4;
 					boxofficeFieldBIGGERTHAN.setValue(false);
 					boxofficeFieldEQUAL.setValue(false);
+					boxofficeField.setEnabled(true);
+					releasedateAND.setEnabled(true);
+					releasedateOR.setEnabled(true);
 				} else {
 					boxofficeFieldCheck = -1;
+					boxofficeField.setEnabled(false);
+					releasedateAND.setEnabled(false);
+					releasedateOR.setEnabled(false);
 				}
 			}
 		});
@@ -350,9 +689,14 @@ public class Movie_App implements EntryPoint {
 					runtimeFieldCheck = 2;
 					runtimeFieldBIGGERTHAN.setValue(false);
 					runtimeFieldSMALLERTHAN.setValue(false);
-
+					runtimeField.setEnabled(true);
+					boxofficeAND.setEnabled(true);
+					boxofficeOR.setEnabled(true);
 				} else {
 					runtimeFieldCheck = -1;
+					runtimeField.setEnabled(false);
+					boxofficeAND.setEnabled(false);
+					boxofficeOR.setEnabled(false);
 				}
 			}
 		});
@@ -364,8 +708,14 @@ public class Movie_App implements EntryPoint {
 					runtimeFieldCheck = 3;
 					runtimeFieldEQUAL.setValue(false);
 					runtimeFieldSMALLERTHAN.setValue(false);
+					runtimeField.setEnabled(true);
+					boxofficeAND.setEnabled(true);
+					boxofficeOR.setEnabled(true);
 				} else {
 					runtimeFieldCheck = -1;
+					runtimeField.setEnabled(false);
+					boxofficeAND.setEnabled(false);
+					boxofficeOR.setEnabled(false);
 				}
 			}
 		});
@@ -377,8 +727,14 @@ public class Movie_App implements EntryPoint {
 					runtimeFieldCheck = 4;
 					runtimeFieldBIGGERTHAN.setValue(false);
 					runtimeFieldEQUAL.setValue(false);
+					runtimeField.setEnabled(true);
+					boxofficeAND.setEnabled(true);
+					boxofficeOR.setEnabled(true);
 				} else {
 					runtimeFieldCheck = -1;
+					runtimeField.setEnabled(false);
+					boxofficeAND.setEnabled(false);
+					boxofficeOR.setEnabled(false);
 				}
 			}
 		});
@@ -397,9 +753,14 @@ public class Movie_App implements EntryPoint {
 					languageFieldCheck = 2;
 					languageFieldBIGGERTHAN.setValue(false);
 					languageFieldSMALLERTHAN.setValue(false);
-
+					languageField.setEnabled(true);
+					runtimeAND.setEnabled(true);
+					runtimeOR.setEnabled(true);
 				} else {
 					languageFieldCheck = -1;
+					languageField.setEnabled(false);
+					runtimeAND.setEnabled(false);
+					runtimeOR.setEnabled(false);
 				}
 			}
 		});
@@ -411,8 +772,14 @@ public class Movie_App implements EntryPoint {
 					languageFieldCheck = 3;
 					languageFieldEQUAL.setValue(false);
 					languageFieldSMALLERTHAN.setValue(false);
+					languageField.setEnabled(true);
+					runtimeAND.setEnabled(true);
+					runtimeOR.setEnabled(true);
 				} else {
 					languageFieldCheck = -1;
+					languageField.setEnabled(false);
+					runtimeAND.setEnabled(false);
+					runtimeOR.setEnabled(false);
 				}
 			}
 		});
@@ -424,8 +791,14 @@ public class Movie_App implements EntryPoint {
 					languageFieldCheck = 4;
 					languageFieldBIGGERTHAN.setValue(false);
 					languageFieldEQUAL.setValue(false);
+					languageField.setEnabled(true);
+					runtimeAND.setEnabled(true);
+					runtimeOR.setEnabled(true);
 				} else {
 					languageFieldCheck = -1;
+					languageField.setEnabled(false);
+					runtimeAND.setEnabled(false);
+					runtimeOR.setEnabled(false);
 				}
 			}
 		});
@@ -444,9 +817,14 @@ public class Movie_App implements EntryPoint {
 					countryFieldCheck = 2;
 					countryFieldBIGGERTHAN.setValue(false);
 					countryFieldSMALLERTHAN.setValue(false);
-
+					countryField.setEnabled(true);
+					languagesAND.setEnabled(true);
+					languagesOR.setEnabled(true);
 				} else {
 					countryFieldCheck = -1;
+					countryField.setEnabled(false);
+					languagesAND.setEnabled(false);
+					languagesOR.setEnabled(false);
 				}
 			}
 		});
@@ -458,8 +836,14 @@ public class Movie_App implements EntryPoint {
 					countryFieldCheck = 3;
 					countryFieldEQUAL.setValue(false);
 					countryFieldSMALLERTHAN.setValue(false);
+					countryField.setEnabled(true);
+					languagesAND.setEnabled(true);
+					languagesOR.setEnabled(true);
 				} else {
 					countryFieldCheck = -1;
+					countryField.setEnabled(false);
+					languagesAND.setEnabled(false);
+					languagesOR.setEnabled(false);
 				}
 			}
 		});
@@ -471,8 +855,14 @@ public class Movie_App implements EntryPoint {
 					countryFieldCheck = 4;
 					countryFieldBIGGERTHAN.setValue(false);
 					countryFieldEQUAL.setValue(false);
+					countryField.setEnabled(true);
+					languagesAND.setEnabled(true);
+					languagesOR.setEnabled(true);
 				} else {
 					countryFieldCheck = -1;
+					countryField.setEnabled(false);
+					languagesAND.setEnabled(false);
+					languagesOR.setEnabled(false);
 				}
 			}
 		});
@@ -491,9 +881,14 @@ public class Movie_App implements EntryPoint {
 					genreFieldCheck = 2;
 					genreFieldBIGGERTHAN.setValue(false);
 					genreFieldSMALLERTHAN.setValue(false);
-
+					genreField.setEnabled(true);
+					countryAND.setEnabled(true);
+					countryOR.setEnabled(true);
 				} else {
 					genreFieldCheck = -1;
+					genreField.setEnabled(false);
+					countryAND.setEnabled(false);
+					countryOR.setEnabled(false);
 				}
 			}
 		});
@@ -505,8 +900,14 @@ public class Movie_App implements EntryPoint {
 					genreFieldCheck = 3;
 					genreFieldEQUAL.setValue(false);
 					genreFieldSMALLERTHAN.setValue(false);
+					genreField.setEnabled(true);
+					countryAND.setEnabled(true);
+					countryOR.setEnabled(true);
 				} else {
 					genreFieldCheck = -1;
+					genreField.setEnabled(false);
+					countryAND.setEnabled(false);
+					countryOR.setEnabled(false);
 				}
 			}
 		});
@@ -518,8 +919,14 @@ public class Movie_App implements EntryPoint {
 					genreFieldCheck = 4;
 					genreFieldBIGGERTHAN.setValue(false);
 					genreFieldEQUAL.setValue(false);
+					genreField.setEnabled(true);
+					countryAND.setEnabled(true);
+					countryOR.setEnabled(true);
 				} else {
 					genreFieldCheck = -1;
+					genreField.setEnabled(false);
+					countryAND.setEnabled(false);
+					countryOR.setEnabled(false);
 				}
 			}
 		});
@@ -532,11 +939,15 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					limitFieldCheck = 2;
+					limitField.setEnabled(true);
 				} else {
 					limitFieldCheck = -1;
+					limitField.setEnabled(false);
 				}
 			}
 		});
+		
+
 
 		// We can add style names to widgets
 		sendButton.addStyleName("sendButton");
@@ -587,6 +998,25 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
 		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
 		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
+		
+		// AND OR CHECKBOXES
+		RootPanel.get("wikiAND").add(wikiAND);
+		RootPanel.get("wikiOR").add(wikiOR);
+		RootPanel.get("freebaseAND").add(freebaseAND);
+		RootPanel.get("freebaseOR").add(freebaseOR);
+		RootPanel.get("nameAND").add(nameAND);
+		RootPanel.get("nameOR").add(nameOR);
+		RootPanel.get("releasedateAND").add(releasedateAND);
+		RootPanel.get("releasedateOR").add(releasedateOR);
+		RootPanel.get("boxofficeAND").add(boxofficeAND);
+		RootPanel.get("boxofficeOR").add(boxofficeOR);
+		RootPanel.get("runtimeAND").add(runtimeAND);
+		RootPanel.get("runtimeOR").add(runtimeOR);
+		RootPanel.get("languagesAND").add(languagesAND);
+		RootPanel.get("languagesOR").add(languagesOR);
+		RootPanel.get("countryAND").add(countryAND);
+		RootPanel.get("countryOR").add(countryOR);
+
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -860,6 +1290,7 @@ public class Movie_App implements EntryPoint {
 							ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
 
 							// Connect the table to the data provider.
+							
 							dataProvider.addDataDisplay(movieTable);
 
 							// Add the data to the data provider, which
@@ -869,8 +1300,13 @@ public class Movie_App implements EntryPoint {
 
 							for (Movie movie : result) {
 								list.add(movie);
-						//		movie.printMovie();
+				//				movie.printMovie();
 							}
+						    SimplePager pager = new SimplePager();
+						    pager.setDisplay(movieTable);
+						    VerticalPanel vPanel = new VerticalPanel();
+						    vPanel.add(pager);
+						    vPanel.add(movieTable);
 
 							// Add a ColumnSortEvent.ListHandler to connect
 							// sorting to the
@@ -953,7 +1389,7 @@ public class Movie_App implements EntryPoint {
 							movieTable.getColumnSortList().push(nameColumn);
 
 
-							RootPanel.get().add(movieTable);
+							RootPanel.get().add(vPanel);
 
 							// ############ table ############
 
@@ -986,63 +1422,118 @@ public class Movie_App implements EntryPoint {
 						querryConcatination.append(" WHERE wikiid < " + textWikiId);
 					}
 				}
+				if (wikiCheck == 0 && freebaseIdFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if(wikiCheck == 1 && freebaseIdFieldCheck != -1) {
+					querryConcatination.append(" OR ");
+				}
 				if (freebaseIdFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND freebaseid = '" + textFreebaseId + "'");
+					querryConcatination.append("freebaseid = '" + textFreebaseId + "'");
 				}
+				if (freebaseCheck == 0 &&  movieNameFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if(freebaseCheck == 1 &&  movieNameFieldCheck != -1) {
+					querryConcatination.append(" OR ");
+				}
+
 				if (movieNameFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND name LIKE '" + "%" + movieName + "%" + "'");
+					querryConcatination.append("name LIKE '" + "%" + movieName + "%" + "'");
 				}
+				if (nameCheck == 0 && releaseDateFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (nameCheck == 1 && releaseDateFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (releaseDateFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (releaseDateFieldCheck == 2) {
-						querryConcatination.append(" AND releasedate = " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate = " + "'" + releasedate + "'");
 					} else if (releaseDateFieldCheck == 3) {
-						querryConcatination.append(" AND releasedate > " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate > " + "'" + releasedate + "'");
 					} else if (releaseDateFieldCheck == 4) {
-						querryConcatination.append(" AND releasedate < " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate < " + "'" + releasedate + "'");
 					}
 				}
+				if (releasedateCheck == 0 && boxofficeFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (releasedateCheck == 1 && boxofficeFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (boxofficeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (boxofficeFieldCheck == 2) {
-						querryConcatination.append(" AND boxoffice = " + boxoffice);
+						querryConcatination.append("boxoffice = " + boxoffice);
 					} else if (boxofficeFieldCheck == 3) {
-						querryConcatination.append(" AND boxoffice > " + boxoffice);
+						querryConcatination.append("boxoffice > " + boxoffice);
 					} else if (boxofficeFieldCheck == 4) {
-						querryConcatination.append(" AND boxoffice < " + boxoffice);
+						querryConcatination.append("boxoffice < " + boxoffice);
 					}
 				}
+				if (boxofficeCheck == 0 && runtimeFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (boxofficeCheck == 1 && runtimeFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+// test
 				if (runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					if (runtimeFieldCheck == 2) {
-						querryConcatination.append(" AND runtime = " + runtime);
+						querryConcatination.append("runtime = " + runtime);
 					} else if (runtimeFieldCheck == 3) {
-						querryConcatination.append(" AND runtime > " + runtime);
+						querryConcatination.append("runtime > " + runtime);
 					} else if (runtimeFieldCheck == 4) {
-						querryConcatination.append(" AND runtime < " + runtime);
+						querryConcatination.append("runtime < " + runtime);
 					}
 				}
+				if (runtimeCheck == 0 && languageFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (runtimeCheck == 1 && languageFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (languageFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND languages LIKE '" + language + "'");
+					querryConcatination.append("languages LIKE '" + language + "'");
 				}
+				if (languagesCheck == 0 && countryFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (languagesCheck == 1 && countryFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND countries LIKE '" + country + "'");
+					querryConcatination.append("countries LIKE '" + country + "'");
 				}
+				if (countryCheck == 0 && genreFieldCheck != -1){
+					querryConcatination.append(" AND ");
+				}
+				else if (countryCheck == 1 && genreFieldCheck != -1){
+					querryConcatination.append(" OR ");
+				}
+
 				if (genreFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append(" AND genres LIKE '" + "%" + genre + "%" + "'");
+					querryConcatination.append("genres LIKE '" + "%" + genre + "%" + "'");
 				}
 				if (limitFieldCheck == -1) {
 					// do nothing I guess
