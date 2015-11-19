@@ -84,6 +84,10 @@ public class Movie_App implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		final WorldMap map = new WorldMap();
+		RootPanel.get().add(map.printMap());
+		
 		// create text boxes
 		final Button sendButton = new Button("Send");
 		final Button sendButton2 = new Button("Check DB");

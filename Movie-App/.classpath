@@ -11,5 +11,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="C:/Users/Kasi/Desktop/gwt-incubator-1.5.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kasi/Desktop/gwt-visualization-1.1.1.jar/gwt-visualization-1.1.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
