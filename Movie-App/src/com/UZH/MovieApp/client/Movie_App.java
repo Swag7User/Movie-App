@@ -88,7 +88,9 @@ public class Movie_App implements EntryPoint {
 	public void onModuleLoad() {
 		
 		final WorldMap map = new WorldMap();
-		RootPanel.get().add(map.printMap());
+		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(map.printMap());
+		RootPanel.get().add(verticalPanel);
 		
 		// create text boxes
 		final Button sendButton = new Button("Send");
