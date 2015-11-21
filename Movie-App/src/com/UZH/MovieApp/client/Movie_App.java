@@ -1404,7 +1404,6 @@ public class Movie_App implements EntryPoint {
 							// serverResponseLabel2.setHTML(test.toString());
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
-							;
 						}
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);

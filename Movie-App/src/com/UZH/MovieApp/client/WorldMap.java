@@ -1,5 +1,12 @@
 package com.UZH.MovieApp.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import com.UZH.MovieApp.shared.Movie;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,14 +36,36 @@ public class WorldMap extends Composite{
 				dataTable = DataTable.create();
 				dataTable.addColumn(ColumnType.STRING, "Country");
 				dataTable.addColumn(ColumnType.NUMBER, "Number of movies");
-				dataTable.addRows(3);
-				dataTable.setValue(0, 0, "Italy");
-				dataTable.setValue(0, 1, 1000);
-				options = GeoMap.Options.create();
-				options.setDataMode(GeoMap.DataMode.REGIONS);
-				options.setRegion("world");
-				geomap = new GeoMap(dataTable, options);
-				scrollPanel.add(geomap);
+				
+				
+				DBConnectionAsync conn = GWT.create(DBConnection.class);
+				String strQuerry = "SELECT countries, Count(*) FROM moviedata Group By countries";
+				conn.getDBDataHash(strQuerry, new AsyncCallback<HashMap<String, Integer>>(){
+					
+					public void onFailure(Throwable caught) {
+						// Show the RPC error message to the user
+					}
+
+					@Override
+					public void onSuccess(HashMap<String, Integer> result) {
+						// TODO Auto-generated method stub
+						dataTable.addRows(result.size());
+						int i=0;
+						for (Entry<String, Integer> entry : result.entrySet()) {
+							//System.out.println(Integer.toString(entry.getValue()));
+							dataTable.setValue(i, 0, entry.getKey());
+							dataTable.setValue(i, 1, entry.getValue());
+							i++;
+						}
+						
+						options = GeoMap.Options.create();
+						options.setDataMode(GeoMap.DataMode.REGIONS);
+						options.setRegion("world");
+						geomap = new GeoMap(dataTable, options);
+						scrollPanel.add(geomap);
+						System.out.println("dataTable finished");
+					}
+				});
 			}
 			
 		};

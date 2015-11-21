@@ -9,6 +9,6 @@ public class Main {
 	}
 	
 	//Initializing countries
-	Country a = new Country("Hallo", 200);
+	//Country a = new Country("Hallo", 200);
 
 }
