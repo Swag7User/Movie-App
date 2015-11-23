@@ -1158,7 +1158,6 @@ public class Movie_App implements EntryPoint {
 		// Use RootPanel.get() to get the entire body element
 		RootPanel.get("nameFieldContainer2").add(wikiIdField);
 		RootPanel.get("sendButtonContainer2").add(sendButton2);
-		RootPanel.get("masterSendButton").add(masterSendButton);
 		RootPanel.get("freebaseIdFieldContainer").add(freebaseIdField);
 		RootPanel.get("movieNameFieldContainer").add(movieNameField);
 		RootPanel.get("releaseDateFieldContainer").add(releaseDateField);
