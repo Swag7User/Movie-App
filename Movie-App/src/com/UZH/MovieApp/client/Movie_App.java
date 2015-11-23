@@ -91,7 +91,8 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get().add(verticalPanel);
 		
 		// create text boxes
-		final Button sendButton2 = new Button("Check DB");
+		final Button sendButton2 = new Button("Go!");
+		//sendButton2.setSize("40Px", "20Px");
 		final Button masterSendButton = new Button("Go!");
 		final TextBox wikiIdField = new TextBox();
 		wikiIdField.setEnabled(false);
@@ -113,8 +114,9 @@ public class Movie_App implements EntryPoint {
 		genreField.setEnabled(false);
 		final TextBox limitField = new TextBox();
 		limitField.setEnabled(false);
+		limitField.setSize("145Px", "20Px");
 		final TextBox masterField = new TextBox();
-		masterField.setSize("250Px", "20Px");
+		masterField.setSize("145Px", "20Px");
 		final Label errorLabel = new Label();
 		// Set standard Text inside textboxes
 		wikiIdField.setText("WikiID");
@@ -1149,6 +1151,7 @@ public class Movie_App implements EntryPoint {
 
 		// We can add style names to widgets
 		sendButton2.addStyleName("sendButton2");
+		
 		masterSendButton.addStyleName("masterSendButton");
 
 		// Add the nameField and sendButton to the RootPanel

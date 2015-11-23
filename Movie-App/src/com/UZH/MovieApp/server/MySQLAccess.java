@@ -180,7 +180,7 @@ public class MySQLAccess extends HttpServlet{
 		ArrayList<Movie> s_new = new ArrayList<Movie>();
 		// String[] strarray = new String[10];
 		System.out.println("finished querry");
-		while (resultSet.next()) {
+		while (resultSet.next() && i <= symbols) {
 			// It is possible to get the columns via name
 			// also possible to get the columns via the column number
 			// which starts at 1
