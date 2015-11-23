@@ -49,7 +49,7 @@ public class MySQLAccess extends HttpServlet{
 			// Result set get the result of the SQL query
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
-			int symbols = 80000;
+			int symbols = 40000;
 			
 		//	String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
 		//	sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
