@@ -23,6 +23,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.widgetideas.client.SliderBar;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -83,12 +85,33 @@ public class Movie_App implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
+	
+			
 	public void onModuleLoad() {
 		
 		final WorldMap map = new WorldMap();
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(map.printMap());
+		final VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(map.printMap(strQuerry, 2011));
 		RootPanel.get().add(verticalPanel);
+
+		
+		//slider
+		final SliderBar slider;
+		slider = new SliderBar(1990, 2011);
+		slider.setStepSize(1.0);
+		slider.setCurrentValue(2011.0);
+		slider.setNumTicks(21);
+		slider.setNumLabels(21);
+		verticalPanel.add(slider);
+		ChangeListener listener = new ChangeListener(){
+			@Override
+			public void onChange(Widget sender) {
+				int year = (int) slider.getCurrentValue();
+				verticalPanel.remove(map);
+				verticalPanel.add(map.printMap(strQuerry,year));
+			}};
+
+		
 		
 		// create text boxes
 		final Button sendButton2 = new Button("Check DB");
@@ -1318,6 +1341,12 @@ public class Movie_App implements EntryPoint {
 				String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime,
 						language, country, genre, limit);
 				strQuerry.append(concat);
+				
+				
+				verticalPanel.remove(map);
+				verticalPanel.add(map.printMap(strQuerry,2011));
+				
+				
 
 				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 					public void onFailure(Throwable caught) {
@@ -1520,6 +1549,8 @@ public class Movie_App implements EntryPoint {
 				textToServerLabel3.setText("");
 				StringBuilder masterQuerry = new StringBuilder("select * from movieapp.moviedata WHERE ");
 				masterQuerry.append(masterText);
+				
+				
 
 				dbconnection.getDBData(masterQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 					public void onFailure(Throwable caught) {
@@ -1540,6 +1571,7 @@ public class Movie_App implements EntryPoint {
 								list.add(movie);
 								// movie.printMovie();
 							}
+					
 
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");

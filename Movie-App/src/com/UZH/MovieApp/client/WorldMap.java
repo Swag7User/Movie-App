@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.UZH.MovieApp.shared.Movie;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.ChangeListener;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -16,6 +17,8 @@ import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.visualizations.GeoMap;
+import com.google.gwt.widgetideas.client.SliderBar;
+
 
 
 public class WorldMap extends Composite{
@@ -23,24 +26,36 @@ public class WorldMap extends Composite{
 	private GeoMap.Options options;
 	private GeoMap geomap;
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	private SliderBar slider;
+	protected String year;
 	
 	public WorldMap(){
 		
-	}
+		}
+		
 	
-	public Widget printMap(){
+	
+	public Widget printMap(final StringBuilder strQuerry, final int year){
 		Runnable onLoadCallback = new Runnable(){
-
+			
+			
 			@Override
 			public void run() {
 				dataTable = DataTable.create();
 				dataTable.addColumn(ColumnType.STRING, "Country");
 				dataTable.addColumn(ColumnType.NUMBER, "Number of movies");
 				
-				
+				String query = strQuerry.substring(8, strQuerry.length()-1);
 				DBConnectionAsync conn = GWT.create(DBConnection.class);
-				String strQuerry = "SELECT countries, Count(*) FROM moviedata Group By countries";
-				conn.getDBDataHash(strQuerry, new AsyncCallback<HashMap<String, Integer>>(){
+				// TODO leere query
+				String finalQuery = "";
+				if(strQuerry.length()<33){
+					finalQuery = "SELECT countries, Count(*) FROM movieapp.moviedata Group By countries";
+				}
+				else{
+					finalQuery = "SELECT countries, Count(*) "+ query +"AND year="+ Integer.toString(year) +" Group By countries";
+				}
+				conn.getDBDataHash(finalQuery, new AsyncCallback<HashMap<String, Integer>>(){
 					
 					public void onFailure(Throwable caught) {
 						// Show the RPC error message to the user

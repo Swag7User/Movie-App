@@ -35,15 +35,15 @@ public class MySQLAccess extends HttpServlet{
 		try {
 				
 			// This will load the MySQL driver, each DB has its own driver
-			  if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
-			  
-			Class.forName("com.mysql.jdbc.GoogleDriver");
-			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
-			  }
-			  else{
-					Class.forName("com.mysql.jdbc.Driver");
-					connect = DriverManager.getConnection("jdbc:mysql://localhost/movieapp?user=root");
-			  }
+			 if (SystemProperty.environment.value() == SystemProperty.Environment.Value.Production) {
+				  
+					Class.forName("com.mysql.jdbc.GoogleDriver");
+					connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
+					  }
+					  else{
+							Class.forName("com.mysql.jdbc.Driver");
+							connect = DriverManager.getConnection("jdbc:mysql://173.194.244.189/movieapp","twat","lel");
+					  }
 
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_READ_ONLY);
