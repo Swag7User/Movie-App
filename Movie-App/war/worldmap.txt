@@ -1,0 +1,23 @@
+google.load("visualization", "1", {packages:["geomap"]});
+	  google.setOnLoadCallback(drawMap);
+
+      function drawMap() {
+        var data = google.visualization.arrayToDataTable([
+          ['Country', 'Number of Movies'],
+          ['Germany', 200],
+          ['United States', 300],
+          ['Brazil', 400],
+          ['Canada', 500],
+          ['France', 600],
+          ['RU', 700],
+          ['Italy', 1000 ]
+        ]);
+
+        var options = {};
+        options['dataMode'] = 'regions';
+
+        var container = document.getElementById('regions_div');
+        var geomap = new google.visualization.GeoMap(container);
+
+        geomap.draw(data, options);
+      };

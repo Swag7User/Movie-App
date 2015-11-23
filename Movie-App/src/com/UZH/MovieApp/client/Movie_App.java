@@ -33,6 +33,8 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
+import com.google.gwt.visualization.client.AbstractDataTable;
+import com.google.gwt.visualization.client.DataTable;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -82,6 +84,12 @@ public class Movie_App implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
+		final WorldMap map = new WorldMap();
+		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(map.printMap());
+		RootPanel.get().add(verticalPanel);
+		
 		// create text boxes
 		final Button sendButton2 = new Button("Check DB");
 		final Button masterSendButton = new Button("Go!");
@@ -1336,7 +1344,6 @@ public class Movie_App implements EntryPoint {
 							// serverResponseLabel2.setHTML(test.toString());
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
-							;
 						}
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);

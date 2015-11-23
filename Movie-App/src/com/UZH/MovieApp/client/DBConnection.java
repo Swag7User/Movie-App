@@ -1,6 +1,7 @@
 package com.UZH.MovieApp.client;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -10,8 +11,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("MySQLConnection")
 public interface DBConnection extends RemoteService {
-	
-	
- public ArrayList<Movie> getDBData(String querry);
-
+	public ArrayList<Movie> getDBData(String querry);
+	public HashMap<String, Integer> getDBDataHash(String querry);
 }
