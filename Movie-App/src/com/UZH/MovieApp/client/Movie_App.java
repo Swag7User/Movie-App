@@ -109,15 +109,15 @@ public class Movie_App implements EntryPoint {
 		masterField.setSize("250Px", "20Px");
 		final Label errorLabel = new Label();
 		// Set standard Text inside textboxes
-		wikiIdField.setText("Wiki-ID");
-		freebaseIdField.setText("freebase-ID");
-		movieNameField.setText("Movie Name");
-		releaseDateField.setText("release Date YYYY-MM-DD");
+		wikiIdField.setText("WikiID");
+		freebaseIdField.setText("FreebaseID");
+		movieNameField.setText("Name");
+		releaseDateField.setText("Releasedate YYYY-MM-DD");
 		boxofficeField.setText("Boxoffice");
-		runtimeField.setText("run time");
-		languageField.setText("Language");
-		countryField.setText("Country");
-		genreField.setText("Genre");
+		runtimeField.setText("Runtime");
+		languageField.setText("Languages");
+		countryField.setText("Countries");
+		genreField.setText("Genres");
 		limitField.setText("Limit");
 		masterField.setText("SQL Querry");
 

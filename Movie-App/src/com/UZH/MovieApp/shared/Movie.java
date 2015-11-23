@@ -1,7 +1,12 @@
 package com.UZH.MovieApp.shared;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
+
+import static org.junit.Assert.assertEquals;
+
 import java.io.Serializable;
+import org.junit.Test;
+import org.junit.Test.*;
 
 @SuppressWarnings("serial")
 public class Movie  implements Serializable{
@@ -30,8 +35,19 @@ public class Movie  implements Serializable{
 	}
 	
 	public Movie(){
-		
+		this.wikiid = null;
+		this.freebaseid = null;
+		this.name = null;
+		this.releasedate = null;
+		this.boxoffice = null;
+		this.runtime = null;
+		this.languages = null;
+		this.countries = null;
+		this.genres = null;
 	}
+
+	
+	
 	
 	
 	public void printMovie(){

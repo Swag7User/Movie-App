@@ -1,6 +1,8 @@
 package com.UZH.MovieApp.server;
 
 import java.sql.Connection;
+import org.junit.Test;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,7 +51,7 @@ public class MySQLAccess extends HttpServlet{
 			// Result set get the result of the SQL query
 			// resultSet = statement.executeQuery("select * from
 			// feedback.comments");
-			int symbols = 40000;
+			int limit = 40000;
 			
 		//	String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
 		//	sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
@@ -58,7 +60,7 @@ public class MySQLAccess extends HttpServlet{
 		//	ss = "";
 		//	ss = ss.concat(writeResultSet(resultSet,symbols));
 			System.out.println("start resultset");
-			ss_new = writeResultSet(resultSet,symbols);
+			ss_new = writeResultSet(resultSet,limit);
 			System.out.println("end resultset");
 
 
