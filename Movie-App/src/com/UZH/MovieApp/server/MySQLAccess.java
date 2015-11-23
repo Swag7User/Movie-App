@@ -79,11 +79,8 @@ public class MySQLAccess extends HttpServlet{
 	}
 	
 	public HashMap<String, Integer> readDataBaseResultSet(String querry) throws Exception  {
-		//String ss = "";
-		//ArrayList<Movie> ss_new = null;
 		HashMap<String, Integer> hash = new HashMap<String, Integer>();
 		MySQLAccess access = new MySQLAccess();
-		//java.sql.ResultSet result;
 		ArrayListMultimap<String,Integer> mapCountry2 = ArrayListMultimap.create();
 		HashMap<String, Integer> mapCountry = new HashMap<String, Integer>();
 		HashMap<String, Integer> distinct = new HashMap<String, Integer>();
@@ -107,23 +104,9 @@ public class MySQLAccess extends HttpServlet{
 
 			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement();
-
-			// Result set get the result of the SQL query
-			// resultSet = statement.executeQuery("select * from
-			// feedback.comments");
-			//int symbols = 50000;
-			
-		//	String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
-		//	sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
 			System.out.println(querry);
 			resultSet = statement.executeQuery(querry);
-		//	ss = "";
-		//	ss = ss.concat(writeResultSet(resultSet,symbols));
-			//ss_new = writeResultSet(resultSet,symbols);
-			
-			//System.out.println("Fetch SIze: " + resultSet.getFetchSize());
 			System.out.println("First: " + resultSet.first());
-			//System.out.println("To String: "+resultSet.toString());
 			
 			int curr = 0;
 			while (resultSet.next()){
@@ -172,12 +155,7 @@ public class MySQLAccess extends HttpServlet{
 		}finally {
 			close();
 		}
-/*		for ( Movie o : ss_new){
-			System.out.println("ss: " + ss_new);
-			o.printMovie();
-		}
-*/		//return ss_new;
-		//return resultSet;
+		
 		return distinct;
 
 	}
