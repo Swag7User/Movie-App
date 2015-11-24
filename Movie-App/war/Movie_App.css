@@ -1,6 +1,50 @@
 /** Add css rules here for your application. */
 
-
+.gwt-SliderBar-shell {
+  border: 4px solid #faf9f7;
+  border-right: 4px solid #848280;
+  border-bottom: 4px solid #848280;
+  border-left: 4px solid #848280;
+  background-color: #efebe7;
+  height: 34pt;
+  width: 100%;
+}
+.gwt-SliderBar-shell .gwt-SliderBar-line {
+  border: 1px solid black;
+  background-color: white;
+  height: 7px;
+  width: 98%;
+  top: 22pt;
+  overflow: hidden;
+}
+.gwt-SliderBar-shell .gwt-SliderBar-knob {
+  top: 14px;
+  width: 11px;
+  height: 21px;
+  z-index: 1;
+  cursor: pointer;
+}
+.gwt-SliderBar-shell .gwt-SliderBar-tick {
+  top: 12pt;
+  width: 1px;
+  height: 8pt;
+  background: black;
+  overflow: hidden;
+}
+.gwt-SliderBar-shell .gwt-SliderBar-label {
+  top: 2pt;
+  font-size: 8pt;
+  cursor: default;
+  color: #000000;
+  
+  
+}
+.gwt-SliderBar-shell-focused {
+}
+.gwt-SliderBar-shell .gwt-SliderBar-line-sliding {
+  background-color: #00ffff;
+  cursor: pointer;
+}
 /** Example rules used by the template application (remove for your app) */
 h1 {
   font-size: 2em;

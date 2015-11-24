@@ -6,10 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.persistence.criteria.Root;
+
 import com.UZH.MovieApp.shared.FieldVerifier;
 import com.UZH.MovieApp.shared.Movie;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.asm.commons.AdviceAdapter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -26,6 +29,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -35,6 +39,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.DataTable;
+import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.widgetideas.client.SliderBar;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -53,7 +59,13 @@ public class Movie_App implements EntryPoint {
 	 * service.
 	 */
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
-
+	SliderBar slider;
+	VerticalPanel verticalPanelSlider;
+	VerticalPanel verticalPanel;
+	VerticalPanel vPanel;
+	VerticalPanel dialogVPanel;
+	WorldMap map;
+	String widthSlider="1500px";
 	int wikiIdFieldCheck = -1;
 	int freebaseIdFieldCheck = -1;
 	int movieNameFieldCheck = -1;
@@ -83,14 +95,39 @@ public class Movie_App implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
+	public void slider(){
+				verticalPanelSlider = new VerticalPanel();
+				verticalPanelSlider.clear();
+				//verticalPanelSlider.setBorderWidth(1);
+			
+
+				slider = new SliderBar(1886,2016);
+				slider.setStepSize(1);
+				slider.setCurrentValue(1950.0);
+				slider.setNumTicks(130);
+				slider.setNumLabels(26);
+				verticalPanelSlider.add(slider);
+				RootPanel.get().add(verticalPanelSlider);
+				slider.setVisible(true);
+				slider.setHeight("50px");
+				slider.setWidth(widthSlider);
+	}
 	public void onModuleLoad() {
 		
-		final WorldMap map = new WorldMap();
-		VerticalPanel verticalPanel = new VerticalPanel();
+		
+		//world map
+		map = new WorldMap();
+		//map.setWidth(widthMapSlider);
+		verticalPanel = new VerticalPanel();
 		verticalPanel.add(map.printMap());
 		RootPanel.get().add(verticalPanel);
-		
+		//verticalPanelSlider.setWidth("1500px");
+		//verticalPanelSlider.setHeight("10px");
 		// create text boxes
+		//SLIDER
+		slider();
+		//SLIDER END
+		
 		final Button sendButton2 = new Button("Go!");
 		//sendButton2.setSize("40Px", "20Px");
 		final Button masterSendButton = new Button("Go!");
@@ -1057,7 +1094,7 @@ public class Movie_App implements EntryPoint {
 
 		SimplePager pager = new SimplePager();
 		pager.setDisplay(movieTable);
-		VerticalPanel vPanel = new VerticalPanel();
+		vPanel = new VerticalPanel();
 		vPanel.add(pager);
 		vPanel.add(movieTable);
 
@@ -1149,6 +1186,12 @@ public class Movie_App implements EntryPoint {
 
 		RootPanel.get().add(vPanel);
 
+		
+		
+		
+		
+		
+		
 		// We can add style names to widgets
 		sendButton2.addStyleName("sendButton2");
 		
@@ -1226,7 +1269,7 @@ public class Movie_App implements EntryPoint {
 		closeButton.getElement().setId("closeButton");
 		final Label textToServerLabel = new Label();
 		final HTML serverResponseLabel = new HTML();
-		VerticalPanel dialogVPanel = new VerticalPanel();
+		dialogVPanel = new VerticalPanel();
 		dialogVPanel.addStyleName("dialogVPanel");
 		dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
 		dialogVPanel.add(textToServerLabel);
