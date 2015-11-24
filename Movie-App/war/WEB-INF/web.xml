@@ -14,7 +14,17 @@
 		<servlet-name>greetServlet</servlet-name>
 		<url-pattern>/movie_app/greet</url-pattern>
 	</servlet-mapping>
-
+	
+	<servlet>
+		 <servlet-name>remoteLoggingServiceImpl</servlet-name>
+		<servlet-class>com.google.gwt.libideas.logging.server.RemoteLoggingServiceImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>remoteLoggingServiceImpl</servlet-name>
+		<url-pattern>/movie_app/logging</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>mySQLConnection</servlet-name>
 		<servlet-class>com.UZH.MovieApp.server.MySQLConnection</servlet-class>

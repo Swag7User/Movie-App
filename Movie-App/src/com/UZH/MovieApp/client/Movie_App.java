@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -64,6 +65,7 @@ public class Movie_App implements EntryPoint {
 	VerticalPanel verticalPanel;
 	VerticalPanel vPanel;
 	VerticalPanel dialogVPanel;
+	HorizontalPanel exportButtonPanel;
 	WorldMap map;
 	String widthSlider="1500px";
 	int wikiIdFieldCheck = -1;
@@ -112,6 +114,18 @@ public class Movie_App implements EntryPoint {
 				slider.setHeight("50px");
 				slider.setWidth(widthSlider);
 	}
+	public void buttonExport(){
+		exportButtonPanel=new HorizontalPanel();
+		Button exportButton = new Button("Export", new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				Window.open("https://www.youtube.com/watch?v=wZZ7oFKsKzY", "_blank", "");
+				//FIGURE OUT HOW TO DOWNLOAD STAFF
+			}
+		});
+		exportButton.setPixelSize(50, 30);
+		exportButtonPanel.add(exportButton);
+		RootPanel.get().add(exportButtonPanel);
+	}
 	public void onModuleLoad() {
 		
 		
@@ -126,7 +140,9 @@ public class Movie_App implements EntryPoint {
 		// create text boxes
 		//SLIDER
 		slider();
+		buttonExport();
 		//SLIDER END
+		
 		
 		final Button sendButton2 = new Button("Go!");
 		//sendButton2.setSize("40Px", "20Px");
