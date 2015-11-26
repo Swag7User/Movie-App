@@ -2,6 +2,7 @@
 body {
 	margin: 0;
 	padding: 0;
+	background: black;
 }
 
 .gwt-table-to-excel-form, .gwt-table-to-excel-panel {
@@ -119,10 +120,6 @@ h1 {
   background: #777;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-}
-
-.titleRow {
-	
 }
 
 td {
