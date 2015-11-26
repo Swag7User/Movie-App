@@ -9,6 +9,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 //import com.team10.agrardataviewer.shared.DataRow;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
@@ -61,6 +62,8 @@ public class WorldMap extends Composite{
 						options = GeoMap.Options.create();
 						options.setDataMode(GeoMap.DataMode.REGIONS);
 						options.setRegion("world");
+						options.setWidth(725);
+						options.setHeight(500);
 						geomap = new GeoMap(dataTable, options);
 						scrollPanel.add(geomap);
 						System.out.println("dataTable finished");
