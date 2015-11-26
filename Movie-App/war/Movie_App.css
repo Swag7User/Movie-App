@@ -95,8 +95,11 @@ h1 {
   font-weight: bold;
   color: #999;
   margin: 0;
+  padding: 10px;
   text-align: center;
   background: #555;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .sendButton {
@@ -112,11 +115,18 @@ h1 {
 #selectTable {
   /*border-collapse: separate;
   border-spacing: 0px 0;*/
+  border-top: none;
   background: #777;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.titleRow {
+	
 }
 
 td {
-  padding: 5px;
+  padding: 2.5px 5px;
   margin: 0;
   border-radius: 5px;
 }
@@ -126,7 +136,11 @@ td {
 }
 
 #adBannerRight {
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px black;
+}
+
+#bannerTable{
+	background: #777;
 } 
 
 .serverResponseLabelError {
