@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import javax.persistence.criteria.Root;
+//import javax.persistence.criteria.Root;
 
 import com.UZH.MovieApp.shared.FieldVerifier;
 import com.UZH.MovieApp.shared.Movie;
@@ -60,7 +60,8 @@ public class Movie_App implements EntryPoint {
 	 * service.
 	 */
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
-	SliderBar slider;
+	SliderBar fromSlider;
+	SliderBar untilSlider;
 	VerticalPanel verticalPanelSlider;
 	VerticalPanel verticalPanel;
 	VerticalPanel vPanel;
@@ -68,6 +69,14 @@ public class Movie_App implements EntryPoint {
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
 	String widthSlider="1500px";
+	List<Movie> list;
+	int firstMovieyear=1886;
+	int lastMovieyear=2016;
+	boolean sliderIsLoading;
+	
+	int sliderFromValue=firstMovieyear;
+	int sliderUntilValue=lastMovieyear;
+
 	int wikiIdFieldCheck = -1;
 	int freebaseIdFieldCheck = -1;
 	int movieNameFieldCheck = -1;
@@ -103,16 +112,118 @@ public class Movie_App implements EntryPoint {
 				//verticalPanelSlider.setBorderWidth(1);
 			
 
-				slider = new SliderBar(1886,2016);
-				slider.setStepSize(1);
-				slider.setCurrentValue(1950.0);
-				slider.setNumTicks(130);
-				slider.setNumLabels(26);
-				verticalPanelSlider.add(slider);
+				fromSlider = new SliderBar(1886,2016);
+				fromSlider.setStepSize(1);
+				fromSlider.setCurrentValue(firstMovieyear);
+				fromSlider.setNumTicks(130);
+				fromSlider.setNumLabels(26);
+				verticalPanelSlider.add(fromSlider);
+				fromSlider.setVisible(true);
+				fromSlider.setHeight("50px");
+				fromSlider.setWidth(widthSlider);
+				
+				fromSlider.addClickHandler(new ClickHandler(){
+					@Override
+					public void onClick(ClickEvent event){
+						if(!sliderIsLoading){
+							sliderIsLoading=true;
+							if(sliderUntilValue-sliderFromValue>0){
+								sliderFromValue=(int)fromSlider.getCurrentValue();
+							}
+							else{
+								sliderUntilValue=(int)fromSlider.getCurrentValue();
+							}
+							//fromSlider.setCurrentValue(sliderFromValue);
+							//untilSlider.setCurrentValue(sliderUntilValue);
+							
+							//releasedate > " + "'" + releasedate + "'"
+							
+							strQuerry.append("WHERE releasedate > '"+sliderFromValue+".00.00' AND releasedate < '"+sliderUntilValue+".00.00' ");
+							dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+								public void onFailure(Throwable caught) {
+									// Show the RPC error message to the user
+								}
+								public void onSuccess(ArrayList<Movie> result) {
+									try {
+										// ############ table ############
+										list.clear();
+										for (Movie movie : result) {
+											list.add(movie);
+										}
+									} catch (NullPointerException e) {
+	//									serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+									}
+									System.out.println(strQuerry);
+									clearStringquerry();
+								}
+							});
+							sliderIsLoading=false;	
+						}
+						else{
+							//TO DO: WHAT HAPPENS IF STH IS LOADING
+							//fromSlider.setCurrentValue((double)sliderFromValue);
+						}
+					}
+				});
+				
+				untilSlider = new SliderBar(1886,2016);
+				
+				untilSlider.addClickHandler(new ClickHandler(){
+					@Override
+					public void onClick(ClickEvent event){
+						if(!sliderIsLoading){
+							sliderIsLoading=true;
+							if(sliderUntilValue-sliderFromValue>0){
+								sliderUntilValue=(int)untilSlider.getCurrentValue();
+							}
+							else{
+								sliderFromValue=(int)untilSlider.getCurrentValue();
+							}
+							//fromSlider.setCurrentValue(sliderFromValue);
+							//untilSlider.setCurrentValue(sliderUntilValue);
+
+							//releasedate > " + "'" + releasedate + "'"
+							
+							strQuerry.append("WHERE releasedate > '"+sliderFromValue+".00.00' AND releasedate < '"+sliderUntilValue+".00.00' ");
+							dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+								public void onFailure(Throwable caught) {
+									// Show the RPC error message to the user
+								}
+								public void onSuccess(ArrayList<Movie> result) {
+									try {
+										// ############ table ############
+										list.clear();
+										for (Movie movie : result) {
+											list.add(movie);
+										}
+									} catch (NullPointerException e) {
+	//									serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+									}
+									System.out.println(strQuerry);
+									clearStringquerry();	
+									
+								}
+							});
+							sliderIsLoading=false;
+						}
+						else{
+							//TO DO do sth if loading
+							//untilSlider.setCurrentValue((double)sliderUntilValue);
+						}
+						
+					}
+				});
+				untilSlider.setStepSize(1);
+				untilSlider.setCurrentValue(lastMovieyear);
+				untilSlider.setNumTicks(130);
+				untilSlider.setNumLabels(26);
+				verticalPanelSlider.add(untilSlider);
 				RootPanel.get().add(verticalPanelSlider);
-				slider.setVisible(true);
-				slider.setHeight("50px");
-				slider.setWidth(widthSlider);
+				untilSlider.setVisible(true);
+				untilSlider.setHeight("50px");
+				untilSlider.setWidth(widthSlider);
+				
+				
 	}
 	public void buttonExport(){
 		exportButtonPanel=new HorizontalPanel();
@@ -1105,7 +1216,7 @@ public class Movie_App implements EntryPoint {
 		// Add the data to the data provider, which
 		// automatically pushes it to the
 		// widget.
-		final List<Movie> list = dataProvider.getList();
+		list = dataProvider.getList();
 
 
 		SimplePager pager = new SimplePager();
