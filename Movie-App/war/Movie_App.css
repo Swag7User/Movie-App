@@ -101,7 +101,7 @@ h1 {
   background: #555;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border: 5px outset black;
+  border: 5px inset black;
 }
 
 .sendButton {
