@@ -140,7 +140,7 @@ public class Movie_App implements EntryPoint {
 		//verticalPanelSlider.setHeight("10px");
 		// create text boxes
 		//SLIDER
-		slider();
+		//slider();
 		buttonExport();
 		//SLIDER END
 		

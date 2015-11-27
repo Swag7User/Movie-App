@@ -114,6 +114,10 @@ h1 {
   width: 400px;
 }
 
+.worldMap {
+	border: 5px outset black
+}
+
 #selectTable {
   /*border-collapse: separate;
   border-spacing: 0px 0;*/
