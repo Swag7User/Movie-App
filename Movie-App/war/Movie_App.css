@@ -95,14 +95,15 @@ button.gwt-table-to-excel-exportWidget {
 h1 {
   font-size: 2em;
   font-weight: bold;
+  font-family: Calibri;
   color: #999;
   margin: 0;
   padding: 10px;
   text-align: center;
-  background: #555;
+  background: #555; 
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border: 5px inset black;
+  border: 5px outset black;
 }
 
 .sendButton {
