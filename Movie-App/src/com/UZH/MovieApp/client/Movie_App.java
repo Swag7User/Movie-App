@@ -128,6 +128,7 @@ public class Movie_App implements EntryPoint {
 	}
 	public void onModuleLoad() {
 		
+		RootPanel.getBodyElement().addClassName("rootPanel");
 		
 		//world map
 		map = new WorldMap();
@@ -1014,6 +1015,7 @@ public class Movie_App implements EntryPoint {
 		
 		// Create a CellTable.
 		CellTable<Movie> movieTable = new CellTable<Movie>();
+		movieTable.addStyleName("gwt-CellTable");
 
 		// Create wikiid column.
 		TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
@@ -1113,6 +1115,7 @@ public class Movie_App implements EntryPoint {
 		pager.setDisplay(movieTable);
 		vPanel = new VerticalPanel();
 		vPanel.add(pager);
+		vPanel.setWidth("100%");
 		vPanel.add(movieTable);
 
 		// Add a ColumnSortEvent.ListHandler to connect
@@ -1203,8 +1206,6 @@ public class Movie_App implements EntryPoint {
 
 		RootPanel.get().add(vPanel);
 
-		
-		RootPanel.get().addStyleName("body");
 		
 		
 		

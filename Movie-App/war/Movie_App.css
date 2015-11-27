@@ -1,8 +1,9 @@
 /** Add css rules here for your application. */
-body {
+.rootPanel {
 	margin: 0;
-	padding: 0;
-	background: black;
+	padding: 10px;
+/* 	background: #999; */
+	background-image: url("/images/background.jpg");
 }
 
 .gwt-table-to-excel-form, .gwt-table-to-excel-panel {
@@ -131,7 +132,13 @@ h1 {
 	border: none;
 }
 
-td {
+.gwt-CellTable {
+	width: 100%;
+	border: 5px outset black;
+	background: #86aca7;
+}
+
+#selectTable td {
   padding: 1px 2px;
   margin: 0;
   border-radius: 5px;
@@ -146,6 +153,8 @@ td {
 }
 
 #bannerTable{
+	margin: 0;
+	padding: 10px;
 	border: 5px outset black;
 	border-top: none;
 	border-bottom-left-radius: 5px;
