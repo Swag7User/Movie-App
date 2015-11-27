@@ -124,7 +124,7 @@ public class Movie_App implements EntryPoint {
 		});
 		exportButton.setPixelSize(50, 30);
 		exportButtonPanel.add(exportButton);
-		RootPanel.get().add(exportButtonPanel);
+		RootPanel.get("exportButtonContainer").add(exportButtonPanel);
 	}
 	public void onModuleLoad() {
 		
@@ -133,6 +133,7 @@ public class Movie_App implements EntryPoint {
 		map = new WorldMap();
 		//map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
+		verticalPanel.setWidth("30%");
 		verticalPanel.add(map.printMap());
 		RootPanel.get().add(verticalPanel);
 		//verticalPanelSlider.setWidth("1500px");

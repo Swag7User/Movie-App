@@ -26,6 +26,7 @@ public class WorldMap extends Composite{
 	private GeoMap.Options options;
 	private GeoMap geomap;
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	private VerticalPanel verticalPanel = new VerticalPanel();
 	private SliderBar slider;
 	private int sliderWidth = 715;
 	
@@ -67,7 +68,7 @@ public class WorldMap extends Composite{
 						options = GeoMap.Options.create();
 						options.setDataMode(GeoMap.DataMode.REGIONS);
 						options.setRegion("world");
-						options.setWidth(725);
+						//options.setWidth("100%"/*725*/);
 						options.setHeight(500);
 						geomap = new GeoMap(dataTable, options);
 						
@@ -78,9 +79,13 @@ public class WorldMap extends Composite{
 						slider.setNumLabels((int)(slider.getMaxValue() - slider.getMinValue())/sliderWidth);
 						slider.setVisible(true);
 						slider.setHeight("50px");
-						slider.setWidth(Integer.toString(sliderWidth) + "px");
+						slider.setWidth("100%");
 						
-						scrollPanel.add(geomap);
+						verticalPanel.add(geomap);
+						verticalPanel.add(slider);
+						
+						//scrollPanel.setWidth("250%");
+						//scrollPanel.add(geomap);
 						//scrollPanel.add(slider);
 						System.out.println("dataTable finished");
 					}
@@ -89,6 +94,6 @@ public class WorldMap extends Composite{
 			
 		};
 		VisualizationUtils.loadVisualizationApi(onLoadCallback, GeoMap.PACKAGE);
-		return scrollPanel;
+		return verticalPanel;
 	}
 }

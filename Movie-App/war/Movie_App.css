@@ -101,6 +101,7 @@ h1 {
   background: #555;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  border: 5px outset black;
 }
 
 .sendButton {
@@ -122,8 +123,12 @@ h1 {
   border-bottom-right-radius: 5px;
 }
 
+.textBox {
+	border: none;
+}
+
 td {
-  padding: 2.5px 5px;
+  padding: 1px 2px;
   margin: 0;
   border-radius: 5px;
 }
@@ -137,6 +142,10 @@ td {
 }
 
 #bannerTable{
+	border: 5px outset black;
+	border-top: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 	background: #777;
 } 
 

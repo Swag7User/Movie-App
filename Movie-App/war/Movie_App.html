@@ -48,7 +48,7 @@
 
 	<h1>Totally rad Movie App!</h1>
 
-	<table id="selectTable" border="1" align="left">
+	<table id="selectTable" border="5px" align="left">
 		<tr>
 			<td colspan="4" style="font-weight: bold; border: none;">Search for movies:</td>
 		</tr>
@@ -56,7 +56,7 @@
 			<td id="wikiIdFieldEQUALContainer"></td>
 			<td id="wikiIdFieldBIGGERTHANContainer"></td>
 			<td id="wikiIdFieldSMALLERTHANContainer"></td>
-			<td id="nameFieldContainer2"></td>
+			<td class="textBox" id="nameFieldContainer2"></td>
 		</tr>
 		<tr align="center">
 			<td id="wikiAND"></td>
@@ -66,7 +66,7 @@
 			<td id="freebaseIdFieldEQUALContainer"></td>
 			<td id="freebaseIdFieldBIGGERTHANContainer"></td>
 			<td id="freebaseIdFieldSMALLERTHANContainer"></td>
-			<td id="freebaseIdFieldContainer"></td>
+			<td class="textBox" id="freebaseIdFieldContainer"></td>
 		</tr>
 		<tr align="center">
 			<td id="freebaseAND"></td>
@@ -76,7 +76,7 @@
 			<td id="movieNameFieldEQUALContainer"></td>
 			<td id="movieNameFieldBIGGERTHANContainer"></td>
 			<td id="movieNameFieldSMALLERTHANContainer"></td>
-			<td id="movieNameFieldContainer"></td>
+			<td class="textBox" id="movieNameFieldContainer"></td>
 		</tr>
 		<tr align="center">
 			<td id="nameAND"></td>
@@ -87,7 +87,7 @@
 			<td id="releaseDateFieldEQUALContainer"></td>
 			<td id="releaseDateFieldBIGGERTHANContainer"></td>
 			<td id="releaseDateFieldSMALLERTHANContainer"></td>
-			<td id="releaseDateFieldContainer"></td>
+			<td class="textBox" id="releaseDateFieldContainer"></td>
 		</tr>
 		<tr>
 		<tr align="center">
@@ -100,7 +100,7 @@
 			<td id="boxofficeFieldBIGGERTHANContainer"></td>
 			<td id="boxofficeFieldSMALLERTHANContainer"></td>
 
-			<td id="boxofficeFieldContainer"></td>
+			<td class="textBox" id="boxofficeFieldContainer"></td>
 		</tr>
 		<tr align="center">
 			<td id="boxofficeAND"></td>
@@ -112,7 +112,7 @@
 			<td id="runtimeFieldBIGGERTHANContainer"></td>
 			<td id="runtimeFieldSMALLERTHANContainer"></td>
 
-			<td id="runtimeFieldContainer"></td>
+			<td class="textBox" id="runtimeFieldContainer"></td>
 		</tr>
 		<tr align="center">
 			<td id="runtimeAND"></td>
@@ -124,7 +124,7 @@
 			<td id="languageFieldBIGGERTHANContainer"></td>
 			<td id="languageFieldSMALLERTHANContainer"></td>
 
-			<td id="languageFieldContainer"></td>
+			<td class="textBox" id="languageFieldContainer"></td>
 		</tr>
 		<tr align="center">
 			<td id="languagesAND"></td>
@@ -136,7 +136,7 @@
 			<td id="countryFieldBIGGERTHANContainer"></td>
 			<td id="countryFieldSMALLERTHANContainer"></td>
 
-			<td id="countryFieldContainer"></td>
+			<td class="textBox" id="countryFieldContainer"></td>
 		<tr align="center">
 			<td id="countryAND"></td>
 			<td id="countryOR"></td>
@@ -147,32 +147,31 @@
 			<td id="genreFieldBIGGERTHANContainer"></td>
 			<td id="genreFieldSMALLERTHANContainer"></td>
 
-			<td id="genreFieldContainer"></td>
+			<td class="textBox" id="genreFieldContainer"></td>
 		</tr>
 		<tr>
 			<td id="limitFieldEQUALContainer"></td>
-			<td colspan = 2 id="limitFieldContainer"></td>
-		</tr>
-		<tr>
-
+			<td colspan = 2 class="textBox" id="limitFieldContainer"></td>
 			<td id="sendButtonContainer2" style="border: none"></td>
-		</tr>
+		</tclass="textBox" r>
 		<tr>
 			<td style="font-weight: bold;">SQL:</td>
-			<td colspan = 2 id="masterFieldContainer"></td>
+			<td colspan = 2 class="textBox" id="masterFieldContainer"></td>
 			<td id="masterSendButton" style="border: none;"></td>
 
 		</tr>
 		<tr>
-		<td colspan=4><strong>Data Source:</strong> David Bamman, Brendan O'Connor and Noah Smith,<br> 
+			<td id="exportButtonContainer" style="border:none;"></td>
+		</tr>
+		<tr>
+			<td colspan=4><strong>Data Source:</strong> David Bamman, Brendan O'Connor and Noah Smith,<br> 
 		"Learning Latent Personas of Film Characters," in: <br>
 		Proceedings of the Annual Meeting of the Association for <br>
 		Computational Linguistics (ACL 2013), Sofia, Bulgaria, August 2013. </td>
-		</tr>
-		<tr>
-			<td colspan="2" id="errorLabelContainer"></td>
+			<td colspan="2" id="errorLabelContainer" style="border:none;"></td>
 		</tr>
 	</table>
+	
 	<table id="bannerTable" align="right">
 	<tr>
 	<td style="color: #999;">Advertisement:</td>
