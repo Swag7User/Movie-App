@@ -43,6 +43,8 @@ import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.widgetideas.client.SliderBar;
 
+import com.googlecode.gwtTableToExcel.client.TableToExcelClient;
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -236,6 +238,8 @@ public class Movie_App implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				Window.open("https://www.youtube.com/watch?v=wZZ7oFKsKzY", "_blank", "");
 				//FIGURE OUT HOW TO DOWNLOAD STAFF
+				TableToExcelClient tableToExcelClient = new TableToExcelClient(table);
+				vPanel.add(tableToExcelClient.getExportFormWidget());
 			}
 		});
 		exportButton.setPixelSize(50, 30);
