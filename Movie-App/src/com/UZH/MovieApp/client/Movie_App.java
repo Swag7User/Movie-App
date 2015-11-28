@@ -128,9 +128,11 @@ public class Movie_App implements EntryPoint {
 						if(!sliderIsLoading){
 							sliderIsLoading=true;
 							if(sliderUntilValue-sliderFromValue>0){
+								sliderUntilValue=(int)untilSlider.getCurrentValue();
 								sliderFromValue=(int)fromSlider.getCurrentValue();
 							}
 							else{
+								sliderFromValue=(int)untilSlider.getCurrentValue();
 								sliderUntilValue=(int)fromSlider.getCurrentValue();
 							}
 							//fromSlider.setCurrentValue(sliderFromValue);
@@ -175,10 +177,13 @@ public class Movie_App implements EntryPoint {
 							sliderIsLoading=true;
 							if(sliderUntilValue-sliderFromValue>0){
 								sliderUntilValue=(int)untilSlider.getCurrentValue();
+								sliderFromValue=(int)fromSlider.getCurrentValue();
 							}
 							else{
 								sliderFromValue=(int)untilSlider.getCurrentValue();
+								sliderUntilValue=(int)fromSlider.getCurrentValue();
 							}
+							
 							//fromSlider.setCurrentValue(sliderFromValue);
 							//untilSlider.setCurrentValue(sliderUntilValue);
 
