@@ -63,7 +63,7 @@ public class Movie_App implements EntryPoint {
 	SliderBar slider;
 	VerticalPanel verticalPanelSlider;
 	VerticalPanel verticalPanel;
-	VerticalPanel vPanel;
+	VerticalPanel tablePanel;
 	VerticalPanel dialogVPanel;
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
@@ -190,9 +190,10 @@ public class Movie_App implements EntryPoint {
 
 		// ############### AND ORS #################
 		// ############### wiki AND OR #################
-		final CheckBox wikiAND = new CheckBox("&");
-		final CheckBox wikiOR = new CheckBox("||");
+		final CheckBox wikiAND = new CheckBox("and");
+		final CheckBox wikiOR = new CheckBox("or");
 		wikiAND.setEnabled(false);
+		wikiAND.setValue(true);
 		wikiOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		wikiAND.addClickHandler(new ClickHandler() {
@@ -216,13 +217,16 @@ public class Movie_App implements EntryPoint {
 					wikiAND.setValue(false);
 				} else {
 					wikiCheck = 0;
+					wikiAND.setValue(true);
+
 				}
 			}
 		});
 		// ############### freebase AND OR #################
-		final CheckBox freebaseAND = new CheckBox("&");
-		final CheckBox freebaseOR = new CheckBox("||");
+		final CheckBox freebaseAND = new CheckBox("and");
+		final CheckBox freebaseOR = new CheckBox("or");
 		freebaseAND.setEnabled(false);
+		freebaseAND.setValue(true);
 		freebaseOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		freebaseAND.addClickHandler(new ClickHandler() {
@@ -246,13 +250,15 @@ public class Movie_App implements EntryPoint {
 					freebaseAND.setValue(false);
 				} else {
 					freebaseCheck = 0;
+					freebaseAND.setValue(true);
 				}
 			}
 		});
 		// ############### name AND OR #################
-		final CheckBox nameAND = new CheckBox("&");
-		final CheckBox nameOR = new CheckBox("||");
+		final CheckBox nameAND = new CheckBox("and");
+		final CheckBox nameOR = new CheckBox("or");
 		nameAND.setEnabled(false);
+		nameAND.setValue(true);
 		nameOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		nameAND.addClickHandler(new ClickHandler() {
@@ -276,13 +282,15 @@ public class Movie_App implements EntryPoint {
 					nameAND.setValue(false);
 				} else {
 					nameCheck = 0;
+					nameAND.setValue(true);
 				}
 			}
 		});
 		// ############### releasedate AND OR #################
-		final CheckBox releasedateAND = new CheckBox("&");
-		final CheckBox releasedateOR = new CheckBox("||");
+		final CheckBox releasedateAND = new CheckBox("and");
+		final CheckBox releasedateOR = new CheckBox("or");
 		releasedateAND.setEnabled(false);
+		releasedateAND.setValue(true);
 		releasedateOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		releasedateAND.addClickHandler(new ClickHandler() {
@@ -306,13 +314,15 @@ public class Movie_App implements EntryPoint {
 					releasedateAND.setValue(false);
 				} else {
 					releasedateCheck = 0;
+					releasedateAND.setValue(true);
 				}
 			}
 		});
 		// ############### boxoffice AND OR #################
-		final CheckBox boxofficeAND = new CheckBox("&");
-		final CheckBox boxofficeOR = new CheckBox("||");
+		final CheckBox boxofficeAND = new CheckBox("and");
+		final CheckBox boxofficeOR = new CheckBox("or");
 		boxofficeAND.setEnabled(false);
+		boxofficeAND.setValue(true);
 		boxofficeOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		boxofficeAND.addClickHandler(new ClickHandler() {
@@ -336,13 +346,15 @@ public class Movie_App implements EntryPoint {
 					boxofficeAND.setValue(false);
 				} else {
 					boxofficeCheck = 0;
+					boxofficeAND.setValue(true);
 				}
 			}
 		});
 		// ############### runtime AND OR #################
-		final CheckBox runtimeAND = new CheckBox("&");
-		final CheckBox runtimeOR = new CheckBox("||");
+		final CheckBox runtimeAND = new CheckBox("and");
+		final CheckBox runtimeOR = new CheckBox("or");
 		runtimeAND.setEnabled(false);
+		runtimeAND.setValue(true);
 		runtimeOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		runtimeAND.addClickHandler(new ClickHandler() {
@@ -366,13 +378,15 @@ public class Movie_App implements EntryPoint {
 					runtimeAND.setValue(false);
 				} else {
 					runtimeCheck = 0;
+					runtimeAND.setValue(true);
 				}
 			}
 		});
 		// ############### languages AND OR #################
-		final CheckBox languagesAND = new CheckBox("&");
-		final CheckBox languagesOR = new CheckBox("||");
+		final CheckBox languagesAND = new CheckBox("and");
+		final CheckBox languagesOR = new CheckBox("or");
 		languagesAND.setEnabled(false);
+		languagesAND.setValue(true);
 		languagesOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		languagesAND.addClickHandler(new ClickHandler() {
@@ -396,13 +410,15 @@ public class Movie_App implements EntryPoint {
 					languagesAND.setValue(false);
 				} else {
 					languagesCheck = 0;
+					languagesAND.setValue(true);
 				}
 			}
 		});
 		// ############### country AND OR #################
-		final CheckBox countryAND = new CheckBox("&");
-		final CheckBox countryOR = new CheckBox("||");
+		final CheckBox countryAND = new CheckBox("and");
+		final CheckBox countryOR = new CheckBox("or");
 		countryAND.setEnabled(false);
+		countryAND.setValue(true);
 		countryOR.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		countryAND.addClickHandler(new ClickHandler() {
@@ -426,6 +442,7 @@ public class Movie_App implements EntryPoint {
 					countryAND.setValue(false);
 				} else {
 					countryCheck = 0;
+					countryAND.setValue(true);
 				}
 			}
 		});
@@ -483,10 +500,6 @@ public class Movie_App implements EntryPoint {
 		});
 		// ###############freebase ID#################
 		final CheckBox freebaseIdFieldEQUAL = new CheckBox("=");
-		final CheckBox freebaseIdFieldBIGGERTHAN = new CheckBox(">");
-		freebaseIdFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox freebaseIdFieldSMALLERTHAN = new CheckBox("<");
-		freebaseIdFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		freebaseIdFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -494,8 +507,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					freebaseIdFieldCheck = 2;
-					freebaseIdFieldBIGGERTHAN.setValue(false);
-					freebaseIdFieldSMALLERTHAN.setValue(false);
+	//				freebaseIdFieldBIGGERTHAN.setValue(false);
+	//				freebaseIdFieldSMALLERTHAN.setValue(false);
 					freebaseIdField.setEnabled(true);
 					wikiAND.setEnabled(true);
 					wikiOR.setEnabled(true);
@@ -507,50 +520,10 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
-		freebaseIdFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseIdFieldCheck = 3;
-					freebaseIdFieldEQUAL.setValue(false);
-					freebaseIdFieldSMALLERTHAN.setValue(false);
-					freebaseIdField.setEnabled(true);
-					wikiAND.setEnabled(true);
-					wikiOR.setEnabled(true);
-				} else {
-					freebaseIdFieldCheck = -1;
-					freebaseIdField.setEnabled(false);
-					wikiAND.setEnabled(false);
-					wikiOR.setEnabled(false);
-				}
-			}
-		});
-		freebaseIdFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseIdFieldCheck = 4;
-					freebaseIdFieldBIGGERTHAN.setValue(false);
-					freebaseIdFieldEQUAL.setValue(false);
-					freebaseIdField.setEnabled(true);
-					wikiAND.setEnabled(true);
-					wikiOR.setEnabled(true);
-				} else {
-					freebaseIdFieldCheck = -1;
-					freebaseIdField.setEnabled(false);
-					wikiAND.setEnabled(false);
-					wikiOR.setEnabled(false);
-				}
-			}
-		});
+
+
 		// ###############Movie Name#################
 		final CheckBox movieNameFieldEQUAL = new CheckBox("=");
-		final CheckBox movieNameFieldBIGGERTHAN = new CheckBox(">");
-		movieNameFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox movieNameFieldSMALLERTHAN = new CheckBox("<");
-		movieNameFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		movieNameFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -558,50 +531,12 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					movieNameFieldCheck = 2;
-					movieNameFieldBIGGERTHAN.setValue(false);
-					movieNameFieldSMALLERTHAN.setValue(false);
+		//			movieNameFieldBIGGERTHAN.setValue(false);
+		//			movieNameFieldSMALLERTHAN.setValue(false);
 					movieNameField.setEnabled(true);
 					freebaseAND.setEnabled(true);
 					freebaseOR.setEnabled(true);
 
-				} else {
-					movieNameFieldCheck = -1;
-					movieNameField.setEnabled(false);
-					freebaseAND.setEnabled(false);
-					freebaseOR.setEnabled(false);
-				}
-			}
-		});
-		movieNameFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					movieNameFieldCheck = 3;
-					movieNameFieldEQUAL.setValue(false);
-					movieNameFieldSMALLERTHAN.setValue(false);
-					movieNameField.setEnabled(true);
-					freebaseAND.setEnabled(true);
-					freebaseOR.setEnabled(true);
-				} else {
-					movieNameFieldCheck = -1;
-					movieNameField.setEnabled(false);
-					freebaseAND.setEnabled(false);
-					freebaseOR.setEnabled(false);
-				}
-			}
-		});
-		movieNameFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					movieNameFieldCheck = 4;
-					movieNameFieldBIGGERTHAN.setValue(false);
-					movieNameFieldEQUAL.setValue(false);
-					movieNameField.setEnabled(true);
-					freebaseAND.setEnabled(true);
-					freebaseOR.setEnabled(true);
 				} else {
 					movieNameFieldCheck = -1;
 					movieNameField.setEnabled(false);
@@ -804,10 +739,6 @@ public class Movie_App implements EntryPoint {
 		});
 		// ###############language#################
 		final CheckBox languageFieldEQUAL = new CheckBox("=");
-		final CheckBox languageFieldBIGGERTHAN = new CheckBox(">");
-		languageFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox languageFieldSMALLERTHAN = new CheckBox("<");
-		languageFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		languageFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -815,46 +746,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					languageFieldCheck = 2;
-					languageFieldBIGGERTHAN.setValue(false);
-					languageFieldSMALLERTHAN.setValue(false);
-					languageField.setEnabled(true);
-					runtimeAND.setEnabled(true);
-					runtimeOR.setEnabled(true);
-				} else {
-					languageFieldCheck = -1;
-					languageField.setEnabled(false);
-					runtimeAND.setEnabled(false);
-					runtimeOR.setEnabled(false);
-				}
-			}
-		});
-		languageFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languageFieldCheck = 3;
-					languageFieldEQUAL.setValue(false);
-					languageFieldSMALLERTHAN.setValue(false);
-					languageField.setEnabled(true);
-					runtimeAND.setEnabled(true);
-					runtimeOR.setEnabled(true);
-				} else {
-					languageFieldCheck = -1;
-					languageField.setEnabled(false);
-					runtimeAND.setEnabled(false);
-					runtimeOR.setEnabled(false);
-				}
-			}
-		});
-		languageFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languageFieldCheck = 4;
-					languageFieldBIGGERTHAN.setValue(false);
-					languageFieldEQUAL.setValue(false);
+	//				languageFieldBIGGERTHAN.setValue(false);
+	//				languageFieldSMALLERTHAN.setValue(false);
 					languageField.setEnabled(true);
 					runtimeAND.setEnabled(true);
 					runtimeOR.setEnabled(true);
@@ -868,10 +761,6 @@ public class Movie_App implements EntryPoint {
 		});
 		// ###############country#################
 		final CheckBox countryFieldEQUAL = new CheckBox("=");
-		final CheckBox countryFieldBIGGERTHAN = new CheckBox(">");
-		countryFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox countryFieldSMALLERTHAN = new CheckBox("<");
-		countryFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		countryFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -879,46 +768,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					countryFieldCheck = 2;
-					countryFieldBIGGERTHAN.setValue(false);
-					countryFieldSMALLERTHAN.setValue(false);
-					countryField.setEnabled(true);
-					languagesAND.setEnabled(true);
-					languagesOR.setEnabled(true);
-				} else {
-					countryFieldCheck = -1;
-					countryField.setEnabled(false);
-					languagesAND.setEnabled(false);
-					languagesOR.setEnabled(false);
-				}
-			}
-		});
-		countryFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryFieldCheck = 3;
-					countryFieldEQUAL.setValue(false);
-					countryFieldSMALLERTHAN.setValue(false);
-					countryField.setEnabled(true);
-					languagesAND.setEnabled(true);
-					languagesOR.setEnabled(true);
-				} else {
-					countryFieldCheck = -1;
-					countryField.setEnabled(false);
-					languagesAND.setEnabled(false);
-					languagesOR.setEnabled(false);
-				}
-			}
-		});
-		countryFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryFieldCheck = 4;
-					countryFieldBIGGERTHAN.setValue(false);
-					countryFieldEQUAL.setValue(false);
+	//				countryFieldBIGGERTHAN.setValue(false);
+	//				countryFieldSMALLERTHAN.setValue(false);
 					countryField.setEnabled(true);
 					languagesAND.setEnabled(true);
 					languagesOR.setEnabled(true);
@@ -932,10 +783,6 @@ public class Movie_App implements EntryPoint {
 		});
 		// ###############genre#################
 		final CheckBox genreFieldEQUAL = new CheckBox("=");
-		final CheckBox genreFieldBIGGERTHAN = new CheckBox(">");
-		genreFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox genreFieldSMALLERTHAN = new CheckBox("<");
-		genreFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		genreFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -943,46 +790,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					genreFieldCheck = 2;
-					genreFieldBIGGERTHAN.setValue(false);
-					genreFieldSMALLERTHAN.setValue(false);
-					genreField.setEnabled(true);
-					countryAND.setEnabled(true);
-					countryOR.setEnabled(true);
-				} else {
-					genreFieldCheck = -1;
-					genreField.setEnabled(false);
-					countryAND.setEnabled(false);
-					countryOR.setEnabled(false);
-				}
-			}
-		});
-		genreFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					genreFieldCheck = 3;
-					genreFieldEQUAL.setValue(false);
-					genreFieldSMALLERTHAN.setValue(false);
-					genreField.setEnabled(true);
-					countryAND.setEnabled(true);
-					countryOR.setEnabled(true);
-				} else {
-					genreFieldCheck = -1;
-					genreField.setEnabled(false);
-					countryAND.setEnabled(false);
-					countryOR.setEnabled(false);
-				}
-			}
-		});
-		genreFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					genreFieldCheck = 4;
-					genreFieldBIGGERTHAN.setValue(false);
-					genreFieldEQUAL.setValue(false);
+	//				genreFieldBIGGERTHAN.setValue(false);
+	//				genreFieldSMALLERTHAN.setValue(false);
 					genreField.setEnabled(true);
 					countryAND.setEnabled(true);
 					countryOR.setEnabled(true);
@@ -1082,9 +891,9 @@ public class Movie_App implements EntryPoint {
 		};
 		nameColumn.setSortable(true);
 		wikiidColumn.setSortable(true);
+		boxofficeColumn.setSortable(true);
 		/*
 		 * releasedateColumn.setSortable(true);
-		 * boxofficeColumn.setSortable(true);
 		 * runtimeColumn.setSortable(true);
 		 */
 		// Add the columns.
@@ -1108,20 +917,20 @@ public class Movie_App implements EntryPoint {
 		// Add the data to the data provider, which
 		// automatically pushes it to the
 		// widget.
-		final List<Movie> list = dataProvider.getList();
+		final List<Movie> movieList = dataProvider.getList();
 
 
 		SimplePager pager = new SimplePager();
 		pager.setDisplay(movieTable);
-		vPanel = new VerticalPanel();
-		vPanel.add(pager);
-		vPanel.setWidth("100%");
-		vPanel.add(movieTable);
+		tablePanel = new VerticalPanel();
+		tablePanel.add(pager);
+		tablePanel.setWidth("100%");
+		tablePanel.add(movieTable);
 
 		// Add a ColumnSortEvent.ListHandler to connect
 		// sorting to the
 		// java.util.List.
-		ListHandler<Movie> columnSortHandler = new ListHandler<Movie>(list);
+		ListHandler<Movie> columnSortHandler = new ListHandler<Movie>(movieList);
 		// name sorting
 		columnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
 			public int compare(Movie o1, Movie o2) {
@@ -1161,8 +970,7 @@ public class Movie_App implements EntryPoint {
 				// Compare the name columns.
 				if (o1 != null) {
 					return (o2 != null)
-							? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice))
-							: 1;
+							? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
 				}
 				return -1;
 			}
@@ -1204,7 +1012,8 @@ public class Movie_App implements EntryPoint {
 		// default.
 		movieTable.getColumnSortList().push(nameColumn);
 
-		RootPanel.get().add(vPanel);
+		RootPanel.get().add(tablePanel);
+
 
 		
 		
@@ -1235,11 +1044,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("wikiIdFieldBIGGERTHANContainer").add(wikiIdFieldBIGGERTHAN);
 		RootPanel.get("wikiIdFieldSMALLERTHANContainer").add(wikiIdFieldSMALLERTHAN);
 		RootPanel.get("freebaseIdFieldEQUALContainer").add(freebaseIdFieldEQUAL);
-		RootPanel.get("freebaseIdFieldBIGGERTHANContainer").add(freebaseIdFieldBIGGERTHAN);
-		RootPanel.get("freebaseIdFieldSMALLERTHANContainer").add(freebaseIdFieldSMALLERTHAN);
 		RootPanel.get("movieNameFieldEQUALContainer").add(movieNameFieldEQUAL);
-		RootPanel.get("movieNameFieldBIGGERTHANContainer").add(movieNameFieldBIGGERTHAN);
-		RootPanel.get("movieNameFieldSMALLERTHANContainer").add(movieNameFieldSMALLERTHAN);
 		RootPanel.get("releaseDateFieldEQUALContainer").add(releaseDateFieldEQUAL);
 		RootPanel.get("releaseDateFieldBIGGERTHANContainer").add(releaseDateFieldBIGGERTHAN);
 		RootPanel.get("releaseDateFieldSMALLERTHANContainer").add(releaseDateFieldSMALLERTHAN);
@@ -1250,14 +1055,8 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("runtimeFieldBIGGERTHANContainer").add(runtimeFieldBIGGERTHAN);
 		RootPanel.get("runtimeFieldSMALLERTHANContainer").add(runtimeFieldSMALLERTHAN);
 		RootPanel.get("languageFieldEQUALContainer").add(languageFieldEQUAL);
-		RootPanel.get("languageFieldBIGGERTHANContainer").add(languageFieldBIGGERTHAN);
-		RootPanel.get("languageFieldSMALLERTHANContainer").add(languageFieldSMALLERTHAN);
 		RootPanel.get("countryFieldEQUALContainer").add(countryFieldEQUAL);
-		RootPanel.get("countryFieldBIGGERTHANContainer").add(countryFieldBIGGERTHAN);
-		RootPanel.get("countryFieldSMALLERTHANContainer").add(countryFieldSMALLERTHAN);
 		RootPanel.get("genreFieldEQUALContainer").add(genreFieldEQUAL);
-		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
-		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
 		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
 
 		// AND OR CHECKBOXES
@@ -1333,7 +1132,6 @@ public class Movie_App implements EntryPoint {
 
 
 		// Create a handler for the sendButton and nameField
-
 		class FilteringHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
 			/**
 			 * Fired when the user clicks on the sendButton.
@@ -1399,9 +1197,9 @@ public class Movie_App implements EntryPoint {
 						try {
 
 							// ############ table ############
-							list.clear();
+							movieList.clear();
 							for (Movie movie : result) {
-								list.add(movie);
+								movieList.add(movie);
 								// movie.printMovie();
 							}
 							// serverResponseLabel2.setHTML(test.toString());
@@ -1598,9 +1396,9 @@ public class Movie_App implements EntryPoint {
 						try {
 
 							// ############ table ############
-							list.clear();
+							movieList.clear();
 							for (Movie movie : result) {
-								list.add(movie);
+								movieList.add(movie);
 								// movie.printMovie();
 							}
 
@@ -1623,7 +1421,48 @@ public class Movie_App implements EntryPoint {
 		
 		MasterHandler masterHandler = new MasterHandler();
 		masterSendButton.addClickHandler(masterHandler);
+		
+	
+			// create on load table
+			StringBuilder[] querryArray = new StringBuilder[8];
+			querryArray[0] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000");
+			querryArray[1] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 10000");
+			querryArray[2] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 20000");
+			querryArray[3] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 30000");
+			querryArray[4] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 40000");
+			querryArray[5] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 50000");
+			querryArray[6] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 60000");
+			querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 70000");
+			
+			for (final StringBuilder onLoadQuerry : querryArray){
+			dbconnection.getDBData(onLoadQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+				public void onFailure(Throwable caught) {
+					// fAILED, DO NOTHING I GUESS
+				}
+
+				public void onSuccess(ArrayList<Movie> result) {
+				//	System.out.println(onLoadQuerry);
+					try {
+
+						// ############ table ############
+						for (Movie movie : result) {
+							movieList.add(movie);
+							// movie.printMovie();
+						}
+						// serverResponseLabel2.setHTML(test.toString());
+					} catch (NullPointerException e) {
+						System.out.println("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+					}
+
+				}
+
+			});
+			
+			}
 
 	}
+	
+
+
 
 }
