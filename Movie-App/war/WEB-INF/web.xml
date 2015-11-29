@@ -24,7 +24,7 @@
 		<servlet-name>remoteLoggingServiceImpl</servlet-name>
 		<url-pattern>/movie_app/logging</url-pattern>
 	</servlet-mapping>
-	
+	 
 	<servlet>
 		<servlet-name>mySQLConnection</servlet-name>
 		<servlet-class>com.UZH.MovieApp.server.MySQLConnection</servlet-class>
@@ -39,5 +39,13 @@
 	<welcome-file-list>
 		<welcome-file>Movie_App.html</welcome-file>
 	</welcome-file-list>
-	
+	<servlet>
+                <servlet-name>gwtTableToExcelServlet</servlet-name>
+                <servlet-class>com.googlecode.gwtTableToExcel.server.TableToExcelServlet</servlet-class>
+        </servlet>
+
+        <servlet-mapping>
+                <servlet-name>gwtTableToExcelServlet</servlet-name>
+                <url-pattern>/movie_app/excel</url-pattern>
+        </servlet-mapping>
 </web-app>

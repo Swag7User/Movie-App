@@ -57,5 +57,131 @@ public class Movie  implements Serializable{
 		return name;
 	}
 
+	/**
+	 * @return the wikiid
+	 */
+	public String getWikiid() {
+		return wikiid;
+	}
+
+	/**
+	 * @param wikiid the wikiid to set
+	 */
+	public void setWikiid(String wikiid) {
+		this.wikiid = wikiid;
+	}
+
+	/**
+	 * @return the freebaseid
+	 */
+	public String getFreebaseid() {
+		return freebaseid;
+	}
+
+	/**
+	 * @param freebaseid the freebaseid to set
+	 */
+	public void setFreebaseid(String freebaseid) {
+		this.freebaseid = freebaseid;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the releasedate
+	 */
+	public String getReleasedate() {
+		return releasedate;
+	}
+
+	/**
+	 * @param releasedate the releasedate to set
+	 */
+	public void setReleasedate(String releasedate) {
+		this.releasedate = releasedate;
+	}
+
+	/**
+	 * @return the boxoffice
+	 */
+	public String getBoxoffice() {
+		return boxoffice;
+	}
+
+	/**
+	 * @param boxoffice the boxoffice to set
+	 */
+	public void setBoxoffice(String boxoffice) {
+		this.boxoffice = boxoffice;
+	}
+
+	/**
+	 * @return the runtime
+	 */
+	public String getRuntime() {
+		return runtime;
+	}
+
+	/**
+	 * @param runtime the runtime to set
+	 */
+	public void setRuntime(String runtime) {
+		this.runtime = runtime;
+	}
+
+	/**
+	 * @return the languages
+	 */
+	public String getLanguages() {
+		return languages;
+	}
+
+	/**
+	 * @param languages the languages to set
+	 */
+	public void setLanguages(String languages) {
+		this.languages = languages;
+	}
+
+	/**
+	 * @return the countries
+	 */
+	public String getCountries() {
+		return countries;
+	}
+
+	/**
+	 * @param countries the countries to set
+	 */
+	public void setCountries(String countries) {
+		this.countries = countries;
+	}
+
+	/**
+	 * @return the genres
+	 */
+	public String getGenres() {
+		return genres;
+	}
+
+	/**
+	 * @param genres the genres to set
+	 */
+	public void setGenres(String genres) {
+		this.genres = genres;
+	}
+	
 }
 

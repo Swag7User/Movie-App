@@ -6,6 +6,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.SwingConstants;
+
+import org.eclipse.jdt.internal.formatter.align.Alignment;
+
 //import javax.persistence.criteria.Root;
 
 import com.UZH.MovieApp.shared.FieldVerifier;
@@ -18,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.i18n.client.HasDirection;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -70,15 +75,18 @@ public class Movie_App implements EntryPoint {
 	VerticalPanel dialogVPanel;
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
+	HorizontalPanel exportExportPanelRight=new HorizontalPanel();
+	HorizontalPanel exportExportPanelLeft=new HorizontalPanel();
 	String widthSlider="1500px";
 	List<Movie> list;
 	int firstMovieyear=1886;
 	int lastMovieyear=2016;
 	boolean sliderIsLoading;
-	
+	CellTable<Movie> exportTable;
+	CellTable<Movie> movieTable;
 	int sliderFromValue=firstMovieyear;
 	int sliderUntilValue=lastMovieyear;
-
+	HorizontalPanel exportPanel;
 	int wikiIdFieldCheck = -1;
 	int freebaseIdFieldCheck = -1;
 	int movieNameFieldCheck = -1;
@@ -232,21 +240,127 @@ public class Movie_App implements EntryPoint {
 				
 				
 	}
-	public void buttonExport(){
-		exportButtonPanel=new HorizontalPanel();
-		Button exportButton = new Button("Export", new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				Window.open("https://www.youtube.com/watch?v=wZZ7oFKsKzY", "_blank", "");
-				//FIGURE OUT HOW TO DOWNLOAD STAFF
-				TableToExcelClient tableToExcelClient = new TableToExcelClient(table);
-				vPanel.add(tableToExcelClient.getExportFormWidget());
-			}
-		});
-		exportButton.setPixelSize(50, 30);
-		exportButtonPanel.add(exportButton);
-		RootPanel.get().add(exportButtonPanel);
+	public void buttonExportList(){
+
+				TableToExcelClient tableToExcelClient = new TableToExcelClient(convertForExport());
+				exportExportPanelLeft.add(tableToExcelClient.getExportFormWidget());
+	}
+	public void buttonExportTable(){
+				TableToExcelClient tableToExcelClient = new TableToExcelClient(movieTable);
+				exportExportPanelRight.add(tableToExcelClient.getExportFormWidget());
+	}
+	public CellTable<Movie> convertForExport(){
+			
+			
+			CellTable<Movie> table = new CellTable<Movie>();
+			
+			ListDataProvider<Movie> dataProvider = new ListDataProvider<Movie>();
+			
+			dataProvider.addDataDisplay(table);
+		    TextColumn<Movie> wiki = new TextColumn<Movie>() {
+		        @Override
+		        public String getValue(Movie movie) {
+		          return movie.getWikiid();
+		        }
+		      };
+		    table.addColumn(wiki, "wiki");
+		    wiki.setSortable(true);
+		    TextColumn<Movie> freebaseid = new TextColumn<Movie>() {
+		        @Override
+		        public String getValue(Movie movie) {
+		          return movie.getFreebaseid();
+		        }
+		      };
+		    table.addColumn(freebaseid, "freebaseid");
+		    freebaseid.setSortable(true);
+		    
+		    final TextColumn<Movie> Name = new TextColumn<Movie>() {
+		        @Override
+		        public String getValue(Movie movie) {
+		          return movie.getName();
+		        }
+		      };
+		    table.addColumn(Name, "Name");
+		    Name.setSortable(true);
+		    
+		   final TextColumn<Movie> releaseDate = new TextColumn<Movie>() {
+		        @Override
+		        public String getValue(Movie movie) {
+		          return movie.getReleasedate();
+		        }
+		   };
+		   table.addColumn(releaseDate, "releaseDate");
+		   releaseDate.setSortable(true);   
+		   
+		   TextColumn<Movie> revenue = new TextColumn<Movie>() {
+			     @Override
+			     public String getValue(Movie movie) {
+			       return movie.getBoxoffice();
+			     }
+			   };
+			table.addColumn(revenue, "revenue");
+			revenue.setSortable(true);
+			   
+			TextColumn<Movie> runtime = new TextColumn<Movie>() {
+			      @Override
+			      public String getValue(Movie movie) {
+			        return movie.getRuntime();
+			      }
+			    };
+			table.addColumn(runtime, "runtime");
+			runtime.setSortable(true);
+			
+			
+			final TextColumn<Movie> languages = new TextColumn<Movie>() {
+			      @Override
+			      public String getValue(Movie movie) {
+			        return movie.getLanguages();
+			      }
+			    };
+			table.addColumn(languages, "Language");
+			languages.setSortable(true);
+			
+			
+			final TextColumn<Movie> countries = new TextColumn<Movie>() {
+			       @Override
+			       public String getValue(Movie movie) {
+			         return movie.getCountries();
+			       }
+			     };
+			table.addColumn(countries, "Country");
+			countries.setSortable(true);
+			
+			
+			
+			final TextColumn<Movie> genres = new TextColumn<Movie>() {
+			       @Override
+			       public String getValue(Movie movie) {
+			         return movie.getGenres();
+			       }
+			     };
+			table.addColumn(genres, "Genre");
+		    genres.setSortable(true);
+		    
+		    
+		    //DO REST
+			ListHandler<Movie> listHandler = new ListHandler<Movie>(list);
+			table.addColumnSortHandler(listHandler);
+			table.getColumnSortList().push(wiki);
+			table.getColumnSortList().push(freebaseid);
+			table.getColumnSortList().push(Name);
+			table.getColumnSortList().push(releaseDate);
+			table.getColumnSortList().push(revenue);
+			table.getColumnSortList().push(runtime);
+			table.getColumnSortList().push(languages);
+			table.getColumnSortList().push(countries);
+			table.getColumnSortList().push(genres);
+			
+			//System.out.println("TABLE:"+table.get);
+			return table;
+		
 	}
 	public void onModuleLoad() {
+		
 		
 		
 		//world map
@@ -260,7 +374,6 @@ public class Movie_App implements EntryPoint {
 		// create text boxes
 		//SLIDER
 		slider();
-		buttonExport();
 		//SLIDER END
 		
 		
@@ -1132,7 +1245,7 @@ public class Movie_App implements EntryPoint {
 		// ############ table ############
 		
 		// Create a CellTable.
-		CellTable<Movie> movieTable = new CellTable<Movie>();
+		movieTable = new CellTable<Movie>();
 
 		// Create wikiid column.
 		TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
@@ -1320,13 +1433,57 @@ public class Movie_App implements EntryPoint {
 		// default.
 		movieTable.getColumnSortList().push(nameColumn);
 
-		RootPanel.get().add(vPanel);
+		
+		
+		HorizontalPanel labelExportPanel=new HorizontalPanel();
+		VerticalPanel mainExportPanel=new VerticalPanel();
+		
+		
+		HorizontalPanel exportLablePanelRight=new HorizontalPanel();
+		HorizontalPanel exportLablePanelLeft=new HorizontalPanel();
+		exportExportPanelRight=new HorizontalPanel();
+		exportExportPanelLeft=new HorizontalPanel();
+		
+		
+		
+		exportPanel=new HorizontalPanel();
+		
+		Label labelList=new Label("List:");
+		Label labelAll=new Label("All:");
 
+		exportLablePanelLeft.add(labelList);
+		exportLablePanelRight.add(labelAll);
 		
+		exportLablePanelLeft.setWidth("100px");
+		exportLablePanelRight.setWidth("100px");
 		
+		labelExportPanel.add(exportLablePanelLeft);
+		labelExportPanel.add(exportLablePanelRight);
 		
+		exportExportPanelLeft.setWidth("100px");
+		exportExportPanelRight.setWidth("100px");
 		
+		labelExportPanel.setBorderWidth(1);
+		exportPanel.add(exportExportPanelLeft);
+		exportPanel.add(exportExportPanelRight);
 		
+		exportPanel.setBorderWidth(1);
+		labelAll.addStyleName("gwt-Label");
+		labelList.addStyleName("gwt-Label");
+		
+		mainExportPanel.add(labelExportPanel);
+		mainExportPanel.add(exportPanel);
+		mainExportPanel.setBorderWidth(1);
+		
+		labelList.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		labelAll.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		
+		buttonExportList();
+		buttonExportTable();
+		
+		vPanel.add(mainExportPanel);
+		
+		RootPanel.get().add(vPanel);
 		
 		// We can add style names to widgets
 		sendButton2.addStyleName("sendButton2");

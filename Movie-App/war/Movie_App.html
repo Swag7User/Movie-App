@@ -33,8 +33,8 @@
 <!-- to create a completely dynamic UI.        -->
 <!--                                           -->
 <body>
-
 	<!-- OPTIONAL: include this if you want history support -->
+	<iframe src="javascript:''" id="gwt-table-to-excel-target" tabIndex='-1' class="invisible"></iframe>
 	<iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
 		style="position: absolute; width: 0; height: 0; border: 0"></iframe>
 
@@ -47,8 +47,9 @@
 	</noscript>
 
 	<h1>Totally rad Movie App!</h1>
-
+	
 	<table id="selectTable" border="1" align="left">
+	
 		<tr>
 			<td colspan="4" style="font-weight: bold;">Search for movies:</td>
 		</tr>

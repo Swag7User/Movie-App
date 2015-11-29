@@ -137,3 +137,35 @@ td {
 #closeButton {
   margin: 15px 6px 6px;
 }
+/** improratant export things
+.gwt-table-to-excel-form, .gwt-table-to-excel-panel {
+	margin: 0;
+	padding : 0;
+}
+.gwt-table-to-excel-exportWidget {
+	border: 1px solid #333333;
+	cursor: pointer;
+	height: 20px;
+	padding: 0 4px 0 20px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	min-width : 40px;
+	max-width : 100px;
+	color: white;
+}
+.gwt-Label { 
+	border: 1px solid #333333;
+	cursor: pointer;
+	height: 20px;
+	padding: 0 4px 0 20px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	min-width : 40px;
+	max-width : 100px;
+	color: white;
+}
+button.gwt-table-to-excel-exportWidget {
+	color: #666666;
+}
