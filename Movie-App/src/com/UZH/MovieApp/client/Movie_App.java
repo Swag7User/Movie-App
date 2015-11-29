@@ -131,7 +131,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.getBodyElement().addClassName("rootPanel");
 		
 		//world map
-		map = new WorldMap((int)(RootPanel.get("bannerTable").getAbsoluteLeft() - RootPanel.get("header").getOffsetWidth()/2.95));
+		map = new WorldMap((int)(RootPanel.get("bannerTable").getAbsoluteLeft() - RootPanel.get("header").getOffsetWidth()/3.1));
 		//map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
 		//verticalPanel.setWidth("30%");
