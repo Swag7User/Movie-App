@@ -65,6 +65,7 @@ public class Movie_App implements EntryPoint {
 	 * service.
 	 */
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
+	
 	SliderBar slider;
 	VerticalPanel verticalPanelSlider;
 	VerticalPanel verticalPanel;
@@ -129,13 +130,13 @@ public class Movie_App implements EntryPoint {
 		});
 		exportButton.setPixelSize(50, 30);
 		exportButtonPanel.add(exportButton);
-	//	RootPanel.get("exportButtonContainer").add(exportButtonPanel);
+		// RootPanel.get("exportButtonContainer").add(exportButtonPanel);
 	}
 
 	public void onModuleLoad() {
-		
-		final FilteringTable lel = new FilteringTable();
-		RootPanel.get().add(lel.createFilterTable());
+
+		final FilteringTable filteringTable = new FilteringTable();
+		RootPanel.get().add(filteringTable.createFilterTable());
 
 		RootPanel.getBodyElement().addClassName("rootPanel");
 
@@ -154,8 +155,6 @@ public class Movie_App implements EntryPoint {
 		// slider();
 		buttonExport();
 		// SLIDER END
-
-
 
 		// ############ table ############
 
@@ -350,10 +349,6 @@ public class Movie_App implements EntryPoint {
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
 
-
-
-		
-
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Remote Procedure Call");
@@ -399,9 +394,9 @@ public class Movie_App implements EntryPoint {
 		closeButton2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dialogBox2.hide();
-				lel.sendButton2.setEnabled(true);
-				lel.sendButton2.setFocus(true);
-				lel.masterSendButton.setEnabled(true);
+				filteringTable.sendButton2.setEnabled(true);
+				filteringTable.sendButton2.setFocus(true);
+				filteringTable.masterSendButton.setEnabled(true);
 			}
 		});
 
@@ -429,24 +424,24 @@ public class Movie_App implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
-				lel.errorLabel.setText("");
-				String textWikiId = lel.wikiIdField.getText();
-				String textFreebaseId = lel.freebaseIdField.getText();
-				String movieName = lel.movieNameField.getText();
-				String releasedate = lel.releaseDateField.getText();
-				String boxoffice = lel.boxofficeField.getText();
-				String runtime = lel.runtimeField.getText();
-				String language = lel.languageField.getText();
-				String country = lel.countryField.getText();
-				String genre = lel.genreField.getText();
-				String limit = lel.limitField.getText();
+				filteringTable.errorLabel.setText("");
+				String textWikiId = filteringTable.wikiIdField.getText();
+				String textFreebaseId = filteringTable.freebaseIdField.getText();
+				String movieName = filteringTable.movieNameField.getText();
+				String releasedate = filteringTable.releaseDateField.getText();
+				String boxoffice = filteringTable.boxofficeField.getText();
+				String runtime = filteringTable.runtimeField.getText();
+				String language = filteringTable.languageField.getText();
+				String country = filteringTable.countryField.getText();
+				String genre = filteringTable.genreField.getText();
+				String limit = filteringTable.limitField.getText();
 				if ((!FieldVerifier.isValidID(textWikiId)) && (!FieldVerifier.isValidID(textFreebaseId))) {
-					lel.errorLabel.setText("Error");
+					filteringTable.errorLabel.setText("Error");
 					return;
 				}
 
 				// Then, we send the input to the server.
-				lel.sendButton2.setEnabled(false);
+				filteringTable.sendButton2.setEnabled(false);
 				textToServerLabel2.setText(textWikiId);
 				// textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
@@ -483,7 +478,7 @@ public class Movie_App implements EntryPoint {
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);
 						clearStringquerry();
-						lel.sendButton2.setEnabled(true);
+						filteringTable.sendButton2.setEnabled(true);
 					}
 
 				});
@@ -645,11 +640,11 @@ public class Movie_App implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
-				lel.errorLabel.setText("");
-				String masterText = lel.masterField.getText();
+				filteringTable.errorLabel.setText("");
+				String masterText = filteringTable.masterField.getText();
 
 				// Then, we send the input to the server.
-				lel.masterSendButton.setEnabled(false);
+				filteringTable.masterSendButton.setEnabled(false);
 				textToServerLabel3.setText(masterText);
 				// textToServerLabel2.setText(textFreebaseId);
 				textToServerLabel3.setText("");
@@ -683,7 +678,7 @@ public class Movie_App implements EntryPoint {
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);
 						clearStringquerry();
-						lel.masterSendButton.setEnabled(true);
+						filteringTable.masterSendButton.setEnabled(true);
 					}
 
 				});
@@ -691,10 +686,10 @@ public class Movie_App implements EntryPoint {
 		}
 
 		FilteringHandler filteringHandler = new FilteringHandler();
-		lel.sendButton2.addClickHandler(filteringHandler);
+		filteringTable.sendButton2.addClickHandler(filteringHandler);
 
 		MasterHandler masterHandler = new MasterHandler();
-		lel.masterSendButton.addClickHandler(masterHandler);
+		filteringTable.masterSendButton.addClickHandler(masterHandler);
 
 		// create on load table
 		StringBuilder[] querryArray = new StringBuilder[8];
