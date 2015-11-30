@@ -74,25 +74,6 @@ public class Movie_App implements EntryPoint {
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
 	String widthSlider = "1500px";
-	int wikiIdFieldCheck = -1;
-	int freebaseIdFieldCheck = -1;
-	int movieNameFieldCheck = -1;
-	int releaseDateFieldCheck = -1;
-	int boxofficeFieldCheck = -1;
-	int runtimeFieldCheck = -1;
-	int languageFieldCheck = -1;
-	int countryFieldCheck = -1;
-	int genreFieldCheck = -1;
-	int limitFieldCheck = -1;
-	// AND OR Checkboxes
-	int wikiCheck = 0;
-	int freebaseCheck = 0;
-	int nameCheck = 0;
-	int releasedateCheck = 0;
-	int boxofficeCheck = 0;
-	int runtimeCheck = 0;
-	int languagesCheck = 0;
-	int countryCheck = 0;
 
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 
@@ -488,123 +469,123 @@ public class Movie_App implements EntryPoint {
 					String boxoffice, String runtime, String language, String country, String genre, String limit) {
 				StringBuilder querryConcatination = new StringBuilder();
 
-				if (wikiIdFieldCheck == -1) {
+				if (filteringTable.wikiIdFieldCheck == -1) {
 					querryConcatination.append("WHERE 1=1 ");
 				} else {
-					if (wikiIdFieldCheck == 2) {
+					if (filteringTable.wikiIdFieldCheck == 2) {
 						querryConcatination.append(" WHERE wikiid = " + textWikiId);
-					} else if (wikiIdFieldCheck == 3) {
+					} else if (filteringTable.wikiIdFieldCheck == 3) {
 						querryConcatination.append(" WHERE wikiid > " + textWikiId);
-					} else if (wikiIdFieldCheck == 4) {
+					} else if (filteringTable.wikiIdFieldCheck == 4) {
 						querryConcatination.append(" WHERE wikiid < " + textWikiId);
 					}
 				}
-				if (wikiCheck == 0 && freebaseIdFieldCheck != -1) {
+				if (filteringTable.wikiCheck == 0 && filteringTable.freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (wikiCheck == 1 && freebaseIdFieldCheck != -1) {
+				} else if (filteringTable.wikiCheck == 1 && filteringTable.freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
-				if (freebaseIdFieldCheck == -1) {
+				if (filteringTable.freebaseIdFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("freebaseid = '" + textFreebaseId + "'");
 				}
-				if (freebaseCheck == 0 && movieNameFieldCheck != -1) {
+				if (filteringTable.freebaseCheck == 0 && filteringTable.movieNameFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (freebaseCheck == 1 && movieNameFieldCheck != -1) {
+				} else if (filteringTable.freebaseCheck == 1 && filteringTable.movieNameFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (movieNameFieldCheck == -1) {
+				if (filteringTable.movieNameFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("name LIKE '" + "%" + movieName + "%" + "'");
 				}
-				if (nameCheck == 0 && releaseDateFieldCheck != -1) {
+				if (filteringTable.nameCheck == 0 && filteringTable.releaseDateFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (nameCheck == 1 && releaseDateFieldCheck != -1) {
+				} else if (filteringTable.nameCheck == 1 && filteringTable.releaseDateFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (releaseDateFieldCheck == -1) {
+				if (filteringTable.releaseDateFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (releaseDateFieldCheck == 2) {
+					if (filteringTable.releaseDateFieldCheck == 2) {
 						querryConcatination.append("releasedate = " + "'" + releasedate + "'");
-					} else if (releaseDateFieldCheck == 3) {
+					} else if (filteringTable.releaseDateFieldCheck == 3) {
 						querryConcatination.append("releasedate > " + "'" + releasedate + "'");
-					} else if (releaseDateFieldCheck == 4) {
+					} else if (filteringTable.releaseDateFieldCheck == 4) {
 						querryConcatination.append("releasedate < " + "'" + releasedate + "'");
 					}
 				}
-				if (releasedateCheck == 0 && boxofficeFieldCheck != -1) {
+				if (filteringTable.releasedateCheck == 0 && filteringTable.boxofficeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (releasedateCheck == 1 && boxofficeFieldCheck != -1) {
+				} else if (filteringTable.releasedateCheck == 1 && filteringTable.boxofficeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (boxofficeFieldCheck == -1) {
+				if (filteringTable.boxofficeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (boxofficeFieldCheck == 2) {
+					if (filteringTable.boxofficeFieldCheck == 2) {
 						querryConcatination.append("boxoffice = " + boxoffice);
-					} else if (boxofficeFieldCheck == 3) {
+					} else if (filteringTable.boxofficeFieldCheck == 3) {
 						querryConcatination.append("boxoffice > " + boxoffice);
-					} else if (boxofficeFieldCheck == 4) {
+					} else if (filteringTable.boxofficeFieldCheck == 4) {
 						querryConcatination.append("boxoffice < " + boxoffice);
 					}
 				}
-				if (boxofficeCheck == 0 && runtimeFieldCheck != -1) {
+				if (filteringTable.boxofficeCheck == 0 && filteringTable.runtimeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (boxofficeCheck == 1 && runtimeFieldCheck != -1) {
+				} else if (filteringTable.boxofficeCheck == 1 && filteringTable.runtimeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 				// test
-				if (runtimeFieldCheck == -1) {
+				if (filteringTable.runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (runtimeFieldCheck == 2) {
+					if (filteringTable.runtimeFieldCheck == 2) {
 						querryConcatination.append("runtime = " + runtime);
-					} else if (runtimeFieldCheck == 3) {
+					} else if (filteringTable.runtimeFieldCheck == 3) {
 						querryConcatination.append("runtime > " + runtime);
-					} else if (runtimeFieldCheck == 4) {
+					} else if (filteringTable.runtimeFieldCheck == 4) {
 						querryConcatination.append("runtime < " + runtime);
 					}
 				}
-				if (runtimeCheck == 0 && languageFieldCheck != -1) {
+				if (filteringTable.runtimeCheck == 0 && filteringTable.languageFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (runtimeCheck == 1 && languageFieldCheck != -1) {
+				} else if (filteringTable.runtimeCheck == 1 && filteringTable.languageFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (languageFieldCheck == -1) {
+				if (filteringTable.languageFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("languages LIKE '" + language + "'");
 				}
-				if (languagesCheck == 0 && countryFieldCheck != -1) {
+				if (filteringTable.languagesCheck == 0 && filteringTable.countryFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (languagesCheck == 1 && countryFieldCheck != -1) {
+				} else if (filteringTable.languagesCheck == 1 && filteringTable.countryFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (countryFieldCheck == -1) {
+				if (filteringTable.countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("countries LIKE '" + country + "'");
 				}
-				if (countryCheck == 0 && genreFieldCheck != -1) {
+				if (filteringTable.countryCheck == 0 && filteringTable.genreFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (countryCheck == 1 && genreFieldCheck != -1) {
+				} else if (filteringTable.countryCheck == 1 && filteringTable.genreFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (genreFieldCheck == -1) {
+				if (filteringTable.genreFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("genres LIKE '" + "%" + genre + "%" + "'");
 				}
-				if (limitFieldCheck == -1) {
+				if (filteringTable.limitFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append(" LIMIT " + limit);
