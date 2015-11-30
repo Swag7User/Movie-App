@@ -45,26 +45,14 @@ public class MySQLAccess extends HttpServlet{
 					connect = DriverManager.getConnection("jdbc:mysql://localhost/movieapp?user=root");
 			  }
 
-			// Statements allow to issue SQL queries to the database
 			statement = connect.createStatement(java.sql.ResultSet.TYPE_FORWARD_ONLY, java.sql.ResultSet.CONCUR_READ_ONLY);
 			statement.setFetchSize(Integer.MIN_VALUE);
-	//		statement = connect.createStatement();
-		//	statement.setFetchSize(0);
 
-			// Result set get the result of the SQL query
-			// resultSet = statement.executeQuery("select * from
-			// feedback.comments");
 			int limit = 40000;
 			
-		//	String sqlQuerry = "select * from movieapp.moviedata LIMIT ";
-		//	sqlQuerry = sqlQuerry.concat(Integer.toString(symbols));
 			System.out.println(querry);
 			resultSet = statement.executeQuery(querry);
-		//	ss = "";
-		//	ss = ss.concat(writeResultSet(resultSet,symbols));
-			System.out.println("start resultset");
 			ss_new = writeResultSet(resultSet,limit);
-			System.out.println("end resultset");
 
 
 		} catch (Exception e) {
@@ -72,11 +60,7 @@ public class MySQLAccess extends HttpServlet{
 		} finally {
 			close();
 		}
-/*		for ( Movie o : ss_new){
-			System.out.println("ss: " + ss_new);
-			o.printMovie();
-		}
-*/		return ss_new;
+		return ss_new;
 
 	}
 	
@@ -179,7 +163,6 @@ public class MySQLAccess extends HttpServlet{
 		int i = 0;
 		ArrayList<Movie> s_new = new ArrayList<Movie>();
 		// String[] strarray = new String[10];
-		System.out.println("finished querry");
 		while (resultSet.next() && i <= symbols) {
 			// It is possible to get the columns via name
 			// also possible to get the columns via the column number
@@ -196,15 +179,6 @@ public class MySQLAccess extends HttpServlet{
 			String genres = resultSet.getString(9);
 		//	s_new = new ArrayList<Movie>();
 			s_new.add(new Movie(wikiid, freebaseid, name, releasedate, boxoffice, runtime, languages, countries, genres));
-			
-			if(i == 10000) 		System.out.println("10000");
-			if(i == 20000) 		System.out.println("20000");
-			if(i == 30000) 		System.out.println("30000");
-			if(i == 40000) 		System.out.println("40000");
-			if(i == 50000) 		System.out.println("50000");
-			if(i == 60000) 		System.out.println("60000");
-			if(i == 70000) 		System.out.println("70000");
-			if(i == 80000) 		System.out.println("80000");
 			
 			i++;
 		}

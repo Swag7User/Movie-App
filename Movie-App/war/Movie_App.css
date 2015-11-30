@@ -1,12 +1,18 @@
 /** Add css rules here for your application. */
-body {
+.rootPanel {
 	margin: 0;
-	padding: 0;
+	padding: 10px;
+/* 	background: #999; */
+	background-image: url("/images/background.jpg");
 }
 
 .gwt-table-to-excel-form, .gwt-table-to-excel-panel {
 	margin: 0;
 	padding : 0;
+}
+
+.filteringTable {
+	background-color: 	#FFB6C1;
 }
 .gwt-table-to-excel-exportWidget {
 	border: 1px solid #333333;
@@ -93,10 +99,15 @@ button.gwt-table-to-excel-exportWidget {
 h1 {
   font-size: 2em;
   font-weight: bold;
+  font-family: Calibri;
   color: #999;
   margin: 0;
+  padding: 10px;
   text-align: center;
-  background: #555;
+  background: #555; 
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 5px outset black;
 }
 
 .sendButton {
@@ -109,14 +120,31 @@ h1 {
   width: 400px;
 }
 
+.worldMap {
+	border: 5px outset black
+}
+
 #selectTable {
   /*border-collapse: separate;
   border-spacing: 0px 0;*/
+  border-top: none;
   background: #777;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
-td {
-  padding: 5px;
+.textBox {
+	border: none;
+}
+
+.gwt-CellTable {
+	width: 100%;
+	border: 5px outset black;
+	background: #86aca7;
+}
+
+#selectTable td {
+  padding: 1px 2px;
   margin: 0;
   border-radius: 5px;
 }
@@ -126,7 +154,17 @@ td {
 }
 
 #adBannerRight {
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px black;
+}
+
+#bannerTable{
+	margin: 0;
+	padding: 10px;
+	border: 5px outset black;
+	border-top: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	background: #777;
 } 
 
 .serverResponseLabelError {
@@ -136,36 +174,4 @@ td {
 /** Set ids using widget.getElement().setId("idOfElement") */
 #closeButton {
   margin: 15px 6px 6px;
-}
-/** improratant export things
-.gwt-table-to-excel-form, .gwt-table-to-excel-panel {
-	margin: 0;
-	padding : 0;
-}
-.gwt-table-to-excel-exportWidget {
-	border: 1px solid #333333;
-	cursor: pointer;
-	height: 20px;
-	padding: 0 4px 0 20px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	min-width : 40px;
-	max-width : 100px;
-	color: white;
-}
-.gwt-Label { 
-	border: 1px solid #333333;
-	cursor: pointer;
-	height: 20px;
-	padding: 0 4px 0 20px;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	min-width : 40px;
-	max-width : 100px;
-	color: white;
-}
-button.gwt-table-to-excel-exportWidget {
-	color: #666666;
 }

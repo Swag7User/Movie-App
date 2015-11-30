@@ -71,43 +71,24 @@ public class Movie_App implements EntryPoint {
 	SliderBar untilSlider;
 	VerticalPanel verticalPanelSlider;
 	VerticalPanel verticalPanel;
-	VerticalPanel vPanel;
+	VerticalPanel tablePanel;
 	VerticalPanel dialogVPanel;
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
-	HorizontalPanel exportExportPanelRight=new HorizontalPanel();
-	HorizontalPanel exportExportPanelLeft=new HorizontalPanel();
-	String widthSlider="1500px";
+	HorizontalPanel exportExportPanelRight = new HorizontalPanel();
+	HorizontalPanel exportExportPanelLeft = new HorizontalPanel();
+	String widthSlider = "1500px";
 	List<Movie> list;
 	List<Movie> globalList;
-	int firstMovieyear=1886;
-	int lastMovieyear=2016;
+	int firstMovieyear = 1886;
+	int lastMovieyear = 2016;
 	boolean sliderIsLoading;
 	CellTable<Movie> exportTable;
 	CellTable<Movie> movieTable;
 	CellTable<Movie> globalMovieTable;
-	int sliderFromValue=firstMovieyear;
-	int sliderUntilValue=lastMovieyear;
+	int sliderFromValue = firstMovieyear;
+	int sliderUntilValue = lastMovieyear;
 	HorizontalPanel exportPanel;
-	int wikiIdFieldCheck = -1;
-	int freebaseIdFieldCheck = -1;
-	int movieNameFieldCheck = -1;
-	int releaseDateFieldCheck = -1;
-	int boxofficeFieldCheck = -1;
-	int runtimeFieldCheck = -1;
-	int languageFieldCheck = -1;
-	int countryFieldCheck = -1;
-	int genreFieldCheck = -1;
-	int limitFieldCheck = -1;
-	// AND OR Checkboxes
-	int wikiCheck = 0;
-	int freebaseCheck = 0;
-	int nameCheck = 0;
-	int releasedateCheck = 0;
-	int boxofficeCheck = 0;
-	int runtimeCheck = 0;
-	int languagesCheck = 0;
-	int countryCheck = 0;
 
 	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 
@@ -118,1144 +99,178 @@ public class Movie_App implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	public void slider(){
-				verticalPanelSlider = new VerticalPanel();
-				verticalPanelSlider.clear();
-				//verticalPanelSlider.setBorderWidth(1);
-			
+	public void slider() {
+		verticalPanelSlider = new VerticalPanel();
+		verticalPanelSlider.clear();
+		// verticalPanelSlider.setBorderWidth(1);
 
-				fromSlider = new SliderBar(1886,2016);
-				fromSlider.setStepSize(1);
-				fromSlider.setCurrentValue(firstMovieyear);
-				fromSlider.setNumTicks(130);
-				fromSlider.setNumLabels(26);
-				verticalPanelSlider.add(fromSlider);
-				fromSlider.setVisible(true);
-				fromSlider.setHeight("50px");
-				fromSlider.setWidth(widthSlider);
-				
-				fromSlider.addClickHandler(new ClickHandler(){
-					@Override
-					public void onClick(ClickEvent event){
-						if(!sliderIsLoading){
-							sliderIsLoading=true;
-							if(sliderUntilValue-sliderFromValue>0){
-								sliderUntilValue=(int)untilSlider.getCurrentValue();
-								sliderFromValue=(int)fromSlider.getCurrentValue();
-							}
-							else{
-								sliderFromValue=(int)untilSlider.getCurrentValue();
-								sliderUntilValue=(int)fromSlider.getCurrentValue();
-							}
-							//fromSlider.setCurrentValue(sliderFromValue);
-							//untilSlider.setCurrentValue(sliderUntilValue);
-							
-							//releasedate > " + "'" + releasedate + "'"
-							
-							strQuerry.append("WHERE releasedate > '"+sliderFromValue+".00.00' AND releasedate < '"+sliderUntilValue+".00.00' ");
-							dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
-								public void onFailure(Throwable caught) {
-									// Show the RPC error message to the user
-								}
-								public void onSuccess(ArrayList<Movie> result) {
-									try {
-										// ############ table ############
-										list.clear();
-										globalList.clear();
-										for (Movie movie : result) {
-											list.add(movie);
-											globalList.add(movie);
-										}
-										
-									} catch (NullPointerException e) {
-	//									serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
-									}
-									System.out.println(strQuerry);
-									clearStringquerry();
-								}
-							});
-							sliderIsLoading=false;	
-						}
-						else{
-							//TO DO: WHAT HAPPENS IF STH IS LOADING
-							//fromSlider.setCurrentValue((double)sliderFromValue);
-						}
+		fromSlider = new SliderBar(1886, 2016);
+		fromSlider.setStepSize(1);
+		fromSlider.setCurrentValue(firstMovieyear);
+		fromSlider.setNumTicks(130);
+		fromSlider.setNumLabels(26);
+		verticalPanelSlider.add(fromSlider);
+		fromSlider.setVisible(true);
+		fromSlider.setHeight("50px");
+		fromSlider.setWidth(widthSlider);
+
+		fromSlider.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (!sliderIsLoading) {
+					sliderIsLoading = true;
+					if (sliderUntilValue - sliderFromValue > 0) {
+						sliderUntilValue = (int) untilSlider.getCurrentValue();
+						sliderFromValue = (int) fromSlider.getCurrentValue();
+					} else {
+						sliderFromValue = (int) untilSlider.getCurrentValue();
+						sliderUntilValue = (int) fromSlider.getCurrentValue();
 					}
-				});
-				
-				untilSlider = new SliderBar(1886,2016);
-				
-				untilSlider.addClickHandler(new ClickHandler(){
-					@Override
-					public void onClick(ClickEvent event){
-						if(!sliderIsLoading){
-							sliderIsLoading=true;
-							if(sliderUntilValue-sliderFromValue>0){
-								sliderUntilValue=(int)untilSlider.getCurrentValue();
-								sliderFromValue=(int)fromSlider.getCurrentValue();
-							}
-							else{
-								sliderFromValue=(int)untilSlider.getCurrentValue();
-								sliderUntilValue=(int)fromSlider.getCurrentValue();
-							}
-							
-							//fromSlider.setCurrentValue(sliderFromValue);
-							//untilSlider.setCurrentValue(sliderUntilValue);
+					// fromSlider.setCurrentValue(sliderFromValue);
+					// untilSlider.setCurrentValue(sliderUntilValue);
 
-							//releasedate > " + "'" + releasedate + "'"
-							
-							strQuerry.append("WHERE releasedate > '"+sliderFromValue+".00.00' AND releasedate < '"+sliderUntilValue+".00.00' ");
-							dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
-								public void onFailure(Throwable caught) {
-									// Show the RPC error message to the user
-								}
-								public void onSuccess(ArrayList<Movie> result) {
-									try {
-										// ############ table ############
-										list.clear();
-										globalList.clear();
-										for (Movie movie : result) {
-											list.add(movie);
-											globalList.add(movie);
-										}
-									} catch (NullPointerException e) {
-	//									serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
-									}
-									System.out.println(strQuerry);
-									clearStringquerry();	
-									
-								}
-							});
-							sliderIsLoading=false;
+					// releasedate > " + "'" + releasedate + "'"
+
+					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
+							+ sliderUntilValue + ".00.00' ");
+					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+						public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
 						}
-						else{
-							//TO DO do sth if loading
-							//untilSlider.setCurrentValue((double)sliderUntilValue);
+
+						public void onSuccess(ArrayList<Movie> result) {
+							try {
+								// ############ table ############
+								list.clear();
+								globalList.clear();
+								for (Movie movie : result) {
+									list.add(movie);
+									globalList.add(movie);
+								}
+
+							} catch (NullPointerException e) {
+								// serverResponseLabel2.setHTML("AW SHIT,
+								// NULLPOINTER IS IN DA HOUSE!");
+							}
+							System.out.println(strQuerry);
+							clearStringquerry();
 						}
-						
+					});
+					sliderIsLoading = false;
+				} else {
+					// TO DO: WHAT HAPPENS IF STH IS LOADING
+					// fromSlider.setCurrentValue((double)sliderFromValue);
+				}
+			}
+		});
+
+		untilSlider = new SliderBar(1886, 2016);
+
+		untilSlider.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				if (!sliderIsLoading) {
+					sliderIsLoading = true;
+					if (sliderUntilValue - sliderFromValue > 0) {
+						sliderUntilValue = (int) untilSlider.getCurrentValue();
+						sliderFromValue = (int) fromSlider.getCurrentValue();
+					} else {
+						sliderFromValue = (int) untilSlider.getCurrentValue();
+						sliderUntilValue = (int) fromSlider.getCurrentValue();
 					}
-				});
-				untilSlider.setStepSize(1);
-				untilSlider.setCurrentValue(lastMovieyear);
-				untilSlider.setNumTicks(130);
-				untilSlider.setNumLabels(26);
-				verticalPanelSlider.add(untilSlider);
-				RootPanel.get().add(verticalPanelSlider);
-				untilSlider.setVisible(true);
-				untilSlider.setHeight("50px");
-				untilSlider.setWidth(widthSlider);
-				
-				
-	}
-	public void buttonExportList(){
 
-				TableToExcelClient tableToExcelClient = new TableToExcelClient(movieTable);
-				exportExportPanelLeft.add(tableToExcelClient.getExportFormWidget());
+					// fromSlider.setCurrentValue(sliderFromValue);
+					// untilSlider.setCurrentValue(sliderUntilValue);
+
+					// releasedate > " + "'" + releasedate + "'"
+
+					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
+							+ sliderUntilValue + ".00.00' ");
+					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+						public void onFailure(Throwable caught) {
+							// Show the RPC error message to the user
+						}
+
+						public void onSuccess(ArrayList<Movie> result) {
+							try {
+								// ############ table ############
+								list.clear();
+								globalList.clear();
+								for (Movie movie : result) {
+									list.add(movie);
+									globalList.add(movie);
+								}
+							} catch (NullPointerException e) {
+								// serverResponseLabel2.setHTML("AW SHIT,
+								// NULLPOINTER IS IN DA HOUSE!");
+							}
+							System.out.println(strQuerry);
+							clearStringquerry();
+
+						}
+					});
+					sliderIsLoading = false;
+				} else {
+					// TO DO do sth if loading
+					// untilSlider.setCurrentValue((double)sliderUntilValue);
+				}
+
+			}
+		});
+		untilSlider.setStepSize(1);
+		untilSlider.setCurrentValue(lastMovieyear);
+		untilSlider.setNumTicks(130);
+		untilSlider.setNumLabels(26);
+		verticalPanelSlider.add(untilSlider);
+		RootPanel.get().add(verticalPanelSlider);
+		untilSlider.setVisible(true);
+		untilSlider.setHeight("50px");
+		untilSlider.setWidth(widthSlider);
+
 	}
-	public void buttonExportTable(){
-				TableToExcelClient tableToExcelClient = new TableToExcelClient(globalMovieTable);
-				exportExportPanelRight.add(tableToExcelClient.getExportFormWidget());
-				
+
+	public void buttonExportList() {
+
+		TableToExcelClient tableToExcelClient = new TableToExcelClient(movieTable);
+		exportExportPanelLeft.add(tableToExcelClient.getExportFormWidget());
 	}
-//	public CellTable<Movie> convertForExport(List<Movie> listUsed){
-//			
-//			
-//			CellTable<Movie> table = new CellTable<Movie>();
-//			
-//			ListDataProvider<Movie> dataProvider = new ListDataProvider<Movie>();
-//			
-//			dataProvider.addDataDisplay(table);
-//		    TextColumn<Movie> wiki = new TextColumn<Movie>() {
-//		        @Override
-//		        public String getValue(Movie movie) {
-//		          return movie.getWikiid();
-//		        }
-//		      };
-//		    table.addColumn(wiki, "wiki");
-//		    wiki.setSortable(true);
-//		    TextColumn<Movie> freebaseid = new TextColumn<Movie>() {
-//		        @Override
-//		        public String getValue(Movie movie) {
-//		          return movie.getFreebaseid();
-//		        }
-//		      };
-//		    table.addColumn(freebaseid, "freebaseid");
-//		    freebaseid.setSortable(true);
-//		    
-//		    final TextColumn<Movie> Name = new TextColumn<Movie>() {
-//		        @Override
-//		        public String getValue(Movie movie) {
-//		          return movie.getName();
-//		        }
-//		      };
-//		    table.addColumn(Name, "Name");
-//		    Name.setSortable(true);
-//		    
-//		   final TextColumn<Movie> releaseDate = new TextColumn<Movie>() {
-//		        @Override
-//		        public String getValue(Movie movie) {
-//		          return movie.getReleasedate();
-//		        }
-//		   };
-//		   table.addColumn(releaseDate, "releaseDate");
-//		   releaseDate.setSortable(true);   
-//		   
-//		   TextColumn<Movie> revenue = new TextColumn<Movie>() {
-//			     @Override
-//			     public String getValue(Movie movie) {
-//			       return movie.getBoxoffice();
-//			     }
-//			   };
-//			table.addColumn(revenue, "revenue");
-//			revenue.setSortable(true);
-//			   
-//			TextColumn<Movie> runtime = new TextColumn<Movie>() {
-//			      @Override
-//			      public String getValue(Movie movie) {
-//			        return movie.getRuntime();
-//			      }
-//			    };
-//			table.addColumn(runtime, "runtime");
-//			runtime.setSortable(true);
-//			
-//			
-//			final TextColumn<Movie> languages = new TextColumn<Movie>() {
-//			      @Override
-//			      public String getValue(Movie movie) {
-//			        return movie.getLanguages();
-//			      }
-//			    };
-//			table.addColumn(languages, "Language");
-//			languages.setSortable(true);
-//			
-//			
-//			final TextColumn<Movie> countries = new TextColumn<Movie>() {
-//			       @Override
-//			       public String getValue(Movie movie) {
-//			         return movie.getCountries();
-//			       }
-//			     };
-//			table.addColumn(countries, "Country");
-//			countries.setSortable(true);
-//			
-//			
-//			
-//			final TextColumn<Movie> genres = new TextColumn<Movie>() {
-//			       @Override
-//			       public String getValue(Movie movie) {
-//			         return movie.getGenres();
-//			       }
-//			     };
-//			table.addColumn(genres, "Genre");
-//		    genres.setSortable(true);
-//		    
-//		    
-//		    //DO REST
-//			ListHandler<Movie> listHandler = new ListHandler<Movie>(listUsed);
-//			table.addColumnSortHandler(listHandler);
-//			table.getColumnSortList().push(wiki);
-//			table.getColumnSortList().push(freebaseid);
-//			table.getColumnSortList().push(Name);
-//			table.getColumnSortList().push(releaseDate);
-//			table.getColumnSortList().push(revenue);
-//			table.getColumnSortList().push(runtime);
-//			table.getColumnSortList().push(languages);
-//			table.getColumnSortList().push(countries);
-//			table.getColumnSortList().push(genres);
-//			
-//			//System.out.println("TABLE:"+table.get);
-//			return table;
-//		
-//	}
+
+	public void buttonExportTable() {
+		TableToExcelClient tableToExcelClient = new TableToExcelClient(globalMovieTable);
+		exportExportPanelRight.add(tableToExcelClient.getExportFormWidget());
+
+	}
+
 	public void onModuleLoad() {
+
+		// filtering table
+		final FilteringTable filteringTable = new FilteringTable();
+		RootPanel.get().add(filteringTable.createFilterTable());
 		
+		RootPanel.getBodyElement().addClassName("rootPanel");
 		
-		
-		//world map
-		map = new WorldMap();
-		//map.setWidth(widthMapSlider);
+		// world map
+		map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
+				- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+		// map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
+		// verticalPanel.setWidth("30%");
 		verticalPanel.add(map.printMap());
 		RootPanel.get().add(verticalPanel);
-		//verticalPanelSlider.setWidth("1500px");
-		//verticalPanelSlider.setHeight("10px");
+		// verticalPanelSlider.setWidth("1500px");
+		// verticalPanelSlider.setHeight("10px");
 		// create text boxes
-		//SLIDER
+		// SLIDER
 		slider();
-		//SLIDER END
-		
-		
-		final Button sendButton2 = new Button("Go!");
-		//sendButton2.setSize("40Px", "20Px");
-		final Button masterSendButton = new Button("Go!");
-		final TextBox wikiIdField = new TextBox();
-		wikiIdField.setEnabled(false);
-		final TextBox freebaseIdField = new TextBox();
-		freebaseIdField.setEnabled(false);
-		final TextBox movieNameField = new TextBox();
-		movieNameField.setEnabled(false);
-		final TextBox releaseDateField = new TextBox();
-		releaseDateField.setEnabled(false);
-		final TextBox boxofficeField = new TextBox();
-		boxofficeField.setEnabled(false);
-		final TextBox runtimeField = new TextBox();
-		runtimeField.setEnabled(false);
-		final TextBox languageField = new TextBox();
-		languageField.setEnabled(false);
-		final TextBox countryField = new TextBox();
-		countryField.setEnabled(false);
-		final TextBox genreField = new TextBox();
-		genreField.setEnabled(false);
-		final TextBox limitField = new TextBox();
-		limitField.setEnabled(false);
-		limitField.setSize("145Px", "20Px");
-		final TextBox masterField = new TextBox();
-		masterField.setSize("145Px", "20Px");
-		final Label errorLabel = new Label();
-		// Set standard Text inside textboxes
-		wikiIdField.setText("WikiID");
-		freebaseIdField.setText("FreebaseID");
-		movieNameField.setText("Name");
-		releaseDateField.setText("Releasedate YYYY-MM-DD");
-		boxofficeField.setText("Boxoffice");
-		runtimeField.setText("Runtime");
-		languageField.setText("Languages");
-		countryField.setText("Countries");
-		genreField.setText("Genres");
-		limitField.setText("Limit");
-		masterField.setText("SQL Querry");
+		// buttonExport();
+		// SLIDER END
 
-		// Make new check boxes
-
-		// ############### AND ORS #################
-		// ############### wiki AND OR #################
-		final CheckBox wikiAND = new CheckBox("&");
-		final CheckBox wikiOR = new CheckBox("||");
-		wikiAND.setEnabled(false);
-		wikiOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		wikiAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiCheck = 0;
-					wikiOR.setValue(false);
-				} else {
-					wikiCheck = 0;
-				}
-			}
-		});
-		wikiOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiCheck = 1;
-					wikiAND.setValue(false);
-				} else {
-					wikiCheck = 0;
-				}
-			}
-		});
-		// ############### freebase AND OR #################
-		final CheckBox freebaseAND = new CheckBox("&");
-		final CheckBox freebaseOR = new CheckBox("||");
-		freebaseAND.setEnabled(false);
-		freebaseOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		freebaseAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseCheck = 0;
-					freebaseOR.setValue(false);
-				} else {
-					freebaseCheck = 0;
-				}
-			}
-		});
-		freebaseOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseCheck = 1;
-					freebaseAND.setValue(false);
-				} else {
-					freebaseCheck = 0;
-				}
-			}
-		});
-		// ############### name AND OR #################
-		final CheckBox nameAND = new CheckBox("&");
-		final CheckBox nameOR = new CheckBox("||");
-		nameAND.setEnabled(false);
-		nameOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		nameAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					nameCheck = 0;
-					nameOR.setValue(false);
-				} else {
-					nameCheck = 0;
-				}
-			}
-		});
-		nameOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					nameCheck = 1;
-					nameAND.setValue(false);
-				} else {
-					nameCheck = 0;
-				}
-			}
-		});
-		// ############### releasedate AND OR #################
-		final CheckBox releasedateAND = new CheckBox("&");
-		final CheckBox releasedateOR = new CheckBox("||");
-		releasedateAND.setEnabled(false);
-		releasedateOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		releasedateAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					releasedateCheck = 0;
-					releasedateOR.setValue(false);
-				} else {
-					releasedateCheck = 0;
-				}
-			}
-		});
-		releasedateOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					releasedateCheck = 1;
-					releasedateAND.setValue(false);
-				} else {
-					releasedateCheck = 0;
-				}
-			}
-		});
-		// ############### boxoffice AND OR #################
-		final CheckBox boxofficeAND = new CheckBox("&");
-		final CheckBox boxofficeOR = new CheckBox("||");
-		boxofficeAND.setEnabled(false);
-		boxofficeOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		boxofficeAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					boxofficeCheck = 0;
-					boxofficeOR.setValue(false);
-				} else {
-					boxofficeCheck = 0;
-				}
-			}
-		});
-		boxofficeOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					boxofficeCheck = 1;
-					boxofficeAND.setValue(false);
-				} else {
-					boxofficeCheck = 0;
-				}
-			}
-		});
-		// ############### runtime AND OR #################
-		final CheckBox runtimeAND = new CheckBox("&");
-		final CheckBox runtimeOR = new CheckBox("||");
-		runtimeAND.setEnabled(false);
-		runtimeOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		runtimeAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					runtimeCheck = 0;
-					runtimeOR.setValue(false);
-				} else {
-					runtimeCheck = 0;
-				}
-			}
-		});
-		runtimeOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					runtimeCheck = 1;
-					runtimeAND.setValue(false);
-				} else {
-					runtimeCheck = 0;
-				}
-			}
-		});
-		// ############### languages AND OR #################
-		final CheckBox languagesAND = new CheckBox("&");
-		final CheckBox languagesOR = new CheckBox("||");
-		languagesAND.setEnabled(false);
-		languagesOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		languagesAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languagesCheck = 0;
-					languagesOR.setValue(false);
-				} else {
-					languagesCheck = 0;
-				}
-			}
-		});
-		languagesOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languagesCheck = 1;
-					languagesAND.setValue(false);
-				} else {
-					languagesCheck = 0;
-				}
-			}
-		});
-		// ############### country AND OR #################
-		final CheckBox countryAND = new CheckBox("&");
-		final CheckBox countryOR = new CheckBox("||");
-		countryAND.setEnabled(false);
-		countryOR.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		countryAND.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryCheck = 0;
-					countryOR.setValue(false);
-				} else {
-					countryCheck = 0;
-				}
-			}
-		});
-		countryOR.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryCheck = 1;
-					countryAND.setValue(false);
-				} else {
-					countryCheck = 0;
-				}
-			}
-		});
-
-		// ########### Field Checkboxes ###############
-		// ###############Wikipedia ID#################
-		final CheckBox wikiIdFieldEQUAL = new CheckBox("=");
-		final CheckBox wikiIdFieldBIGGERTHAN = new CheckBox(">");
-		final CheckBox wikiIdFieldSMALLERTHAN = new CheckBox("<");
-		// Hook up a handler to find out when they're clicked clicked.
-		wikiIdFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiIdFieldCheck = 2;
-					wikiIdFieldBIGGERTHAN.setValue(false);
-					wikiIdFieldSMALLERTHAN.setValue(false);
-					wikiIdField.setEnabled(true);
-				} else {
-					wikiIdFieldCheck = -1;
-					wikiIdField.setEnabled(false);
-				}
-			}
-		});
-		wikiIdFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiIdFieldCheck = 3;
-					wikiIdFieldEQUAL.setValue(false);
-					wikiIdFieldSMALLERTHAN.setValue(false);
-					wikiIdField.setEnabled(true);
-				} else {
-					wikiIdFieldCheck = -1;
-					wikiIdField.setEnabled(false);
-				}
-			}
-		});
-		wikiIdFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiIdFieldCheck = 4;
-					wikiIdFieldBIGGERTHAN.setValue(false);
-					wikiIdFieldEQUAL.setValue(false);
-					wikiIdField.setEnabled(true);
-				} else {
-					wikiIdFieldCheck = -1;
-					wikiIdField.setEnabled(false);
-				}
-			}
-		});
-		// ###############freebase ID#################
-		final CheckBox freebaseIdFieldEQUAL = new CheckBox("=");
-		final CheckBox freebaseIdFieldBIGGERTHAN = new CheckBox(">");
-		freebaseIdFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox freebaseIdFieldSMALLERTHAN = new CheckBox("<");
-		freebaseIdFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		freebaseIdFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseIdFieldCheck = 2;
-					freebaseIdFieldBIGGERTHAN.setValue(false);
-					freebaseIdFieldSMALLERTHAN.setValue(false);
-					freebaseIdField.setEnabled(true);
-					wikiAND.setEnabled(true);
-					wikiOR.setEnabled(true);
-				} else {
-					freebaseIdFieldCheck = -1;
-					freebaseIdField.setEnabled(false);
-					wikiAND.setEnabled(false);
-					wikiOR.setEnabled(false);
-				}
-			}
-		});
-		freebaseIdFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseIdFieldCheck = 3;
-					freebaseIdFieldEQUAL.setValue(false);
-					freebaseIdFieldSMALLERTHAN.setValue(false);
-					freebaseIdField.setEnabled(true);
-					wikiAND.setEnabled(true);
-					wikiOR.setEnabled(true);
-				} else {
-					freebaseIdFieldCheck = -1;
-					freebaseIdField.setEnabled(false);
-					wikiAND.setEnabled(false);
-					wikiOR.setEnabled(false);
-				}
-			}
-		});
-		freebaseIdFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					freebaseIdFieldCheck = 4;
-					freebaseIdFieldBIGGERTHAN.setValue(false);
-					freebaseIdFieldEQUAL.setValue(false);
-					freebaseIdField.setEnabled(true);
-					wikiAND.setEnabled(true);
-					wikiOR.setEnabled(true);
-				} else {
-					freebaseIdFieldCheck = -1;
-					freebaseIdField.setEnabled(false);
-					wikiAND.setEnabled(false);
-					wikiOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############Movie Name#################
-		final CheckBox movieNameFieldEQUAL = new CheckBox("=");
-		final CheckBox movieNameFieldBIGGERTHAN = new CheckBox(">");
-		movieNameFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox movieNameFieldSMALLERTHAN = new CheckBox("<");
-		movieNameFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		movieNameFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					movieNameFieldCheck = 2;
-					movieNameFieldBIGGERTHAN.setValue(false);
-					movieNameFieldSMALLERTHAN.setValue(false);
-					movieNameField.setEnabled(true);
-					freebaseAND.setEnabled(true);
-					freebaseOR.setEnabled(true);
-
-				} else {
-					movieNameFieldCheck = -1;
-					movieNameField.setEnabled(false);
-					freebaseAND.setEnabled(false);
-					freebaseOR.setEnabled(false);
-				}
-			}
-		});
-		movieNameFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					movieNameFieldCheck = 3;
-					movieNameFieldEQUAL.setValue(false);
-					movieNameFieldSMALLERTHAN.setValue(false);
-					movieNameField.setEnabled(true);
-					freebaseAND.setEnabled(true);
-					freebaseOR.setEnabled(true);
-				} else {
-					movieNameFieldCheck = -1;
-					movieNameField.setEnabled(false);
-					freebaseAND.setEnabled(false);
-					freebaseOR.setEnabled(false);
-				}
-			}
-		});
-		movieNameFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					movieNameFieldCheck = 4;
-					movieNameFieldBIGGERTHAN.setValue(false);
-					movieNameFieldEQUAL.setValue(false);
-					movieNameField.setEnabled(true);
-					freebaseAND.setEnabled(true);
-					freebaseOR.setEnabled(true);
-				} else {
-					movieNameFieldCheck = -1;
-					movieNameField.setEnabled(false);
-					freebaseAND.setEnabled(false);
-					freebaseOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############Release Date#################
-		final CheckBox releaseDateFieldEQUAL = new CheckBox("=");
-		final CheckBox releaseDateFieldBIGGERTHAN = new CheckBox(">");
-		// releaseDateFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox releaseDateFieldSMALLERTHAN = new CheckBox("<");
-		// releaseDateFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		releaseDateFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					releaseDateFieldCheck = 2;
-					releaseDateFieldBIGGERTHAN.setValue(false);
-					releaseDateFieldSMALLERTHAN.setValue(false);
-					releaseDateField.setEnabled(true);
-					nameAND.setEnabled(true);
-					nameOR.setEnabled(true);
-				} else {
-					releaseDateFieldCheck = -1;
-					releaseDateField.setEnabled(false);
-					nameAND.setEnabled(false);
-					nameOR.setEnabled(false);
-				}
-			}
-		});
-		releaseDateFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					releaseDateFieldCheck = 3;
-					releaseDateFieldEQUAL.setValue(false);
-					releaseDateFieldSMALLERTHAN.setValue(false);
-					releaseDateField.setEnabled(true);
-					nameAND.setEnabled(true);
-					nameOR.setEnabled(true);
-				} else {
-					releaseDateFieldCheck = -1;
-					releaseDateField.setEnabled(false);
-					nameAND.setEnabled(false);
-					nameOR.setEnabled(false);
-				}
-			}
-		});
-		releaseDateFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					releaseDateFieldCheck = 4;
-					releaseDateFieldBIGGERTHAN.setValue(false);
-					releaseDateFieldEQUAL.setValue(false);
-					releaseDateField.setEnabled(true);
-					nameAND.setEnabled(true);
-					nameOR.setEnabled(true);
-				} else {
-					releaseDateFieldCheck = -1;
-					releaseDateField.setEnabled(false);
-					nameAND.setEnabled(false);
-					nameOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############Boxoffice#################
-		final CheckBox boxofficeFieldEQUAL = new CheckBox("=");
-		final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
-		// boxofficeFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
-		// boxofficeFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		boxofficeFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					boxofficeFieldCheck = 2;
-					boxofficeFieldBIGGERTHAN.setValue(false);
-					boxofficeFieldSMALLERTHAN.setValue(false);
-					boxofficeField.setEnabled(true);
-					releasedateAND.setEnabled(true);
-					releasedateOR.setEnabled(true);
-				} else {
-					boxofficeFieldCheck = -1;
-					boxofficeField.setEnabled(false);
-					releasedateAND.setEnabled(false);
-					releasedateOR.setEnabled(false);
-				}
-			}
-		});
-		boxofficeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					boxofficeFieldCheck = 3;
-					boxofficeFieldEQUAL.setValue(false);
-					boxofficeFieldSMALLERTHAN.setValue(false);
-					boxofficeField.setEnabled(true);
-					releasedateAND.setEnabled(true);
-					releasedateOR.setEnabled(true);
-				} else {
-					boxofficeFieldCheck = -1;
-					boxofficeField.setEnabled(false);
-					releasedateAND.setEnabled(false);
-					releasedateOR.setEnabled(false);
-				}
-			}
-		});
-		boxofficeFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					boxofficeFieldCheck = 4;
-					boxofficeFieldBIGGERTHAN.setValue(false);
-					boxofficeFieldEQUAL.setValue(false);
-					boxofficeField.setEnabled(true);
-					releasedateAND.setEnabled(true);
-					releasedateOR.setEnabled(true);
-				} else {
-					boxofficeFieldCheck = -1;
-					boxofficeField.setEnabled(false);
-					releasedateAND.setEnabled(false);
-					releasedateOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############Runtime#################
-		final CheckBox runtimeFieldEQUAL = new CheckBox("=");
-		final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
-		// runtimeFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
-		// runtimeFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		runtimeFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					runtimeFieldCheck = 2;
-					runtimeFieldBIGGERTHAN.setValue(false);
-					runtimeFieldSMALLERTHAN.setValue(false);
-					runtimeField.setEnabled(true);
-					boxofficeAND.setEnabled(true);
-					boxofficeOR.setEnabled(true);
-				} else {
-					runtimeFieldCheck = -1;
-					runtimeField.setEnabled(false);
-					boxofficeAND.setEnabled(false);
-					boxofficeOR.setEnabled(false);
-				}
-			}
-		});
-		runtimeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					runtimeFieldCheck = 3;
-					runtimeFieldEQUAL.setValue(false);
-					runtimeFieldSMALLERTHAN.setValue(false);
-					runtimeField.setEnabled(true);
-					boxofficeAND.setEnabled(true);
-					boxofficeOR.setEnabled(true);
-				} else {
-					runtimeFieldCheck = -1;
-					runtimeField.setEnabled(false);
-					boxofficeAND.setEnabled(false);
-					boxofficeOR.setEnabled(false);
-				}
-			}
-		});
-		runtimeFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					runtimeFieldCheck = 4;
-					runtimeFieldBIGGERTHAN.setValue(false);
-					runtimeFieldEQUAL.setValue(false);
-					runtimeField.setEnabled(true);
-					boxofficeAND.setEnabled(true);
-					boxofficeOR.setEnabled(true);
-				} else {
-					runtimeFieldCheck = -1;
-					runtimeField.setEnabled(false);
-					boxofficeAND.setEnabled(false);
-					boxofficeOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############language#################
-		final CheckBox languageFieldEQUAL = new CheckBox("=");
-		final CheckBox languageFieldBIGGERTHAN = new CheckBox(">");
-		languageFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox languageFieldSMALLERTHAN = new CheckBox("<");
-		languageFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		languageFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languageFieldCheck = 2;
-					languageFieldBIGGERTHAN.setValue(false);
-					languageFieldSMALLERTHAN.setValue(false);
-					languageField.setEnabled(true);
-					runtimeAND.setEnabled(true);
-					runtimeOR.setEnabled(true);
-				} else {
-					languageFieldCheck = -1;
-					languageField.setEnabled(false);
-					runtimeAND.setEnabled(false);
-					runtimeOR.setEnabled(false);
-				}
-			}
-		});
-		languageFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languageFieldCheck = 3;
-					languageFieldEQUAL.setValue(false);
-					languageFieldSMALLERTHAN.setValue(false);
-					languageField.setEnabled(true);
-					runtimeAND.setEnabled(true);
-					runtimeOR.setEnabled(true);
-				} else {
-					languageFieldCheck = -1;
-					languageField.setEnabled(false);
-					runtimeAND.setEnabled(false);
-					runtimeOR.setEnabled(false);
-				}
-			}
-		});
-		languageFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					languageFieldCheck = 4;
-					languageFieldBIGGERTHAN.setValue(false);
-					languageFieldEQUAL.setValue(false);
-					languageField.setEnabled(true);
-					runtimeAND.setEnabled(true);
-					runtimeOR.setEnabled(true);
-				} else {
-					languageFieldCheck = -1;
-					languageField.setEnabled(false);
-					runtimeAND.setEnabled(false);
-					runtimeOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############country#################
-		final CheckBox countryFieldEQUAL = new CheckBox("=");
-		final CheckBox countryFieldBIGGERTHAN = new CheckBox(">");
-		countryFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox countryFieldSMALLERTHAN = new CheckBox("<");
-		countryFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		countryFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryFieldCheck = 2;
-					countryFieldBIGGERTHAN.setValue(false);
-					countryFieldSMALLERTHAN.setValue(false);
-					countryField.setEnabled(true);
-					languagesAND.setEnabled(true);
-					languagesOR.setEnabled(true);
-				} else {
-					countryFieldCheck = -1;
-					countryField.setEnabled(false);
-					languagesAND.setEnabled(false);
-					languagesOR.setEnabled(false);
-				}
-			}
-		});
-		countryFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryFieldCheck = 3;
-					countryFieldEQUAL.setValue(false);
-					countryFieldSMALLERTHAN.setValue(false);
-					countryField.setEnabled(true);
-					languagesAND.setEnabled(true);
-					languagesOR.setEnabled(true);
-				} else {
-					countryFieldCheck = -1;
-					countryField.setEnabled(false);
-					languagesAND.setEnabled(false);
-					languagesOR.setEnabled(false);
-				}
-			}
-		});
-		countryFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					countryFieldCheck = 4;
-					countryFieldBIGGERTHAN.setValue(false);
-					countryFieldEQUAL.setValue(false);
-					countryField.setEnabled(true);
-					languagesAND.setEnabled(true);
-					languagesOR.setEnabled(true);
-				} else {
-					countryFieldCheck = -1;
-					countryField.setEnabled(false);
-					languagesAND.setEnabled(false);
-					languagesOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############genre#################
-		final CheckBox genreFieldEQUAL = new CheckBox("=");
-		final CheckBox genreFieldBIGGERTHAN = new CheckBox(">");
-		genreFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox genreFieldSMALLERTHAN = new CheckBox("<");
-		genreFieldSMALLERTHAN.setEnabled(false);
-		// Hook up a handler to find out when they're clicked clicked.
-		genreFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					genreFieldCheck = 2;
-					genreFieldBIGGERTHAN.setValue(false);
-					genreFieldSMALLERTHAN.setValue(false);
-					genreField.setEnabled(true);
-					countryAND.setEnabled(true);
-					countryOR.setEnabled(true);
-				} else {
-					genreFieldCheck = -1;
-					genreField.setEnabled(false);
-					countryAND.setEnabled(false);
-					countryOR.setEnabled(false);
-				}
-			}
-		});
-		genreFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					genreFieldCheck = 3;
-					genreFieldEQUAL.setValue(false);
-					genreFieldSMALLERTHAN.setValue(false);
-					genreField.setEnabled(true);
-					countryAND.setEnabled(true);
-					countryOR.setEnabled(true);
-				} else {
-					genreFieldCheck = -1;
-					genreField.setEnabled(false);
-					countryAND.setEnabled(false);
-					countryOR.setEnabled(false);
-				}
-			}
-		});
-		genreFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					genreFieldCheck = 4;
-					genreFieldBIGGERTHAN.setValue(false);
-					genreFieldEQUAL.setValue(false);
-					genreField.setEnabled(true);
-					countryAND.setEnabled(true);
-					countryOR.setEnabled(true);
-				} else {
-					genreFieldCheck = -1;
-					genreField.setEnabled(false);
-					countryAND.setEnabled(false);
-					countryOR.setEnabled(false);
-				}
-			}
-		});
-		// ###############limit#################
-		final CheckBox limitFieldEQUAL = new CheckBox("=");
-		// Hook up a handler to find out when they're clicked clicked.
-		limitFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					limitFieldCheck = 2;
-					limitField.setEnabled(true);
-				} else {
-					limitFieldCheck = -1;
-					limitField.setEnabled(false);
-				}
-			}
-		});
-		
 		// ############ table ############
-		
+
 		// Create a CellTable.
 		movieTable = new CellTable<Movie>();
 		globalMovieTable = new CellTable<Movie>();
-		
+
 		// Create wikiid column.
 		TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
 			@Override
@@ -1323,8 +338,7 @@ public class Movie_App implements EntryPoint {
 		wikiidColumn.setSortable(true);
 		/*
 		 * releasedateColumn.setSortable(true);
-		 * boxofficeColumn.setSortable(true);
-		 * runtimeColumn.setSortable(true);
+		 * boxofficeColumn.setSortable(true); runtimeColumn.setSortable(true);
 		 */
 		// Add the columns.
 		movieTable.addColumn(wikiidColumn, "Wiki ID");
@@ -1336,7 +350,7 @@ public class Movie_App implements EntryPoint {
 		movieTable.addColumn(languagesColumn, "Languages");
 		movieTable.addColumn(countriesColumn, "Countries");
 		movieTable.addColumn(genresColumn, "Genres");
-		
+
 		globalMovieTable.addColumn(wikiidColumn, "Wiki ID");
 		globalMovieTable.addColumn(freebaseidColumn, "Freebase ID");
 		globalMovieTable.addColumn(nameColumn, "Name");
@@ -1347,8 +361,7 @@ public class Movie_App implements EntryPoint {
 		globalMovieTable.addColumn(countriesColumn, "Countries");
 		globalMovieTable.addColumn(genresColumn, "Genres");
 		// Create a data provider.
-		
-		
+
 		ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
 		ListDataProvider<Movie> dataProviderGlobal = new ListDataProvider<>();
 
@@ -1360,20 +373,15 @@ public class Movie_App implements EntryPoint {
 		// automatically pushes it to the
 		// widget.
 		list = dataProvider.getList();
-		globalList=dataProviderGlobal.getList();
-		
-		
+		globalList = dataProviderGlobal.getList();
+
 		SimplePager pager = new SimplePager();
-		
-		
+
 		pager.setDisplay(movieTable);
-		vPanel = new VerticalPanel();
-		vPanel.add(pager);
-		vPanel.add(movieTable);
-		
-		//vPanel.add(globalMovieTable);
-		
-		
+		tablePanel = new VerticalPanel();
+		tablePanel.add(pager);
+		tablePanel.add(movieTable);
+
 		// Add a ColumnSortEvent.ListHandler to connect
 		// sorting to the
 		// java.util.List.
@@ -1402,8 +410,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the wikiid columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
 				}
 				return -1;
 			}
@@ -1417,9 +424,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice))
-							: 1;
+					return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
 				}
 				return -1;
 			}
@@ -1433,9 +438,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime))
-							: 1;
+					return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
 				}
 				return -1;
 			}
@@ -1449,19 +452,14 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.releasedate)
-							.compareTo(Integer.valueOf(o2.releasedate)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate))
+							: 1;
 				}
 				return -1;
 			}
 		});
-		//global
-		
-		
-		
-		
-		
-		
+		// global
+
 		globalcolumnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
 			public int compare(Movie o1, Movie o2) {
 				if (o1 == o2) {
@@ -1484,8 +482,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the wikiid columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
 				}
 				return -1;
 			}
@@ -1499,9 +496,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice))
-							: 1;
+					return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
 				}
 				return -1;
 			}
@@ -1515,9 +510,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime))
-							: 1;
+					return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
 				}
 				return -1;
 			}
@@ -1531,8 +524,8 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.releasedate)
-							.compareTo(Integer.valueOf(o2.releasedate)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate))
+							: 1;
 				}
 				return -1;
 			}
@@ -1544,150 +537,76 @@ public class Movie_App implements EntryPoint {
 		movieTable.getColumnSortList().push(nameColumn);
 		globalMovieTable.getColumnSortList().push(nameColumn);
 
-		
 		final TextBox AmountXField = new TextBox();
-		
-		
-		HorizontalPanel labelExportPanel=new HorizontalPanel();
-		VerticalPanel mainExportPanel=new VerticalPanel();
-		
-		
-		HorizontalPanel exportLablePanelRight=new HorizontalPanel();
-		HorizontalPanel exportLablePanelRightX=new HorizontalPanel();
-		HorizontalPanel exportLablePanelLeft=new HorizontalPanel();
-		
-		exportExportPanelRight=new HorizontalPanel();
-		HorizontalPanel exportExportPanelRightX=new HorizontalPanel();
-		exportExportPanelLeft=new HorizontalPanel();
-		
-		
-		
-		exportPanel=new HorizontalPanel();
-		
-		Label labelList=new Label("List:");
-		Label labelAll=new Label("Download Amount:");
-		Button LimitSetButton =new Button("Set Amount"); 
+
+		HorizontalPanel labelExportPanel = new HorizontalPanel();
+		VerticalPanel mainExportPanel = new VerticalPanel();
+
+		HorizontalPanel exportLablePanelRight = new HorizontalPanel();
+		HorizontalPanel exportLablePanelRightX = new HorizontalPanel();
+		HorizontalPanel exportLablePanelLeft = new HorizontalPanel();
+
+		exportExportPanelRight = new HorizontalPanel();
+		HorizontalPanel exportExportPanelRightX = new HorizontalPanel();
+		exportExportPanelLeft = new HorizontalPanel();
+
+		exportPanel = new HorizontalPanel();
+
+		Label labelList = new Label("List:");
+		Label labelAll = new Label("Download Amount:");
+		Button LimitSetButton = new Button("Set Amount");
 		LimitSetButton.setWidth("100px");
 		LimitSetButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				FieldVerifier fv=new FieldVerifier();
-				if(fv.isValidInt(AmountXField.getText())){
+				FieldVerifier fv = new FieldVerifier();
+				if (fv.isValidInt(AmountXField.getText())) {
 					System.out.println(Integer.parseInt(AmountXField.getText()));
-					globalMovieTable.setVisibleRange(0,Integer.parseInt(AmountXField.getText()));
+					globalMovieTable.setVisibleRange(0, Integer.parseInt(AmountXField.getText()));
 				}
 			}
 		});
-		
+
 		exportLablePanelLeft.add(labelList);
 		exportLablePanelRight.add(labelAll);
 		exportExportPanelRightX.add(LimitSetButton);
-		
+
 		exportLablePanelLeft.setWidth("100px");
 		exportLablePanelRight.setWidth("100px");
 		exportLablePanelRightX.setWidth("100px");
-		
+
 		labelExportPanel.add(exportLablePanelLeft);
 		labelExportPanel.add(exportLablePanelRight);
 		labelExportPanel.add(exportExportPanelRightX);
-		
+
 		exportExportPanelLeft.setWidth("100px");
 		exportExportPanelRight.setWidth("100px");
 		exportExportPanelRightX.setWidth("100px");
-		
-		//labelExportPanel.setBorderWidth(1);
+
+		// labelExportPanel.setBorderWidth(1);
 		exportPanel.add(exportExportPanelLeft);
 		exportPanel.add(exportExportPanelRight);
 		exportPanel.add(AmountXField);
-		
-		//exportPanel.setBorderWidth(1);
+
+		// exportPanel.setBorderWidth(1);
 		labelAll.addStyleName("gwt-Label");
 		labelList.addStyleName("gwt-Label");
-		
+
 		labelExportPanel.addStyleName("gwt-Label");
-		
-		
+
 		mainExportPanel.add(labelExportPanel);
 		mainExportPanel.add(exportPanel);
 		mainExportPanel.setBorderWidth(1);
-		
+
 		labelList.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		labelAll.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		
+
 		buttonExportList();
 		buttonExportTable();
-		
-		vPanel.add(mainExportPanel);
-		
-		RootPanel.get().add(vPanel);
-		
-		// We can add style names to widgets
-		sendButton2.addStyleName("sendButton2");
-		
-		masterSendButton.addStyleName("masterSendButton");
 
-		// Add the nameField and sendButton to the RootPanel
-		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer2").add(wikiIdField);
-		RootPanel.get("sendButtonContainer2").add(sendButton2);
-		RootPanel.get("freebaseIdFieldContainer").add(freebaseIdField);
-		RootPanel.get("movieNameFieldContainer").add(movieNameField);
-		RootPanel.get("releaseDateFieldContainer").add(releaseDateField);
-		RootPanel.get("boxofficeFieldContainer").add(boxofficeField);
-		RootPanel.get("runtimeFieldContainer").add(runtimeField);
-		RootPanel.get("languageFieldContainer").add(languageField);
-		RootPanel.get("countryFieldContainer").add(countryField);
-		RootPanel.get("genreFieldContainer").add(genreField);
-		RootPanel.get("limitFieldContainer").add(limitField);
-		RootPanel.get("masterFieldContainer").add(masterField);
-		RootPanel.get("errorLabelContainer").add(errorLabel);
-		// get checkboxes
-		RootPanel.get("wikiIdFieldEQUALContainer").add(wikiIdFieldEQUAL);
-		RootPanel.get("wikiIdFieldBIGGERTHANContainer").add(wikiIdFieldBIGGERTHAN);
-		RootPanel.get("wikiIdFieldSMALLERTHANContainer").add(wikiIdFieldSMALLERTHAN);
-		RootPanel.get("freebaseIdFieldEQUALContainer").add(freebaseIdFieldEQUAL);
-		RootPanel.get("freebaseIdFieldBIGGERTHANContainer").add(freebaseIdFieldBIGGERTHAN);
-		RootPanel.get("freebaseIdFieldSMALLERTHANContainer").add(freebaseIdFieldSMALLERTHAN);
-		RootPanel.get("movieNameFieldEQUALContainer").add(movieNameFieldEQUAL);
-		RootPanel.get("movieNameFieldBIGGERTHANContainer").add(movieNameFieldBIGGERTHAN);
-		RootPanel.get("movieNameFieldSMALLERTHANContainer").add(movieNameFieldSMALLERTHAN);
-		RootPanel.get("releaseDateFieldEQUALContainer").add(releaseDateFieldEQUAL);
-		RootPanel.get("releaseDateFieldBIGGERTHANContainer").add(releaseDateFieldBIGGERTHAN);
-		RootPanel.get("releaseDateFieldSMALLERTHANContainer").add(releaseDateFieldSMALLERTHAN);
-		RootPanel.get("boxofficeFieldEQUALContainer").add(boxofficeFieldEQUAL);
-		RootPanel.get("boxofficeFieldBIGGERTHANContainer").add(boxofficeFieldBIGGERTHAN);
-		RootPanel.get("boxofficeFieldSMALLERTHANContainer").add(boxofficeFieldSMALLERTHAN);
-		RootPanel.get("runtimeFieldEQUALContainer").add(runtimeFieldEQUAL);
-		RootPanel.get("runtimeFieldBIGGERTHANContainer").add(runtimeFieldBIGGERTHAN);
-		RootPanel.get("runtimeFieldSMALLERTHANContainer").add(runtimeFieldSMALLERTHAN);
-		RootPanel.get("languageFieldEQUALContainer").add(languageFieldEQUAL);
-		RootPanel.get("languageFieldBIGGERTHANContainer").add(languageFieldBIGGERTHAN);
-		RootPanel.get("languageFieldSMALLERTHANContainer").add(languageFieldSMALLERTHAN);
-		RootPanel.get("countryFieldEQUALContainer").add(countryFieldEQUAL);
-		RootPanel.get("countryFieldBIGGERTHANContainer").add(countryFieldBIGGERTHAN);
-		RootPanel.get("countryFieldSMALLERTHANContainer").add(countryFieldSMALLERTHAN);
-		RootPanel.get("genreFieldEQUALContainer").add(genreFieldEQUAL);
-		RootPanel.get("genreFieldBIGGERTHANContainer").add(genreFieldBIGGERTHAN);
-		RootPanel.get("genreFieldSMALLERTHANContainer").add(genreFieldSMALLERTHAN);
-		RootPanel.get("limitFieldEQUALContainer").add(limitFieldEQUAL);
+		tablePanel.add(mainExportPanel);
 
-		// AND OR CHECKBOXES
-		RootPanel.get("wikiAND").add(wikiAND);
-		RootPanel.get("wikiOR").add(wikiOR);
-		RootPanel.get("freebaseAND").add(freebaseAND);
-		RootPanel.get("freebaseOR").add(freebaseOR);
-		RootPanel.get("nameAND").add(nameAND);
-		RootPanel.get("nameOR").add(nameOR);
-		RootPanel.get("releasedateAND").add(releasedateAND);
-		RootPanel.get("releasedateOR").add(releasedateOR);
-		RootPanel.get("boxofficeAND").add(boxofficeAND);
-		RootPanel.get("boxofficeOR").add(boxofficeOR);
-		RootPanel.get("runtimeAND").add(runtimeAND);
-		RootPanel.get("runtimeOR").add(runtimeOR);
-		RootPanel.get("languagesAND").add(languagesAND);
-		RootPanel.get("languagesOR").add(languagesOR);
-		RootPanel.get("countryAND").add(countryAND);
-		RootPanel.get("countryOR").add(countryOR);
+		RootPanel.get().add(tablePanel);
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -1734,14 +653,11 @@ public class Movie_App implements EntryPoint {
 		closeButton2.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				dialogBox2.hide();
-				sendButton2.setEnabled(true);
-				sendButton2.setFocus(true);
-				masterSendButton.setEnabled(true);
+				filteringTable.sendButton2.setEnabled(true);
+				filteringTable.sendButton2.setFocus(true);
+				filteringTable.masterSendButton.setEnabled(true);
 			}
 		});
-		
-
-
 
 		// Create a handler for the sendButton and nameField
 
@@ -1768,24 +684,24 @@ public class Movie_App implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
-				errorLabel.setText("");
-				String textWikiId = wikiIdField.getText();
-				String textFreebaseId = freebaseIdField.getText();
-				String movieName = movieNameField.getText();
-				String releasedate = releaseDateField.getText();
-				String boxoffice = boxofficeField.getText();
-				String runtime = runtimeField.getText();
-				String language = languageField.getText();
-				String country = countryField.getText();
-				String genre = genreField.getText();
-				String limit = limitField.getText();
+				filteringTable.errorLabel.setText("");
+				String textWikiId = filteringTable.wikiIdField.getText();
+				String textFreebaseId = filteringTable.freebaseIdField.getText();
+				String movieName = filteringTable.movieNameField.getText();
+				String releasedate = filteringTable.releaseDateField.getText();
+				String boxoffice = filteringTable.boxofficeField.getText();
+				String runtime = filteringTable.runtimeField.getText();
+				String language = filteringTable.languageField.getText();
+				String country = filteringTable.countryField.getText();
+				String genre = filteringTable.genreField.getText();
+				String limit = filteringTable.limitField.getText();
 				if ((!FieldVerifier.isValidID(textWikiId)) && (!FieldVerifier.isValidID(textFreebaseId))) {
-					errorLabel.setText("Error");
+					filteringTable.errorLabel.setText("Error");
 					return;
 				}
 
 				// Then, we send the input to the server.
-				sendButton2.setEnabled(false);
+				filteringTable.sendButton2.setEnabled(false);
 				textToServerLabel2.setText(textWikiId);
 				// textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
@@ -1816,7 +732,7 @@ public class Movie_App implements EntryPoint {
 								list.add(movie);
 								globalList.add(movie);
 							}
-							
+
 							// serverResponseLabel2.setHTML(test.toString());
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
@@ -1824,7 +740,7 @@ public class Movie_App implements EntryPoint {
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);
 						clearStringquerry();
-						sendButton2.setEnabled(true);
+						filteringTable.sendButton2.setEnabled(true);
 					}
 
 				});
@@ -1834,123 +750,123 @@ public class Movie_App implements EntryPoint {
 					String boxoffice, String runtime, String language, String country, String genre, String limit) {
 				StringBuilder querryConcatination = new StringBuilder();
 
-				if (wikiIdFieldCheck == -1) {
+				if (filteringTable.wikiIdFieldCheck == -1) {
 					querryConcatination.append("WHERE 1=1 ");
 				} else {
-					if (wikiIdFieldCheck == 2) {
+					if (filteringTable.wikiIdFieldCheck == 2) {
 						querryConcatination.append(" WHERE wikiid = " + textWikiId);
-					} else if (wikiIdFieldCheck == 3) {
+					} else if (filteringTable.wikiIdFieldCheck == 3) {
 						querryConcatination.append(" WHERE wikiid > " + textWikiId);
-					} else if (wikiIdFieldCheck == 4) {
+					} else if (filteringTable.wikiIdFieldCheck == 4) {
 						querryConcatination.append(" WHERE wikiid < " + textWikiId);
 					}
 				}
-				if (wikiCheck == 0 && freebaseIdFieldCheck != -1) {
+				if (filteringTable.wikiCheck == 0 && filteringTable.freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (wikiCheck == 1 && freebaseIdFieldCheck != -1) {
+				} else if (filteringTable.wikiCheck == 1 && filteringTable.freebaseIdFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
-				if (freebaseIdFieldCheck == -1) {
+				if (filteringTable.freebaseIdFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("freebaseid = '" + textFreebaseId + "'");
 				}
-				if (freebaseCheck == 0 && movieNameFieldCheck != -1) {
+				if (filteringTable.freebaseCheck == 0 && filteringTable.movieNameFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (freebaseCheck == 1 && movieNameFieldCheck != -1) {
+				} else if (filteringTable.freebaseCheck == 1 && filteringTable.movieNameFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (movieNameFieldCheck == -1) {
+				if (filteringTable.movieNameFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("name LIKE '" + "%" + movieName + "%" + "'");
 				}
-				if (nameCheck == 0 && releaseDateFieldCheck != -1) {
+				if (filteringTable.nameCheck == 0 && filteringTable.releaseDateFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (nameCheck == 1 && releaseDateFieldCheck != -1) {
+				} else if (filteringTable.nameCheck == 1 && filteringTable.releaseDateFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (releaseDateFieldCheck == -1) {
+				if (filteringTable.releaseDateFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (releaseDateFieldCheck == 2) {
+					if (filteringTable.releaseDateFieldCheck == 2) {
 						querryConcatination.append("releasedate = " + "'" + releasedate + "'");
-					} else if (releaseDateFieldCheck == 3) {
+					} else if (filteringTable.releaseDateFieldCheck == 3) {
 						querryConcatination.append("releasedate > " + "'" + releasedate + "'");
-					} else if (releaseDateFieldCheck == 4) {
+					} else if (filteringTable.releaseDateFieldCheck == 4) {
 						querryConcatination.append("releasedate < " + "'" + releasedate + "'");
 					}
 				}
-				if (releasedateCheck == 0 && boxofficeFieldCheck != -1) {
+				if (filteringTable.releasedateCheck == 0 && filteringTable.boxofficeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (releasedateCheck == 1 && boxofficeFieldCheck != -1) {
+				} else if (filteringTable.releasedateCheck == 1 && filteringTable.boxofficeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (boxofficeFieldCheck == -1) {
+				if (filteringTable.boxofficeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (boxofficeFieldCheck == 2) {
+					if (filteringTable.boxofficeFieldCheck == 2) {
 						querryConcatination.append("boxoffice = " + boxoffice);
-					} else if (boxofficeFieldCheck == 3) {
+					} else if (filteringTable.boxofficeFieldCheck == 3) {
 						querryConcatination.append("boxoffice > " + boxoffice);
-					} else if (boxofficeFieldCheck == 4) {
+					} else if (filteringTable.boxofficeFieldCheck == 4) {
 						querryConcatination.append("boxoffice < " + boxoffice);
 					}
 				}
-				if (boxofficeCheck == 0 && runtimeFieldCheck != -1) {
+				if (filteringTable.boxofficeCheck == 0 && filteringTable.runtimeFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (boxofficeCheck == 1 && runtimeFieldCheck != -1) {
+				} else if (filteringTable.boxofficeCheck == 1 && filteringTable.runtimeFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 				// test
-				if (runtimeFieldCheck == -1) {
+				if (filteringTable.runtimeFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					if (runtimeFieldCheck == 2) {
+					if (filteringTable.runtimeFieldCheck == 2) {
 						querryConcatination.append("runtime = " + runtime);
-					} else if (runtimeFieldCheck == 3) {
+					} else if (filteringTable.runtimeFieldCheck == 3) {
 						querryConcatination.append("runtime > " + runtime);
-					} else if (runtimeFieldCheck == 4) {
+					} else if (filteringTable.runtimeFieldCheck == 4) {
 						querryConcatination.append("runtime < " + runtime);
 					}
 				}
-				if (runtimeCheck == 0 && languageFieldCheck != -1) {
+				if (filteringTable.runtimeCheck == 0 && filteringTable.languageFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (runtimeCheck == 1 && languageFieldCheck != -1) {
+				} else if (filteringTable.runtimeCheck == 1 && filteringTable.languageFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (languageFieldCheck == -1) {
+				if (filteringTable.languageFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("languages LIKE '" + language + "'");
 				}
-				if (languagesCheck == 0 && countryFieldCheck != -1) {
+				if (filteringTable.languagesCheck == 0 && filteringTable.countryFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (languagesCheck == 1 && countryFieldCheck != -1) {
+				} else if (filteringTable.languagesCheck == 1 && filteringTable.countryFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (countryFieldCheck == -1) {
+				if (filteringTable.countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("countries LIKE '" + country + "'");
 				}
-				if (countryCheck == 0 && genreFieldCheck != -1) {
+				if (filteringTable.countryCheck == 0 && filteringTable.genreFieldCheck != -1) {
 					querryConcatination.append(" AND ");
-				} else if (countryCheck == 1 && genreFieldCheck != -1) {
+				} else if (filteringTable.countryCheck == 1 && filteringTable.genreFieldCheck != -1) {
 					querryConcatination.append(" OR ");
 				}
 
-				if (genreFieldCheck == -1) {
+				if (filteringTable.genreFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append("genres LIKE '" + "%" + genre + "%" + "'");
 				}
-				if (limitFieldCheck == -1) {
+				if (filteringTable.limitFieldCheck == -1) {
 					// do nothing I guess
 				} else {
 					querryConcatination.append(" LIMIT " + limit);
@@ -1986,11 +902,11 @@ public class Movie_App implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
-				errorLabel.setText("");
-				String masterText = masterField.getText();
+				filteringTable.errorLabel.setText("");
+				String masterText = filteringTable.masterField.getText();
 
 				// Then, we send the input to the server.
-				masterSendButton.setEnabled(false);
+				filteringTable.masterSendButton.setEnabled(false);
 				textToServerLabel3.setText(masterText);
 				// textToServerLabel2.setText(textFreebaseId);
 				textToServerLabel3.setText("");
@@ -2025,7 +941,7 @@ public class Movie_App implements EntryPoint {
 						// dialogBox2.center();
 						// closeButton2.setFocus(true);
 						clearStringquerry();
-						masterSendButton.setEnabled(true);
+						filteringTable.masterSendButton.setEnabled(true);
 					}
 
 				});
@@ -2033,10 +949,48 @@ public class Movie_App implements EntryPoint {
 		}
 
 		FilteringHandler filteringHandler = new FilteringHandler();
-		sendButton2.addClickHandler(filteringHandler);
-		
+		filteringTable.sendButton2.addClickHandler(filteringHandler);
+
 		MasterHandler masterHandler = new MasterHandler();
-		masterSendButton.addClickHandler(masterHandler);
+		filteringTable.masterSendButton.addClickHandler(masterHandler);
+		
+		// create on load table
+		StringBuilder[] querryArray = new StringBuilder[8];
+		querryArray[0] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000");
+		querryArray[1] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 10000");
+		querryArray[2] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 20000");
+		querryArray[3] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 30000");
+		querryArray[4] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 40000");
+		querryArray[5] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 50000");
+		querryArray[6] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 60000");
+		querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 70000");
+
+		for (final StringBuilder onLoadQuerry : querryArray) {
+			dbconnection.getDBData(onLoadQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
+				public void onFailure(Throwable caught) {
+					// fAILED, DO NOTHING I GUESS
+				}
+
+				public void onSuccess(ArrayList<Movie> result) {
+					// System.out.println(onLoadQuerry);
+					try {
+
+						// ############ table ############
+						for (Movie movie : result) {
+							list.add(movie);
+							// movie.printMovie();
+						}
+						// serverResponseLabel2.setHTML(test.toString());
+					} catch (NullPointerException e) {
+						System.out.println("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
+					}
+
+				}
+
+			});
+
+		}
+
 	}
 
 }

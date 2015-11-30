@@ -6,16 +6,6 @@
 
 	<!-- Servlets -->
 	<servlet>
-		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.UZH.MovieApp.server.GreetingServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>greetServlet</servlet-name>
-		<url-pattern>/movie_app/greet</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
 		 <servlet-name>remoteLoggingServiceImpl</servlet-name>
 		<servlet-class>com.google.gwt.libideas.logging.server.RemoteLoggingServiceImpl</servlet-class>
 	</servlet>
