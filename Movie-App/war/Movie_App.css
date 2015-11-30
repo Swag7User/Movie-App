@@ -2,7 +2,6 @@
 .rootPanel {
 	margin: 0;
 	padding: 10px;
-/* 	background: #999; */
 	background-image: url("/images/background.jpg");
 }
 
@@ -14,6 +13,15 @@
 .filteringTable {
 	background-color: 	#FFB6C1;
 }
+
+.pager {
+	color: white;
+}
+
+.sourceTable {
+	background-color: #E6E6FA;
+}
+
 .gwt-table-to-excel-exportWidget {
 	border: 1px solid #333333;
 	cursor: pointer;

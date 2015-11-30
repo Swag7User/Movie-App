@@ -1,25 +1,19 @@
 package com.UZH.MovieApp.client;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import com.UZH.MovieApp.shared.Movie;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-//import com.team10.agrardataviewer.shared.DataRow;
 import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.visualization.client.events.RegionClickHandler;
 import com.google.gwt.visualization.client.visualizations.GeoMap;
-import com.google.gwt.widgetideas.client.SliderBar;
+// import com.google.gwt.widgetideas.client.SliderBar;
 
 
 public class WorldMap extends Composite{

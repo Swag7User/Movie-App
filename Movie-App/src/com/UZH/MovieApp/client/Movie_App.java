@@ -2,103 +2,77 @@ package com.UZH.MovieApp.client;
 
 import java.lang.StringBuilder;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
-
-import javax.swing.SwingConstants;
-
-import org.eclipse.jdt.internal.formatter.align.Alignment;
-
-//import javax.persistence.criteria.Root;
 
 import com.UZH.MovieApp.shared.FieldVerifier;
 import com.UZH.MovieApp.shared.Movie;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.asm.commons.AdviceAdapter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.i18n.client.HasDirection;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.visualization.client.AbstractDataTable;
-import com.google.gwt.visualization.client.DataTable;
-import com.google.gwt.visualization.client.VisualizationUtils;
 import com.google.gwt.widgetideas.client.SliderBar;
 
 import com.googlecode.gwtTableToExcel.client.TableToExcelClient;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
+// Entry point classes define <code>onModuleLoad()</code>.
 public class Movie_App implements EntryPoint {
 
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
+	// The message displayed to the user when the server cannot be reached or
+	// returns an error.
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network " + "connection and try again.";
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
+	// needed for RPC call
 	private final DBConnectionAsync dbconnection = GWT.create(DBConnection.class);
+
+	// List with simplepager
+	// gloabllist is an invisible copy of list without paging
+	static List<Movie> list;
+	static List<Movie> globalList;
+	// initialize map
+	WorldMap map;
+	// Base String for SQL Query
+	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
+
 	SliderBar fromSlider;
 	SliderBar untilSlider;
 	VerticalPanel verticalPanelSlider;
 	VerticalPanel verticalPanel;
-	VerticalPanel tablePanel;
 	VerticalPanel dialogVPanel;
 	HorizontalPanel exportButtonPanel;
-	WorldMap map;
 	HorizontalPanel exportExportPanelRight = new HorizontalPanel();
 	HorizontalPanel exportExportPanelLeft = new HorizontalPanel();
 	String widthSlider = "1500px";
-	List<Movie> list;
-	List<Movie> globalList;
 	int firstMovieyear = 1886;
 	int lastMovieyear = 2016;
 	boolean sliderIsLoading;
 	CellTable<Movie> exportTable;
-	CellTable<Movie> movieTable;
-	CellTable<Movie> globalMovieTable;
 	int sliderFromValue = firstMovieyear;
 	int sliderUntilValue = lastMovieyear;
 	HorizontalPanel exportPanel;
 
-	StringBuilder strQuerry = new StringBuilder("select * from movieapp.moviedata ");
-
+	// Clears SQL query, call this method before making an SQL query that uses
+	// strQuerry as its base
 	public void clearStringquerry() {
 		strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 	}
 
-	/**
-	 * This is the entry point method.
-	 */
 	public void slider() {
 		verticalPanelSlider = new VerticalPanel();
 		verticalPanelSlider.clear();
@@ -183,9 +157,9 @@ public class Movie_App implements EntryPoint {
 					// untilSlider.setCurrentValue(sliderUntilValue);
 
 					// releasedate > " + "'" + releasedate + "'"
-
-					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
+					final StringBuilder concatSlider = new StringBuilder("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
 							+ sliderUntilValue + ".00.00' ");
+					strQuerry.append(concatSlider);
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
@@ -200,6 +174,11 @@ public class Movie_App implements EntryPoint {
 									list.add(movie);
 									globalList.add(movie);
 								}
+								verticalPanel.clear();
+								map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
+										- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+								map.printMap("SELECT countries, Count(*) FROM moviedata " + concatSlider + " GROUP BY countries", verticalPanel);
+								RootPanel.get().add(verticalPanel);
 							} catch (NullPointerException e) {
 								// serverResponseLabel2.setHTML("AW SHIT,
 								// NULLPOINTER IS IN DA HOUSE!");
@@ -231,312 +210,43 @@ public class Movie_App implements EntryPoint {
 
 	public void buttonExportList() {
 
-		TableToExcelClient tableToExcelClient = new TableToExcelClient(movieTable);
+		@SuppressWarnings("deprecation")
+		TableToExcelClient tableToExcelClient = new TableToExcelClient(ResultTable.movieTable);
 		exportExportPanelLeft.add(tableToExcelClient.getExportFormWidget());
 	}
 
 	public void buttonExportTable() {
-		TableToExcelClient tableToExcelClient = new TableToExcelClient(globalMovieTable);
+		@SuppressWarnings("deprecation")
+		TableToExcelClient tableToExcelClient = new TableToExcelClient(ResultTable.globalMovieTable);
 		exportExportPanelRight.add(tableToExcelClient.getExportFormWidget());
 
 	}
 
 	public void onModuleLoad() {
-
-		// filtering table
+		// Load the filtering table onto the root panel
 		final FilteringTable filteringTable = new FilteringTable();
 		RootPanel.get().add(filteringTable.createFilterTable());
-		
+		// needed for Background image
 		RootPanel.getBodyElement().addClassName("rootPanel");
-		
-		// world map
+
+		// ############ wolrd map ############
 		map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
 				- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
-		// map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
-		// verticalPanel.setWidth("30%");
 		map.printMap("SELECT countries, Count(*) FROM moviedata GROUP BY countries", verticalPanel);
-		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate = '2001-08-24' GROUP BY countries"
+		// example query for WHERE query
+		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
+		// '2001-08-24' GROUP BY countries"
 		RootPanel.get().add(verticalPanel);
-		// verticalPanelSlider.setWidth("1500px");
-		// verticalPanelSlider.setHeight("10px");
-		// create text boxes
-		// SLIDER
+		// ############### END ####################
+
 		slider();
-		// buttonExport();
-		// SLIDER END
 
-		// ############ table ############
+		// ############ Main movie Table ############
+		ResultTable mainTable = new ResultTable();
+		VerticalPanel mainResultTable = mainTable.createTable();
 
-		// Create a CellTable.
-		movieTable = new CellTable<Movie>();
-		globalMovieTable = new CellTable<Movie>();
-
-		// Create wikiid column.
-		TextColumn<Movie> wikiidColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.wikiid;
-			}
-		};
-		// Create freebaseid column.
-		TextColumn<Movie> freebaseidColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.freebaseid;
-			}
-		};
-		// Create name column.
-		TextColumn<Movie> nameColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.name;
-			}
-		};
-		// Create releasedate column.
-		TextColumn<Movie> releasedateColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.releasedate;
-			}
-		};
-		// Create boxoffice column.
-		TextColumn<Movie> boxofficeColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.boxoffice;
-			}
-		};
-		// Create runtime column.
-		TextColumn<Movie> runtimeColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.runtime;
-			}
-		};
-		// Create languages column.
-		TextColumn<Movie> languagesColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.languages;
-			}
-		};
-		// Create countries column.
-		TextColumn<Movie> countriesColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.countries;
-			}
-		};
-		// Create genres column.
-		TextColumn<Movie> genresColumn = new TextColumn<Movie>() {
-			@Override
-			public String getValue(Movie movie) {
-				return movie.genres;
-			}
-		};
-		nameColumn.setSortable(true);
-		wikiidColumn.setSortable(true);
-		/*
-		 * releasedateColumn.setSortable(true);
-		 * boxofficeColumn.setSortable(true); runtimeColumn.setSortable(true);
-		 */
-		// Add the columns.
-		movieTable.addColumn(wikiidColumn, "Wiki ID");
-		movieTable.addColumn(freebaseidColumn, "Freebase ID");
-		movieTable.addColumn(nameColumn, "Name");
-		movieTable.addColumn(releasedateColumn, "Release Date");
-		movieTable.addColumn(boxofficeColumn, "Boxoffice");
-		movieTable.addColumn(runtimeColumn, "Runtime");
-		movieTable.addColumn(languagesColumn, "Languages");
-		movieTable.addColumn(countriesColumn, "Countries");
-		movieTable.addColumn(genresColumn, "Genres");
-
-		globalMovieTable.addColumn(wikiidColumn, "Wiki ID");
-		globalMovieTable.addColumn(freebaseidColumn, "Freebase ID");
-		globalMovieTable.addColumn(nameColumn, "Name");
-		globalMovieTable.addColumn(releasedateColumn, "Release Date");
-		globalMovieTable.addColumn(boxofficeColumn, "Boxoffice");
-		globalMovieTable.addColumn(runtimeColumn, "Runtime");
-		globalMovieTable.addColumn(languagesColumn, "Languages");
-		globalMovieTable.addColumn(countriesColumn, "Countries");
-		globalMovieTable.addColumn(genresColumn, "Genres");
-		// Create a data provider.
-
-		ListDataProvider<Movie> dataProvider = new ListDataProvider<>();
-		ListDataProvider<Movie> dataProviderGlobal = new ListDataProvider<>();
-
-		// Connect the table to the data provider.
-
-		dataProvider.addDataDisplay(movieTable);
-		dataProviderGlobal.addDataDisplay(globalMovieTable);
-		// Add the data to the data provider, which
-		// automatically pushes it to the
-		// widget.
-		list = dataProvider.getList();
-		globalList = dataProviderGlobal.getList();
-
-		SimplePager pager = new SimplePager();
-
-		pager.setDisplay(movieTable);
-		tablePanel = new VerticalPanel();
-		tablePanel.add(pager);
-		tablePanel.add(movieTable);
-
-		// Add a ColumnSortEvent.ListHandler to connect
-		// sorting to the
-		// java.util.List.
-		ListHandler<Movie> columnSortHandler = new ListHandler<Movie>(list);
-		ListHandler<Movie> globalcolumnSortHandler = new ListHandler<Movie>(globalList);
-		// name sorting
-		columnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? o1.name.compareTo(o2.name) : 1;
-				}
-				return -1;
-			}
-		});
-		// wiki id sorting
-		columnSortHandler.setComparator(wikiidColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the wikiid columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
-				}
-				return -1;
-			}
-		});
-		// boxoffice sorting
-		columnSortHandler.setComparator(boxofficeColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
-				}
-				return -1;
-			}
-		});
-		// runtime sorting
-		columnSortHandler.setComparator(runtimeColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
-				}
-				return -1;
-			}
-		});
-		// releasedate sorting
-		columnSortHandler.setComparator(releasedateColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate))
-							: 1;
-				}
-				return -1;
-			}
-		});
-		// global
-
-		globalcolumnSortHandler.setComparator(nameColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? o1.name.compareTo(o2.name) : 1;
-				}
-				return -1;
-			}
-		});
-		// wiki id sorting
-		globalcolumnSortHandler.setComparator(wikiidColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the wikiid columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
-				}
-				return -1;
-			}
-		});
-		// boxoffice sorting
-		globalcolumnSortHandler.setComparator(boxofficeColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
-				}
-				return -1;
-			}
-		});
-		// runtime sorting
-		globalcolumnSortHandler.setComparator(runtimeColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
-				}
-				return -1;
-			}
-		});
-		// releasedate sorting
-		globalcolumnSortHandler.setComparator(releasedateColumn, new Comparator<Movie>() {
-			public int compare(Movie o1, Movie o2) {
-				if (o1 == o2) {
-					return 0;
-				}
-
-				// Compare the name columns.
-				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate))
-							: 1;
-				}
-				return -1;
-			}
-		});
-		movieTable.addColumnSortHandler(columnSortHandler);
-		globalMovieTable.addColumnSortHandler(globalcolumnSortHandler);
-		// We know that the data is sorted alphabetically by
-		// default.
-		movieTable.getColumnSortList().push(nameColumn);
-		globalMovieTable.getColumnSortList().push(nameColumn);
+		// ############### END ####################
 
 		final TextBox AmountXField = new TextBox();
 
@@ -558,12 +268,13 @@ public class Movie_App implements EntryPoint {
 		Button LimitSetButton = new Button("Set Amount");
 		LimitSetButton.setWidth("100px");
 		LimitSetButton.addClickHandler(new ClickHandler() {
+			@SuppressWarnings("static-access")
 			@Override
 			public void onClick(ClickEvent event) {
 				FieldVerifier fv = new FieldVerifier();
 				if (fv.isValidInt(AmountXField.getText())) {
 					System.out.println(Integer.parseInt(AmountXField.getText()));
-					globalMovieTable.setVisibleRange(0, Integer.parseInt(AmountXField.getText()));
+					ResultTable.globalMovieTable.setVisibleRange(0, Integer.parseInt(AmountXField.getText()));
 				}
 			}
 		});
@@ -605,9 +316,20 @@ public class Movie_App implements EntryPoint {
 		buttonExportList();
 		buttonExportTable();
 
-		tablePanel.add(mainExportPanel);
-
-		RootPanel.get().add(tablePanel);
+		mainResultTable.add(mainExportPanel);
+		RootPanel.get().add(mainResultTable);
+		
+		// ################ DATA SOURCE ##################
+		FlexTable sourceTable = new FlexTable();
+		sourceTable.setHTML(0, 0, "<b>Data Source:</b>");
+		sourceTable.setText(0, 1, "David Bamman, Brendan O'Connor and Noah Smith, 'Learning Latent Personas of Film Characters,' in: Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL 2013), Sofia, Bulgaria, 2013.");
+		sourceTable.setHTML(1, 0, "<b>Picture Source:</b>");
+		sourceTable.setHTML(1, 1, "http://goo.gl/ULO4VT");
+		sourceTable.addStyleName("sourceTable");
+		// ################# END ######################
+		
+		// add data source flextable to root panel
+		RootPanel.get().add(sourceTable);
 
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
@@ -640,7 +362,6 @@ public class Movie_App implements EntryPoint {
 		final HTML serverResponseLabel2 = new HTML();
 		final HTML serverResponseLabel3 = new HTML();
 		VerticalPanel dialogVPanel2 = new VerticalPanel();
-		dialogVPanel2.setPixelSize(1500, 400);
 		dialogVPanel2.addStyleName("dialogVPanel");
 		dialogVPanel2.add(new HTML("<b>Number of Movies:</b>"));
 		dialogVPanel2.add(textToServerLabel2);
@@ -660,8 +381,7 @@ public class Movie_App implements EntryPoint {
 			}
 		});
 
-		// Create a handler for the sendButton and nameField
-
+		@SuppressWarnings("serial")
 		class FilteringHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
 			/**
 			 * Fired when the user clicks on the sendButton.
@@ -670,19 +390,14 @@ public class Movie_App implements EntryPoint {
 				sendNameToServer();
 			}
 
-			/**
-			 * Fired when the user types in the nameField.
-			 */
+			// Fired when the user types in the nameField.
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					sendNameToServer();
 				}
 			}
 
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
+			 // Send the filtering query from the nameField to the server and wait for a response.
 			private void sendNameToServer() {
 				// First, we validate the input.
 				filteringTable.errorLabel.setText("");
@@ -706,8 +421,8 @@ public class Movie_App implements EntryPoint {
 				textToServerLabel2.setText(textWikiId);
 				// textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
-				final String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice, runtime,
-						language, country, genre, limit);
+				final String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice,
+						runtime, language, country, genre, limit);
 				strQuerry.append(concat);
 
 				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
@@ -721,24 +436,21 @@ public class Movie_App implements EntryPoint {
 					}
 
 					public void onSuccess(ArrayList<Movie> result) {
-						// dialogBox2.setText("Your querry returned some
-						// stuff:");
-						// serverResponseLabel2.removeStyleName("serverResponseLabelError");
 						try {
-
-							// ############ table ############
 							list.clear();
 							globalList.clear();
 							for (Movie movie : result) {
 								list.add(movie);
 								globalList.add(movie);
 							}
-							// serverResponseLabel2.setHTML(test.toString());
+							verticalPanel.clear();
+							map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
+									- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+							map.printMap("SELECT countries, Count(*) FROM moviedata " + concat + " GROUP BY countries", verticalPanel);
+							RootPanel.get().add(verticalPanel);
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
 						}
-						// dialogBox2.center();
-						// closeButton2.setFocus(true);
 						clearStringquerry();
 						filteringTable.sendButton2.setEnabled(true);
 					}
@@ -871,35 +583,23 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append(" LIMIT " + limit);
 				}
-
-				// Add a handler to send the name to the server
-				// Window.alert(querryConcatination.toString());
 				return querryConcatination.toString();
-
 			}
 		}
 
+		@SuppressWarnings("serial")
 		class MasterHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
-			/**
-			 * Fired when the user clicks on the sendButton.
-			 */
+			// Fired when the user clicks on the sendButton.
 			public void onClick(ClickEvent event) {
 				sendNameToServer();
 			}
-
-			/**
-			 * Fired when the user types in the nameField.
-			 */
+			// Fired when the user types in the nameField.
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					sendNameToServer();
 				}
 			}
-
-			/**
-			 * Send the name from the nameField to the server and wait for a
-			 * response.
-			 */
+			// Send the master query from the nameField to the server and wait for a response.
 			private void sendNameToServer() {
 				// First, we validate the input.
 				filteringTable.errorLabel.setText("");
@@ -925,8 +625,6 @@ public class Movie_App implements EntryPoint {
 
 					public void onSuccess(ArrayList<Movie> result) {
 						try {
-
-							// ############ table ############
 							list.clear();
 							globalList.clear();
 							for (Movie movie : result) {
@@ -938,8 +636,6 @@ public class Movie_App implements EntryPoint {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
 							;
 						}
-						// dialogBox2.center();
-						// closeButton2.setFocus(true);
 						clearStringquerry();
 						filteringTable.masterSendButton.setEnabled(true);
 					}
@@ -953,8 +649,9 @@ public class Movie_App implements EntryPoint {
 
 		MasterHandler masterHandler = new MasterHandler();
 		filteringTable.masterSendButton.addClickHandler(masterHandler);
-		
-		// create on load table
+
+		// ###################### page load table #######################
+		// load data into table on page load
 		StringBuilder[] querryArray = new StringBuilder[8];
 		querryArray[0] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000");
 		querryArray[1] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 10000");
@@ -972,15 +669,11 @@ public class Movie_App implements EntryPoint {
 				}
 
 				public void onSuccess(ArrayList<Movie> result) {
-					// System.out.println(onLoadQuerry);
 					try {
-
-						// ############ table ############
 						for (Movie movie : result) {
 							list.add(movie);
-							// movie.printMovie();
+							globalList.add(movie);
 						}
-						// serverResponseLabel2.setHTML(test.toString());
 					} catch (NullPointerException e) {
 						System.out.println("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
 					}
@@ -990,7 +683,7 @@ public class Movie_App implements EntryPoint {
 			});
 
 		}
-
+		// ######################## END #########################
 	}
 
 }
