@@ -8,8 +8,11 @@ import java.util.Vector;
 
 import javax.persistence.criteria.Root;
 
+import org.apache.jsp.ah.searchDocumentBody_jsp;
+
 import com.UZH.MovieApp.shared.FieldVerifier;
 import com.UZH.MovieApp.shared.Movie;
+import com.google.apphosting.client.datastoreservice.app.mobile.MobileEntityV4Normalizer;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dev.asm.commons.AdviceAdapter;
@@ -18,6 +21,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.ColumnSortEvent.ListHandler;
 import com.google.gwt.user.cellview.client.SimplePager;
@@ -33,6 +37,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -67,7 +72,7 @@ public class Movie_App implements EntryPoint {
 	VerticalPanel dialogVPanel;
 	HorizontalPanel exportButtonPanel;
 	WorldMap map;
-	String widthSlider="1500px";
+	String widthSlider = "1500px";
 	int wikiIdFieldCheck = -1;
 	int freebaseIdFieldCheck = -1;
 	int movieNameFieldCheck = -1;
@@ -97,57 +102,58 @@ public class Movie_App implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
-	public void slider(){
-				verticalPanelSlider = new VerticalPanel();
-				verticalPanelSlider.clear();
-				//verticalPanelSlider.setBorderWidth(1);
-			
+	public void slider() {
+		verticalPanelSlider = new VerticalPanel();
+		verticalPanelSlider.clear();
+		// verticalPanelSlider.setBorderWidth(1);
 
-				slider = new SliderBar(1886,2016);
-				slider.setStepSize(1);
-				slider.setCurrentValue(1950.0);
-				slider.setNumTicks(130);
-				slider.setNumLabels(26);
-				verticalPanelSlider.add(slider);
-				RootPanel.get().add(verticalPanelSlider);
-				slider.setVisible(true);
-				slider.setHeight("50px");
-				slider.setWidth(widthSlider);
+		slider = new SliderBar(1886, 2016);
+		slider.setStepSize(1);
+		slider.setCurrentValue(1950.0);
+		slider.setNumTicks(130);
+		slider.setNumLabels(26);
+		verticalPanelSlider.add(slider);
+		RootPanel.get().add(verticalPanelSlider);
+		slider.setVisible(true);
+		slider.setHeight("50px");
+		slider.setWidth(widthSlider);
 	}
-	public void buttonExport(){
-		exportButtonPanel=new HorizontalPanel();
+
+	public void buttonExport() {
+		exportButtonPanel = new HorizontalPanel();
 		Button exportButton = new Button("Export", new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				Window.open("https://www.youtube.com/watch?v=wZZ7oFKsKzY", "_blank", "");
-				//FIGURE OUT HOW TO DOWNLOAD STAFF
+				// FIGURE OUT HOW TO DOWNLOAD STAFF
 			}
 		});
 		exportButton.setPixelSize(50, 30);
 		exportButtonPanel.add(exportButton);
-		RootPanel.get("exportButtonContainer").add(exportButtonPanel);
+	//	RootPanel.get("exportButtonContainer").add(exportButtonPanel);
 	}
+
 	public void onModuleLoad() {
-		
+
 		RootPanel.getBodyElement().addClassName("rootPanel");
-		
-		//world map
-		map = new WorldMap((int)(RootPanel.get("bannerTable").getAbsoluteLeft() - RootPanel.get("sourceDisplay").getOffsetWidth()*1.09));
-		//map.setWidth(widthMapSlider);
+
+		// world map
+		map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
+				- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+		// map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
-		//verticalPanel.setWidth("30%");
+		// verticalPanel.setWidth("30%");
 		verticalPanel.add(map.printMap());
 		RootPanel.get().add(verticalPanel);
-		//verticalPanelSlider.setWidth("1500px");
-		//verticalPanelSlider.setHeight("10px");
+		// verticalPanelSlider.setWidth("1500px");
+		// verticalPanelSlider.setHeight("10px");
 		// create text boxes
-		//SLIDER
-		//slider();
+		// SLIDER
+		// slider();
 		buttonExport();
-		//SLIDER END
-		
-		
+		// SLIDER END
+
 		final Button sendButton2 = new Button("Go!");
-		//sendButton2.setSize("40Px", "20Px");
+		// sendButton2.setSize("40Px", "20Px");
 		final Button masterSendButton = new Button("Go!");
 		final TextBox wikiIdField = new TextBox();
 		wikiIdField.setEnabled(false);
@@ -507,8 +513,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					freebaseIdFieldCheck = 2;
-	//				freebaseIdFieldBIGGERTHAN.setValue(false);
-	//				freebaseIdFieldSMALLERTHAN.setValue(false);
+					// freebaseIdFieldBIGGERTHAN.setValue(false);
+					// freebaseIdFieldSMALLERTHAN.setValue(false);
 					freebaseIdField.setEnabled(true);
 					wikiAND.setEnabled(true);
 					wikiOR.setEnabled(true);
@@ -521,7 +527,6 @@ public class Movie_App implements EntryPoint {
 			}
 		});
 
-
 		// ###############Movie Name#################
 		final CheckBox movieNameFieldEQUAL = new CheckBox("=");
 		// Hook up a handler to find out when they're clicked clicked.
@@ -531,8 +536,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					movieNameFieldCheck = 2;
-		//			movieNameFieldBIGGERTHAN.setValue(false);
-		//			movieNameFieldSMALLERTHAN.setValue(false);
+					// movieNameFieldBIGGERTHAN.setValue(false);
+					// movieNameFieldSMALLERTHAN.setValue(false);
 					movieNameField.setEnabled(true);
 					freebaseAND.setEnabled(true);
 					freebaseOR.setEnabled(true);
@@ -746,8 +751,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					languageFieldCheck = 2;
-	//				languageFieldBIGGERTHAN.setValue(false);
-	//				languageFieldSMALLERTHAN.setValue(false);
+					// languageFieldBIGGERTHAN.setValue(false);
+					// languageFieldSMALLERTHAN.setValue(false);
 					languageField.setEnabled(true);
 					runtimeAND.setEnabled(true);
 					runtimeOR.setEnabled(true);
@@ -768,8 +773,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					countryFieldCheck = 2;
-	//				countryFieldBIGGERTHAN.setValue(false);
-	//				countryFieldSMALLERTHAN.setValue(false);
+					// countryFieldBIGGERTHAN.setValue(false);
+					// countryFieldSMALLERTHAN.setValue(false);
 					countryField.setEnabled(true);
 					languagesAND.setEnabled(true);
 					languagesOR.setEnabled(true);
@@ -790,8 +795,8 @@ public class Movie_App implements EntryPoint {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					genreFieldCheck = 2;
-	//				genreFieldBIGGERTHAN.setValue(false);
-	//				genreFieldSMALLERTHAN.setValue(false);
+					// genreFieldBIGGERTHAN.setValue(false);
+					// genreFieldSMALLERTHAN.setValue(false);
 					genreField.setEnabled(true);
 					countryAND.setEnabled(true);
 					countryOR.setEnabled(true);
@@ -819,9 +824,9 @@ public class Movie_App implements EntryPoint {
 				}
 			}
 		});
-		
+
 		// ############ table ############
-		
+
 		// Create a CellTable.
 		CellTable<Movie> movieTable = new CellTable<Movie>();
 		movieTable.addStyleName("gwt-CellTable");
@@ -893,8 +898,7 @@ public class Movie_App implements EntryPoint {
 		wikiidColumn.setSortable(true);
 		boxofficeColumn.setSortable(true);
 		/*
-		 * releasedateColumn.setSortable(true);
-		 * runtimeColumn.setSortable(true);
+		 * releasedateColumn.setSortable(true); runtimeColumn.setSortable(true);
 		 */
 		// Add the columns.
 		movieTable.addColumn(wikiidColumn, "Wiki ID");
@@ -918,7 +922,6 @@ public class Movie_App implements EntryPoint {
 		// automatically pushes it to the
 		// widget.
 		final List<Movie> movieList = dataProvider.getList();
-
 
 		SimplePager pager = new SimplePager();
 		pager.setDisplay(movieTable);
@@ -954,8 +957,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the wikiid columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.wikiid).compareTo(Integer.valueOf(o2.wikiid)) : 1;
 				}
 				return -1;
 			}
@@ -969,8 +971,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
 				}
 				return -1;
 			}
@@ -984,9 +985,7 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null)
-							? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime))
-							: 1;
+					return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
 				}
 				return -1;
 			}
@@ -1000,8 +999,8 @@ public class Movie_App implements EntryPoint {
 
 				// Compare the name columns.
 				if (o1 != null) {
-					return (o2 != null) ? Integer.valueOf(o1.releasedate)
-							.compareTo(Integer.valueOf(o2.releasedate)) : 1;
+					return (o2 != null) ? Integer.valueOf(o1.releasedate).compareTo(Integer.valueOf(o2.releasedate))
+							: 1;
 				}
 				return -1;
 			}
@@ -1014,13 +1013,9 @@ public class Movie_App implements EntryPoint {
 
 		RootPanel.get().add(tablePanel);
 
-
-		
-		
-		
 		// We can add style names to widgets
 		sendButton2.addStyleName("sendButton2");
-		
+
 		masterSendButton.addStyleName("masterSendButton");
 
 		// Add the nameField and sendButton to the RootPanel
@@ -1077,6 +1072,88 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get("countryAND").add(countryAND);
 		RootPanel.get("countryOR").add(countryOR);
 
+
+
+		FlexTable filteringTable = new FlexTable();
+		filteringTable.setWidget(0, 0, wikiIdFieldEQUAL);
+		filteringTable.setWidget(0, 1, wikiIdFieldBIGGERTHAN);
+		filteringTable.setWidget(0, 2, wikiIdFieldSMALLERTHAN);
+		filteringTable.setWidget(0, 3, wikiIdField);
+		filteringTable.setWidget(1, 0, wikiAND);
+		filteringTable.setWidget(1, 1, wikiOR);
+		filteringTable.setText(1, 2, "");
+		filteringTable.setText(1, 3, "");
+		filteringTable.setWidget(2, 0, freebaseIdFieldEQUAL);
+		filteringTable.setWidget(2, 3, freebaseIdField);
+		filteringTable.setWidget(3, 0, freebaseAND);
+		filteringTable.setWidget(3, 1, freebaseOR);
+		filteringTable.setWidget(4, 0, movieNameFieldEQUAL);
+		filteringTable.setWidget(4, 3, movieNameField);
+		filteringTable.setWidget(5, 0, nameAND);
+		filteringTable.setWidget(5, 1, nameOR);
+		filteringTable.setWidget(6, 0, releaseDateFieldEQUAL);
+		filteringTable.setWidget(6, 1, releaseDateFieldBIGGERTHAN);
+		filteringTable.setWidget(6, 2, releaseDateFieldSMALLERTHAN);
+		filteringTable.setWidget(6, 3, releaseDateField);
+		filteringTable.setWidget(7, 0, releasedateAND);
+		filteringTable.setWidget(7, 1, releasedateOR);
+		filteringTable.setWidget(8, 0, boxofficeFieldEQUAL);
+		filteringTable.setWidget(8, 1, boxofficeFieldBIGGERTHAN);
+		filteringTable.setWidget(8, 2, boxofficeFieldSMALLERTHAN);
+		filteringTable.setWidget(8, 3, boxofficeField);
+		filteringTable.setWidget(9, 0, boxofficeAND);
+		filteringTable.setWidget(9, 1, boxofficeOR);
+		filteringTable.setWidget(10, 0, runtimeFieldEQUAL);
+		filteringTable.setWidget(10, 1, runtimeFieldBIGGERTHAN);
+		filteringTable.setWidget(10, 2, runtimeFieldSMALLERTHAN);
+		filteringTable.setWidget(10, 3, runtimeField);
+		filteringTable.setWidget(11, 0, runtimeAND);
+		filteringTable.setWidget(11, 1, runtimeOR);
+		filteringTable.setWidget(12, 0, languageFieldEQUAL);
+		filteringTable.setWidget(12, 3, languageField);
+		filteringTable.setWidget(13, 0, languagesAND);
+		filteringTable.setWidget(13, 1, languagesOR);
+		filteringTable.setWidget(14, 0, countryFieldEQUAL);
+		filteringTable.setWidget(14, 3, countryField);
+		filteringTable.setWidget(15, 0, countryAND);
+		filteringTable.setWidget(15, 1, countryOR);
+		filteringTable.setWidget(16, 0, genreFieldEQUAL);
+		filteringTable.setWidget(16, 3, genreField);
+		filteringTable.setWidget(17, 0, limitFieldEQUAL);
+		filteringTable.setWidget(17, 3, limitField);
+		filteringTable.setWidget(18, 0, sendButton2);
+		filteringTable.setWidget(18, 2, exportButtonPanel);
+		filteringTable.setWidget(19, 0, errorLabel);
+		
+
+		
+	//	t.setWidget(19, 0, exportButtonPanel);
+		
+		FlexTable masterTable = new FlexTable();
+		masterTable.setText(0, 0, "SQL:");
+		masterTable.setWidget(0, 1, masterField);
+		masterTable.setWidget(0, 2, masterSendButton);
+		
+		FlexTable sourceTable = new FlexTable();
+		sourceTable.setHTML(0, 0, "<b>Data Source:</b>");
+		sourceTable.setText(0, 1, "David Bamman, Brendan O'Connor and Noah Smith, ");
+		sourceTable.setText(1, 1, "'Learning Latent Personas of Film Characters,' in: ");
+		sourceTable.setText(2, 1, "Proceedings of the Annual Meeting of the Association for ");
+		sourceTable.setText(3, 1, "Computational Linguistics (ACL 2013), Sofia, Bulgaria, 2013.");
+		sourceTable.setHTML(4, 0, "<b>Picture Source:</b>");
+		sourceTable.setHTML(4, 1, "http://goo.gl/ULO4VT");
+
+		
+	//	t.getFlexCellFormatter().setColSpan(1, 0, 3);
+		
+		VerticalPanel filteringPanel = new VerticalPanel();
+		filteringPanel.setStyleName("filteringTable"); 
+		filteringPanel.add(filteringTable);
+		filteringPanel.add(masterTable);
+		filteringPanel.add(sourceTable);
+	    RootPanel.get().add(filteringPanel);
+		
+
 		// Create the popup dialog box for User Greeting Message
 		final DialogBox dialogBox = new DialogBox();
 		dialogBox.setText("Remote Procedure Call");
@@ -1127,9 +1204,6 @@ public class Movie_App implements EntryPoint {
 				masterSendButton.setEnabled(true);
 			}
 		});
-		
-
-
 
 		// Create a handler for the sendButton and nameField
 		class FilteringHandler implements ClickHandler, KeyUpHandler, java.io.Serializable {
@@ -1418,30 +1492,29 @@ public class Movie_App implements EntryPoint {
 
 		FilteringHandler filteringHandler = new FilteringHandler();
 		sendButton2.addClickHandler(filteringHandler);
-		
+
 		MasterHandler masterHandler = new MasterHandler();
 		masterSendButton.addClickHandler(masterHandler);
-		
-	
-			// create on load table
-			StringBuilder[] querryArray = new StringBuilder[8];
-			querryArray[0] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000");
-			querryArray[1] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 10000");
-			querryArray[2] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 20000");
-			querryArray[3] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 30000");
-			querryArray[4] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 40000");
-			querryArray[5] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 50000");
-			querryArray[6] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 60000");
-			querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 70000");
-			
-			for (final StringBuilder onLoadQuerry : querryArray){
+
+		// create on load table
+		StringBuilder[] querryArray = new StringBuilder[8];
+		querryArray[0] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000");
+		querryArray[1] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 10000");
+		querryArray[2] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 20000");
+		querryArray[3] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 30000");
+		querryArray[4] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 40000");
+		querryArray[5] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 50000");
+		querryArray[6] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 60000");
+		querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 70000");
+
+		for (final StringBuilder onLoadQuerry : querryArray) {
 			dbconnection.getDBData(onLoadQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 				public void onFailure(Throwable caught) {
 					// fAILED, DO NOTHING I GUESS
 				}
 
 				public void onSuccess(ArrayList<Movie> result) {
-				//	System.out.println(onLoadQuerry);
+					// System.out.println(onLoadQuerry);
 					try {
 
 						// ############ table ############
@@ -1457,10 +1530,8 @@ public class Movie_App implements EntryPoint {
 				}
 
 			});
-			
-			}
-			
-			
+
+		}
 
 	}
 }
