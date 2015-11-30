@@ -135,7 +135,7 @@ public class Movie_App implements EntryPoint {
 		//map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
 		//verticalPanel.setWidth("30%");
-		verticalPanel.add(map.printMap());
+		map.printMap("SELECT countries, Count(*) FROM moviedata WHERE releasedate = '2001-08-24' GROUP BY countries", verticalPanel);
 		RootPanel.get().add(verticalPanel);
 		//verticalPanelSlider.setWidth("1500px");
 		//verticalPanelSlider.setHeight("10px");
