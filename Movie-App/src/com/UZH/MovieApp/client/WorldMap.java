@@ -17,6 +17,7 @@ import com.google.gwt.visualization.client.AbstractDataTable.ColumnType;
 import com.google.gwt.visualization.client.DataTable;
 import com.google.gwt.visualization.client.AbstractDataTable;
 import com.google.gwt.visualization.client.VisualizationUtils;
+import com.google.gwt.visualization.client.events.RegionClickHandler;
 import com.google.gwt.visualization.client.visualizations.GeoMap;
 import com.google.gwt.widgetideas.client.SliderBar;
 
@@ -138,6 +139,15 @@ public class WorldMap extends Composite{
 						options.setWidth(mapWidth);
 						options.setHeight(500);
 						geomap = new GeoMap(dataTable, options);
+						
+						geomap.addRegionClickHandler(new RegionClickHandler(){
+
+							@Override
+							public void onRegionClick(RegionClickEvent event) {
+								System.out.println(event.getRegion());
+							}
+							
+						});
 						
 						slider = new SliderBar(1886,2016);
 						slider.setStepSize(1);
