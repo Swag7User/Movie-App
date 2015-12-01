@@ -550,7 +550,7 @@ public class Movie_App implements EntryPoint {
 				if (filteringTable.languageFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append("languages LIKE '" + language + "'");
+					querryConcatination.append("languages LIKE '%" + language + "%'");
 				}
 				if (filteringTable.languagesCheck == 0 && filteringTable.countryFieldCheck != -1) {
 					querryConcatination.append(" AND ");
