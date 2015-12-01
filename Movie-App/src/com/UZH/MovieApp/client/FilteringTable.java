@@ -59,6 +59,14 @@ public class FilteringTable extends Composite {
 	final TextBox limitField = new TextBox();
 	final TextBox masterField = new TextBox();
 	final Label errorLabel = new Label();
+	
+	public FilteringTable(){
+		
+	}
+	
+	public FilteringTable(String width, String height){
+		
+	}
 
 	public Widget createFilterTable() {
 

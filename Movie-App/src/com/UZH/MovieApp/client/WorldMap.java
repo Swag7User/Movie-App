@@ -23,13 +23,15 @@ public class WorldMap extends Composite{
 //	private SliderBar slider;
 //	private String sliderWidth = "99%";
 	private int mapWidth = 725;
+	private int mapHeight = 500;
 	
 	public WorldMap(){
 		
 	}
 	
-	public WorldMap(int mapWidth){
+	public WorldMap(int mapWidth, int mapHeight){
 		this.mapWidth = mapWidth;
+		this.mapHeight = mapHeight;
 	}
 	
 	public Widget printMap(final VerticalPanel verticalPanel){
@@ -67,7 +69,7 @@ public class WorldMap extends Composite{
 						options.setDataMode(GeoMap.DataMode.REGIONS);
 						options.setRegion("world");
 						options.setWidth(mapWidth);
-						options.setHeight(500);
+						options.setHeight(mapHeight);
 						geomap = new GeoMap(dataTable, options);
 						
 /*						slider = new SliderBar(1886,2016);

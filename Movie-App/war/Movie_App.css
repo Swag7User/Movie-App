@@ -1,7 +1,7 @@
 /** Add css rules here for your application. */
 .rootPanel {
 	margin: 0;
-	padding: 10px;
+	padding: 5px;
 	background-image: url("/images/background.jpg");
 }
 

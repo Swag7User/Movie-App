@@ -225,19 +225,21 @@ public class Movie_App implements EntryPoint {
 		
 		// Load the filtering table onto the root panel
 		final FilteringTable filteringTable = new FilteringTable();
-		hPanel.add(filteringTable.createFilterTable());
+		VerticalPanel filteringPanel = new VerticalPanel();
+		filteringPanel.add(filteringTable.createFilterTable());
+		hPanel.add(filteringPanel);
+		RootPanel.get().add(hPanel);
 		// needed for Background image
 		RootPanel.getBodyElement().addClassName("rootPanel");
-
 		// ############ wolrd map ############
-		map = new WorldMap();
+		map = new WorldMap(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth(), 200);
 		verticalPanel = new VerticalPanel();
-		map.printMap("SELECT countries, Count(*) FROM moviedata GROUP BY countries", verticalPanel);
+		map.printMap(verticalPanel);
 		// example query for WHERE query
 		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
 		// '2001-08-24' GROUP BY countries"
 		hPanel.add(verticalPanel);
-		RootPanel.get().add(hPanel);
+		//RootPanel.get().add(hPanel);
 		// ############### END ####################
 
 		slider();
