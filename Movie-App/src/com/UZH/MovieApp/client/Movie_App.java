@@ -239,7 +239,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.getBodyElement().addClassName("rootPanel");
 		
 		// ############ wolrd map ############
-		map = new WorldMap(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth(), filteringPanel.getOffsetHeight() - 50);
+		map = new WorldMap(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth() - 10, filteringPanel.getOffsetHeight() - 50);
 		verticalPanel = new VerticalPanel();
 		map.printMap(verticalPanel);
 		// example query for WHERE query
