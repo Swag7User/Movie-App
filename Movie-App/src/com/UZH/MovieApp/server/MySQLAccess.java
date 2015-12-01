@@ -21,7 +21,6 @@ import org.mortbay.log.Log;
 
 import com.UZH.MovieApp.shared.Movie;
 import com.google.appengine.api.utils.SystemProperty;
-import com.google.appengine.repackaged.com.google.common.collect.ArrayListMultimap;
 
 public class MySQLAccess extends HttpServlet{
 
@@ -83,7 +82,6 @@ public class MySQLAccess extends HttpServlet{
 	public HashMap<String, Integer> readDataBaseResultSet(String querry) throws Exception  {
 		HashMap<String, Integer> hash = new HashMap<String, Integer>();
 		MySQLAccess access = new MySQLAccess();
-		ArrayListMultimap<String,Integer> mapCountry2 = ArrayListMultimap.create();
 		HashMap<String, Integer> mapCountry = new HashMap<String, Integer>();
 		HashMap<String, Integer> distinct = new HashMap<String, Integer>();
 		HashMap<String, Integer> combinedMap = new HashMap<String, Integer>();
@@ -110,47 +108,42 @@ public class MySQLAccess extends HttpServlet{
 			resultSet = statement.executeQuery(querry);
 			System.out.println("First: " + resultSet.first());
 			
-			int curr = 0;
 			while (resultSet.next()){
 				if (resultSet.getString(1).contains(", ")) {
 					String[] lineArr;
-					lineArr = resultSet.getString(1).split(",");
+					lineArr = resultSet.getString(1).split(", ");
 					for (String string : lineArr) {
-						mapCountry2.put(string, resultSet.getInt(2));
-						if(mapCountry.containsKey(string)) {
-							mapCountry.put(string, curr + resultSet.getInt(2));
+						if(string.equalsIgnoreCase("United States of America")){
+							string = "United States";
 						}
-						mapCountry.put(string, resultSet.getInt(2));
+						if(mapCountry.containsKey(string)) {
+							mapCountry.put(string, mapCountry.get(string) + resultSet.getInt(2));
+						}
+						else{
+							mapCountry.put(string, resultSet.getInt(2));
+						}
 						
 						//System.out.println(string + " -- " + resultSet.getInt(2));
-						curr = resultSet.getInt(2);
+						//curr = resultSet.getInt(2);
 					}
 					
 					continue;
 //				mapCountry.remove(result.getString(1));
 				}
-				
-				
-				//System.out.println("curr: " + resultSet.getInt(2) + " String: " + resultSet.getString(1));
-				if (resultSet.getString(1).equalsIgnoreCase("United States of America")) {
-					distinct.put("United States", resultSet.getInt(2));
+				else{
+					String string = resultSet.getString(1);
+					if(string.equalsIgnoreCase("United States of America")){
+						string = "United States";
+					}
+					if(mapCountry.containsKey(string)) {
+						mapCountry.put(string, mapCountry.get(string) + resultSet.getInt(2));
+					}
+					else{
+						mapCountry.put(string, resultSet.getInt(2));
+					}
 				}
-				distinct.put(resultSet.getString(1), resultSet.getInt(2));
-//				if (result.getString(1).contains(", ")) {
-//					continue;
-//				}
-//				distinct.put(result.getString(1), result.getInt(2));
-//				mapCountry.put(result.getString(count),result.getInt(count));
-//				count++;
+				
 			}
-			/*Set<String> keys = mapCountry2.keySet();
-			System.out.println("SET OF mapCountry 2: " + keys);
-			System.out.println("mapCountry222222: " + mapCountry2.entries());
-			System.out.println("distinct: " + distinct.entrySet());
-			System.out.println("SizeDIstinct: " + distinct.size());
-			System.out.println("mapCounty: " + mapCountry.entrySet());
-			System.out.println("SizeMapCountry: " + mapCountry.size());*/
-		
 
 		} catch (Exception e) {
 			throw e;
@@ -158,7 +151,7 @@ public class MySQLAccess extends HttpServlet{
 			close();
 		}
 		
-		return distinct;
+		return mapCountry;
 
 	}
 

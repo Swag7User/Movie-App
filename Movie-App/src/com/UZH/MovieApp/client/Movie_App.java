@@ -135,7 +135,7 @@ public class Movie_App implements EntryPoint {
 		//map.setWidth(widthMapSlider);
 		verticalPanel = new VerticalPanel();
 		//verticalPanel.setWidth("30%");
-		map.printMap("SELECT countries, Count(*) FROM moviedata WHERE releasedate = '2001-08-24' GROUP BY countries", verticalPanel);
+		map.printMap(verticalPanel);
 		RootPanel.get().add(verticalPanel);
 		//verticalPanelSlider.setWidth("1500px");
 		//verticalPanelSlider.setHeight("10px");
@@ -1322,7 +1322,7 @@ public class Movie_App implements EntryPoint {
 				if (countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append("countries LIKE '" + country + "'");
+					querryConcatination.append("countries LIKE '%" + country + "%'");
 				}
 				if (countryCheck == 0 && genreFieldCheck != -1) {
 					querryConcatination.append(" AND ");
@@ -1459,8 +1459,6 @@ public class Movie_App implements EntryPoint {
 			});
 			
 			}
-			
-			
 
 	}
 }

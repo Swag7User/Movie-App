@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.Vector;
 
 import com.UZH.MovieApp.client.DBConnection;
-import com.google.appengine.repackaged.com.google.common.collect.ArrayListMultimap;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.UZH.MovieApp.server.MySQLAccess;
 import com.UZH.MovieApp.shared.Movie;
