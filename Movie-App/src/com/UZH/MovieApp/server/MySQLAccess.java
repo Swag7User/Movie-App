@@ -83,8 +83,7 @@ public class MySQLAccess extends HttpServlet{
 		HashMap<String, Integer> hash = new HashMap<String, Integer>();
 		MySQLAccess access = new MySQLAccess();
 		HashMap<String, Integer> mapCountry = new HashMap<String, Integer>();
-		HashMap<String, Integer> distinct = new HashMap<String, Integer>();
-		HashMap<String, Integer> combinedMap = new HashMap<String, Integer>();
+		
 		try {
 				
 			// This will load the MySQL driver, each DB has its own driver
@@ -122,13 +121,9 @@ public class MySQLAccess extends HttpServlet{
 						else{
 							mapCountry.put(string, resultSet.getInt(2));
 						}
-						
-						//System.out.println(string + " -- " + resultSet.getInt(2));
-						//curr = resultSet.getInt(2);
 					}
 					
 					continue;
-//				mapCountry.remove(result.getString(1));
 				}
 				else{
 					String string = resultSet.getString(1);
