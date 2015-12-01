@@ -34,7 +34,7 @@ public class FilteringTable extends Composite {
 	int languageFieldCheck = -1;
 	int countryFieldCheck = -1;
 	int genreFieldCheck = -1;
-	int limitFieldCheck = -1;
+	//int limitFieldCheck = -1;
 	// AND OR Checkboxes
 	int wikiCheck = 0;
 	int freebaseCheck = 0;
@@ -56,7 +56,7 @@ public class FilteringTable extends Composite {
 	final TextBox languageField = new TextBox();
 	final TextBox countryField = new TextBox();
 	final TextBox genreField = new TextBox();
-	final TextBox limitField = new TextBox();
+	//final TextBox limitField = new TextBox();
 	final TextBox masterField = new TextBox();
 	final Label errorLabel = new Label();
 
@@ -72,20 +72,20 @@ public class FilteringTable extends Composite {
 		languageField.setEnabled(false);
 		countryField.setEnabled(false);
 		genreField.setEnabled(false);
-		limitField.setEnabled(false);
+	//	limitField.setEnabled(false);
 		masterField.setEnabled(false);
 
 		// Set standard Text inside textboxes
 		wikiIdField.setText("WikiID");
 		freebaseIdField.setText("FreebaseID");
 		movieNameField.setText("Name");
-		releaseDateField.setText("Releasedate YYYY-MM-DD");
+		releaseDateField.setText("Releaseyear");
 		boxofficeField.setText("Boxoffice");
 		runtimeField.setText("Runtime");
-		languageField.setText("Languages");
-		countryField.setText("Countries");
-		genreField.setText("Genres");
-		limitField.setText("Limit");
+		languageField.setText("Language");
+		countryField.setText("Country");
+		genreField.setText("Genre");
+	//	limitField.setText("Restrict number of movies");
 		masterField.setText("SQL Querry");
 
 		// Make new check boxes
@@ -351,8 +351,8 @@ public class FilteringTable extends Composite {
 		// ########### Field Checkboxes ###############
 		// ###############Wikipedia ID#################
 		final CheckBox wikiIdFieldEQUAL = new CheckBox("=");
-		final CheckBox wikiIdFieldBIGGERTHAN = new CheckBox(">");
-		final CheckBox wikiIdFieldSMALLERTHAN = new CheckBox("<");
+//		final CheckBox wikiIdFieldBIGGERTHAN = new CheckBox(">");
+//		final CheckBox wikiIdFieldSMALLERTHAN = new CheckBox("<");
 		// Hook up a handler to find out when they're clicked clicked.
 		wikiIdFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -360,8 +360,8 @@ public class FilteringTable extends Composite {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					wikiIdFieldCheck = 2;
-					wikiIdFieldBIGGERTHAN.setValue(false);
-					wikiIdFieldSMALLERTHAN.setValue(false);
+//					wikiIdFieldBIGGERTHAN.setValue(false);
+//					wikiIdFieldSMALLERTHAN.setValue(false);
 					wikiIdField.setEnabled(true);
 				} else {
 					wikiIdFieldCheck = -1;
@@ -369,36 +369,36 @@ public class FilteringTable extends Composite {
 				}
 			}
 		});
-		wikiIdFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiIdFieldCheck = 3;
-					wikiIdFieldEQUAL.setValue(false);
-					wikiIdFieldSMALLERTHAN.setValue(false);
-					wikiIdField.setEnabled(true);
-				} else {
-					wikiIdFieldCheck = -1;
-					wikiIdField.setEnabled(false);
-				}
-			}
-		});
-		wikiIdFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					wikiIdFieldCheck = 4;
-					wikiIdFieldBIGGERTHAN.setValue(false);
-					wikiIdFieldEQUAL.setValue(false);
-					wikiIdField.setEnabled(true);
-				} else {
-					wikiIdFieldCheck = -1;
-					wikiIdField.setEnabled(false);
-				}
-			}
-		});
+//		wikiIdFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				boolean checked = ((CheckBox) event.getSource()).getValue();
+//				if (checked) {
+//					wikiIdFieldCheck = 3;
+//					wikiIdFieldEQUAL.setValue(false);
+//					wikiIdFieldSMALLERTHAN.setValue(false);
+//					wikiIdField.setEnabled(true);
+//				} else {
+//					wikiIdFieldCheck = -1;
+//					wikiIdField.setEnabled(false);
+//				}
+//			}
+//		});
+//		wikiIdFieldSMALLERTHAN.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				boolean checked = ((CheckBox) event.getSource()).getValue();
+//				if (checked) {
+//					wikiIdFieldCheck = 4;
+//					wikiIdFieldBIGGERTHAN.setValue(false);
+//					wikiIdFieldEQUAL.setValue(false);
+//					wikiIdField.setEnabled(true);
+//				} else {
+//					wikiIdFieldCheck = -1;
+//					wikiIdField.setEnabled(false);
+//				}
+//			}
+//		});
 		// ###############freebase ID#################
 		final CheckBox freebaseIdFieldEQUAL = new CheckBox("=");
 		// Hook up a handler to find out when they're clicked clicked.
@@ -704,21 +704,21 @@ public class FilteringTable extends Composite {
 			}
 		});
 		// ###############limit#################
-		final CheckBox limitFieldEQUAL = new CheckBox("=");
-		// Hook up a handler to find out when they're clicked clicked.
-		limitFieldEQUAL.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				boolean checked = ((CheckBox) event.getSource()).getValue();
-				if (checked) {
-					limitFieldCheck = 2;
-					limitField.setEnabled(true);
-				} else {
-					limitFieldCheck = -1;
-					limitField.setEnabled(false);
-				}
-			}
-		});
+//		final CheckBox limitFieldEQUAL = new CheckBox();
+//		// Hook up a handler to find out when they're clicked clicked.
+//		limitFieldEQUAL.addClickHandler(new ClickHandler() {
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				boolean checked = ((CheckBox) event.getSource()).getValue();
+//				if (checked) {
+//					limitFieldCheck = 2;
+//					limitField.setEnabled(true);
+//				} else {
+//					limitFieldCheck = -1;
+//					limitField.setEnabled(false);
+//				}
+//			}
+//		});
 		// ############### master mode #################
 		final CheckBox activateMasterMode = new CheckBox("activate");
 		// Hook up a handler to find out when they're clicked clicked.
@@ -774,8 +774,8 @@ public class FilteringTable extends Composite {
 
 		// fill flextable
 		filteringTable.setWidget(0, 0, wikiIdFieldEQUAL);
-		filteringTable.setWidget(0, 1, wikiIdFieldBIGGERTHAN);
-		filteringTable.setWidget(0, 2, wikiIdFieldSMALLERTHAN);
+	//	filteringTable.setWidget(0, 1, wikiIdFieldBIGGERTHAN);
+	//	filteringTable.setWidget(0, 2, wikiIdFieldSMALLERTHAN);
 		filteringTable.setWidget(0, 3, wikiIdField);
 		filteringTable.setWidget(1, 0, wikiAND);
 		filteringTable.setWidget(1, 1, wikiOR);
@@ -790,8 +790,8 @@ public class FilteringTable extends Composite {
 		filteringTable.setWidget(5, 0, nameAND);
 		filteringTable.setWidget(5, 1, nameOR);
 		filteringTable.setWidget(6, 0, releaseDateFieldEQUAL);
-		filteringTable.setWidget(6, 1, releaseDateFieldBIGGERTHAN);
-		filteringTable.setWidget(6, 2, releaseDateFieldSMALLERTHAN);
+	//	filteringTable.setWidget(6, 1, releaseDateFieldBIGGERTHAN);
+	//	filteringTable.setWidget(6, 2, releaseDateFieldSMALLERTHAN);
 		filteringTable.setWidget(6, 3, releaseDateField);
 		filteringTable.setWidget(7, 0, releasedateAND);
 		filteringTable.setWidget(7, 1, releasedateOR);
@@ -817,8 +817,8 @@ public class FilteringTable extends Composite {
 		filteringTable.setWidget(15, 1, countryOR);
 		filteringTable.setWidget(16, 0, genreFieldEQUAL);
 		filteringTable.setWidget(16, 3, genreField);
-		filteringTable.setWidget(17, 0, limitFieldEQUAL);
-		filteringTable.setWidget(17, 3, limitField);
+	//	filteringTable.setWidget(17, 0, limitFieldEQUAL);
+	//	filteringTable.setWidget(17, 3, limitField);
 		filteringTable.setWidget(18, 0, errorLabel);
 
 		// create Go button table

@@ -410,7 +410,7 @@ public class Movie_App implements EntryPoint {
 				String language = filteringTable.languageField.getText();
 				String country = filteringTable.countryField.getText();
 				String genre = filteringTable.genreField.getText();
-				String limit = filteringTable.limitField.getText();
+		//		String limit = filteringTable.limitField.getText();
 				if ((!FieldVerifier.isValidID(textWikiId)) && (!FieldVerifier.isValidID(textFreebaseId))) {
 					filteringTable.errorLabel.setText("Error");
 					return;
@@ -422,7 +422,7 @@ public class Movie_App implements EntryPoint {
 				// textToServerLabel2.setText(textFreebaseId);
 				serverResponseLabel2.setText("");
 				final String concat = modifyString(textWikiId, textFreebaseId, movieName, releasedate, boxoffice,
-						runtime, language, country, genre, limit);
+						runtime, language, country, genre);
 				strQuerry.append(concat);
 
 				dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
@@ -455,7 +455,7 @@ public class Movie_App implements EntryPoint {
 			}
 
 			private String modifyString(String textWikiId, String textFreebaseId, String movieName, String releasedate,
-					String boxoffice, String runtime, String language, String country, String genre, String limit) {
+					String boxoffice, String runtime, String language, String country, String genre) {
 				StringBuilder querryConcatination = new StringBuilder();
 
 				if (filteringTable.wikiIdFieldCheck == -1) {
@@ -500,7 +500,7 @@ public class Movie_App implements EntryPoint {
 					// do nothing I guess
 				} else {
 					if (filteringTable.releaseDateFieldCheck == 2) {
-						querryConcatination.append("releasedate = " + "'" + releasedate + "'");
+						querryConcatination.append("releasedate > " + "'" + (Integer.valueOf(releasedate)-1) + "-12-31'" + " AND releasedate < " + " '" + (Integer.valueOf(releasedate)+1) + "-00-00' " );
 					} else if (filteringTable.releaseDateFieldCheck == 3) {
 						querryConcatination.append("releasedate > " + "'" + releasedate + "'");
 					} else if (filteringTable.releaseDateFieldCheck == 4) {
@@ -574,11 +574,11 @@ public class Movie_App implements EntryPoint {
 				} else {
 					querryConcatination.append("genres LIKE '" + "%" + genre + "%" + "'");
 				}
-				if (filteringTable.limitFieldCheck == -1) {
-					// do nothing I guess
-				} else {
-					querryConcatination.append(" LIMIT " + limit);
-				}
+//				if (filteringTable.limitFieldCheck == -1) {
+//					// do nothing I guess
+//				} else {
+//					querryConcatination.append(" LIMIT " + limit);
+//				}
 				return querryConcatination.toString();
 			}
 		}
