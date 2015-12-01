@@ -599,7 +599,7 @@ public class Movie_App implements EntryPoint {
 			private void sendNameToServer() {
 				// First, we validate the input.
 				filteringTable.errorLabel.setText("");
-				String masterText = filteringTable.masterField.getText();
+				final String masterText = filteringTable.masterField.getText();
 
 				// Then, we send the input to the server.
 				filteringTable.masterSendButton.setEnabled(false);
@@ -627,6 +627,8 @@ public class Movie_App implements EntryPoint {
 								list.add(movie);
 								globalList.add(movie);
 							}
+							map.printMap("SELECT countries, Count(*) FROM moviedata WHERE " + masterText + " GROUP BY countries", verticalPanel);
+
 
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
@@ -656,7 +658,7 @@ public class Movie_App implements EntryPoint {
 		querryArray[4] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 40000");
 		querryArray[5] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 50000");
 		querryArray[6] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 60000");
-		querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 10000 offset 70000");
+		querryArray[7] = new StringBuilder("SELECT * FROM movieapp.moviedata LIMIT 11471 offset 70000");
 
 		for (final StringBuilder onLoadQuerry : querryArray) {
 			dbconnection.getDBData(onLoadQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
