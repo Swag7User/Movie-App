@@ -58,7 +58,7 @@ public class Movie_App implements EntryPoint {
 	HorizontalPanel exportButtonPanel;
 	HorizontalPanel exportExportPanelRight = new HorizontalPanel();
 	HorizontalPanel exportExportPanelLeft = new HorizontalPanel();
-	String widthSlider = "1500px";
+	String widthSlider = Integer.toString(RootPanel.get().getOffsetWidth()) + "px";
 	int firstMovieyear = 1886;
 	int lastMovieyear = 2016;
 	boolean sliderIsLoading;
@@ -106,7 +106,7 @@ public class Movie_App implements EntryPoint {
 					// releasedate > " + "'" + releasedate + "'"
 
 					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
-							+ sliderUntilValue + ".00.00' ");
+							+ (sliderFromValue + 1) + ".00.00' ");
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
@@ -158,7 +158,7 @@ public class Movie_App implements EntryPoint {
 
 					// releasedate > " + "'" + releasedate + "'"
 					final StringBuilder concatSlider = new StringBuilder("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
-							+ sliderUntilValue + ".00.00' ");
+							+ (sliderFromValue + 1) + ".00.00' ");
 					strQuerry.append(concatSlider);
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
@@ -198,7 +198,6 @@ public class Movie_App implements EntryPoint {
 		untilSlider.setCurrentValue(lastMovieyear);
 		untilSlider.setNumTicks(130);
 		untilSlider.setNumLabels(26);
-		verticalPanelSlider.add(untilSlider);
 		RootPanel.get().add(verticalPanelSlider);
 		untilSlider.setVisible(true);
 		untilSlider.setHeight("50px");
