@@ -565,7 +565,7 @@ public class Movie_App implements EntryPoint {
 				if (filteringTable.countryFieldCheck == -1) {
 					// do nothing I guess
 				} else {
-					querryConcatination.append("countries LIKE '" + country + "'");
+					querryConcatination.append("countries LIKE '%" + country + "%'");
 				}
 				if (filteringTable.countryCheck == 0 && filteringTable.genreFieldCheck != -1) {
 					querryConcatination.append(" AND ");
