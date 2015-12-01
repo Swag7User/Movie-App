@@ -31,7 +31,7 @@ public class MySQLAccess extends HttpServlet {
 
 				Class.forName("com.mysql.jdbc.GoogleDriver");
 				connect = DriverManager
-						.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
+						.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=root");
 			} else {
 				Class.forName("com.mysql.jdbc.Driver");
 				connect = DriverManager.getConnection("jdbc:mysql://localhost/movieapp?user=root");
@@ -71,7 +71,7 @@ public class MySQLAccess extends HttpServlet {
 			// connect =
 			// DriverManager.getConnection("jdbc:mysql://localhost/feedback?" +
 			// "user=root&password=lel");
-			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase3/movieapp?user=root");
+			connect = DriverManager.getConnection("jdbc:google:mysql://movieapp1122:moviedatabase2/movieapp?user=root");
 			  }
 			  else{
 					Class.forName("com.mysql.jdbc.Driver");
