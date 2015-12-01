@@ -133,7 +133,7 @@ public class WorldMap extends Composite{
 						options.setDataMode(GeoMap.DataMode.REGIONS);
 						options.setRegion("world");
 						options.setWidth(mapWidth);
-						options.setHeight(500);
+						options.setHeight(mapHeight);
 						geomap = new GeoMap(dataTable, options);
 						
 						geomap.addRegionClickHandler(new RegionClickHandler(){

@@ -73,9 +73,10 @@ public class Movie_App implements EntryPoint {
 		strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 	}
 
-	public void slider() {
+	public VerticalPanel slider() {
 		verticalPanelSlider = new VerticalPanel();
 		verticalPanelSlider.clear();
+		verticalPanelSlider.setWidth(widthSlider);
 		// verticalPanelSlider.setBorderWidth(1);
 
 		fromSlider = new SliderBar(1886, 2016);
@@ -86,7 +87,7 @@ public class Movie_App implements EntryPoint {
 		verticalPanelSlider.add(fromSlider);
 		fromSlider.setVisible(true);
 		fromSlider.setHeight("50px");
-		fromSlider.setWidth(widthSlider);
+		fromSlider.setWidth("100%");
 
 		fromSlider.addClickHandler(new ClickHandler() {
 			@Override
@@ -105,8 +106,11 @@ public class Movie_App implements EntryPoint {
 
 					// releasedate > " + "'" + releasedate + "'"
 
-					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
+					final String sliderQuerry = ("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
 							+ (sliderFromValue + 1) + ".00.00' ");
+					
+					strQuerry.append(sliderQuerry);
+					
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
@@ -121,6 +125,7 @@ public class Movie_App implements EntryPoint {
 									list.add(movie);
 									globalList.add(movie);
 								}
+								map.printMap("SELECT countries, Count(*) FROM moviedata " + sliderQuerry + " GROUP BY countries", verticalPanel);
 
 							} catch (NullPointerException e) {
 								// serverResponseLabel2.setHTML("AW SHIT,
@@ -202,6 +207,8 @@ public class Movie_App implements EntryPoint {
 		untilSlider.setVisible(true);
 		untilSlider.setHeight("50px");
 		untilSlider.setWidth(widthSlider);
+		
+		return verticalPanelSlider;
 
 	}
 
@@ -230,18 +237,19 @@ public class Movie_App implements EntryPoint {
 		RootPanel.get().add(hPanel);
 		// needed for Background image
 		RootPanel.getBodyElement().addClassName("rootPanel");
+		
 		// ############ wolrd map ############
-		map = new WorldMap(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth(), 200);
+		map = new WorldMap(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth(), filteringPanel.getOffsetHeight() - 50);
 		verticalPanel = new VerticalPanel();
 		map.printMap(verticalPanel);
 		// example query for WHERE query
 		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
 		// '2001-08-24' GROUP BY countries"
 		hPanel.add(verticalPanel);
-		//RootPanel.get().add(hPanel);
+		RootPanel.get().add(hPanel);
+		slider();
 		// ############### END ####################
 
-		slider();
 
 		// ############ Main movie Table ############
 		ResultTable mainTable = new ResultTable();
