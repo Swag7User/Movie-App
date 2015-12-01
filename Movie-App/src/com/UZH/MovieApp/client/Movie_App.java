@@ -174,11 +174,9 @@ public class Movie_App implements EntryPoint {
 									list.add(movie);
 									globalList.add(movie);
 								}
-								verticalPanel.clear();
-								map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
-										- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+								
 								map.printMap("SELECT countries, Count(*) FROM moviedata " + concatSlider + " GROUP BY countries", verticalPanel);
-								RootPanel.get().add(verticalPanel);
+								
 							} catch (NullPointerException e) {
 								// serverResponseLabel2.setHTML("AW SHIT,
 								// NULLPOINTER IS IN DA HOUSE!");
@@ -230,8 +228,7 @@ public class Movie_App implements EntryPoint {
 		RootPanel.getBodyElement().addClassName("rootPanel");
 
 		// ############ wolrd map ############
-		map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
-				- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
+		map = new WorldMap();
 		verticalPanel = new VerticalPanel();
 		map.printMap("SELECT countries, Count(*) FROM moviedata GROUP BY countries", verticalPanel);
 		// example query for WHERE query
@@ -443,11 +440,7 @@ public class Movie_App implements EntryPoint {
 								list.add(movie);
 								globalList.add(movie);
 							}
-							verticalPanel.clear();
-							map = new WorldMap((int) (RootPanel.get("bannerTable").getAbsoluteLeft()
-									- RootPanel.get("sourceDisplay").getOffsetWidth() * 1.09));
 							map.printMap("SELECT countries, Count(*) FROM moviedata " + concat + " GROUP BY countries", verticalPanel);
-							RootPanel.get().add(verticalPanel);
 						} catch (NullPointerException e) {
 							serverResponseLabel2.setHTML("AW SHIT, NULLPOINTER IS IN DA HOUSE!");
 						}
