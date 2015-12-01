@@ -221,9 +221,11 @@ public class Movie_App implements EntryPoint {
 	}
 
 	public void onModuleLoad() {
+		HorizontalPanel hPanel = new HorizontalPanel();
+		
 		// Load the filtering table onto the root panel
 		final FilteringTable filteringTable = new FilteringTable();
-		RootPanel.get().add(filteringTable.createFilterTable());
+		hPanel.add(filteringTable.createFilterTable());
 		// needed for Background image
 		RootPanel.getBodyElement().addClassName("rootPanel");
 
@@ -234,7 +236,8 @@ public class Movie_App implements EntryPoint {
 		// example query for WHERE query
 		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
 		// '2001-08-24' GROUP BY countries"
-		RootPanel.get().add(verticalPanel);
+		hPanel.add(verticalPanel);
+		RootPanel.get().add(hPanel);
 		// ############### END ####################
 
 		slider();
