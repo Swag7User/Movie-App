@@ -92,7 +92,7 @@ public VerticalPanel createTable(){
 	movieTable.addColumn(wikiidColumn, "Wiki ID");
 	movieTable.addColumn(freebaseidColumn, "Freebase ID");
 	movieTable.addColumn(nameColumn, "Name");
-	movieTable.addColumn(releasedateColumn, "Release Date");
+	movieTable.addColumn(releasedateColumn, "Release Year");
 	movieTable.addColumn(boxofficeColumn, "Boxoffice");
 	movieTable.addColumn(runtimeColumn, "Runtime");
 	movieTable.addColumn(languagesColumn, "Languages");

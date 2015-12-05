@@ -79,7 +79,7 @@ public class FilteringTable extends Composite {
 		wikiIdField.setText("WikiID");
 		freebaseIdField.setText("FreebaseID");
 		movieNameField.setText("Name");
-		releaseDateField.setText("Releaseyear");
+		releaseDateField.setText("Release Year");
 		boxofficeField.setText("Boxoffice");
 		runtimeField.setText("Runtime");
 		languageField.setText("Language");
@@ -511,9 +511,9 @@ public class FilteringTable extends Composite {
 		});
 		// ###############Boxoffice#################
 		final CheckBox boxofficeFieldEQUAL = new CheckBox("=");
-		final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
+		//final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
 		// boxofficeFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
+		//final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
 		// boxofficeFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		boxofficeFieldEQUAL.addClickHandler(new ClickHandler() {
@@ -522,8 +522,8 @@ public class FilteringTable extends Composite {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					boxofficeFieldCheck = 2;
-					boxofficeFieldBIGGERTHAN.setValue(false);
-					boxofficeFieldSMALLERTHAN.setValue(false);
+				//	boxofficeFieldBIGGERTHAN.setValue(false);
+				//	boxofficeFieldSMALLERTHAN.setValue(false);
 					boxofficeField.setEnabled(true);
 					releasedateAND.setEnabled(true);
 					releasedateOR.setEnabled(true);
@@ -535,7 +535,7 @@ public class FilteringTable extends Composite {
 				}
 			}
 		});
-		boxofficeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+/*		boxofficeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
@@ -572,12 +572,12 @@ public class FilteringTable extends Composite {
 					releasedateOR.setEnabled(false);
 				}
 			}
-		});
+		});*/
 		// ###############Runtime#################
 		final CheckBox runtimeFieldEQUAL = new CheckBox("=");
-		final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
+	//	final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
 		// runtimeFieldBIGGERTHAN.setEnabled(false);
-		final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
+	//	final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
 		// runtimeFieldSMALLERTHAN.setEnabled(false);
 		// Hook up a handler to find out when they're clicked clicked.
 		runtimeFieldEQUAL.addClickHandler(new ClickHandler() {
@@ -586,8 +586,8 @@ public class FilteringTable extends Composite {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
 				if (checked) {
 					runtimeFieldCheck = 2;
-					runtimeFieldBIGGERTHAN.setValue(false);
-					runtimeFieldSMALLERTHAN.setValue(false);
+		//			runtimeFieldBIGGERTHAN.setValue(false);
+		//			runtimeFieldSMALLERTHAN.setValue(false);
 					runtimeField.setEnabled(true);
 					boxofficeAND.setEnabled(true);
 					boxofficeOR.setEnabled(true);
@@ -599,7 +599,7 @@ public class FilteringTable extends Composite {
 				}
 			}
 		});
-		runtimeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
+/*		runtimeFieldBIGGERTHAN.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				boolean checked = ((CheckBox) event.getSource()).getValue();
@@ -637,7 +637,7 @@ public class FilteringTable extends Composite {
 				}
 			}
 		});
-		// ###############language#################
+*/		// ###############language#################
 		final CheckBox languageFieldEQUAL = new CheckBox("=");
 		// Hook up a handler to find out when they're clicked clicked.
 		languageFieldEQUAL.addClickHandler(new ClickHandler() {
@@ -738,6 +738,10 @@ public class FilteringTable extends Composite {
 					warningPanel.addStyleName("dialogVPanel");
 					warningPanel.add(new HTML("With this feature you can send your own SQL queries to our database."));
 					warningPanel.add(warningLabel);
+					warningPanel.add(new HTML("Example query:"));
+					warningPanel.add(warningLabel);					
+					warningPanel.add(new HTML("<i>name LIKE '%Ghost%' AND  countries LIKE '%United States of America%' OR languages LIKE '%Swiss German%'</i>"));
+					warningPanel.add(warningLabel);
 					warningPanel.add(new HTML("Don't try anything funny tough!"));
 					warningPanel.add(warningLabel);
 					warningPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
@@ -796,14 +800,14 @@ public class FilteringTable extends Composite {
 		filteringTable.setWidget(7, 0, releasedateAND);
 		filteringTable.setWidget(7, 1, releasedateOR);
 		filteringTable.setWidget(8, 0, boxofficeFieldEQUAL);
-		filteringTable.setWidget(8, 1, boxofficeFieldBIGGERTHAN);
-		filteringTable.setWidget(8, 2, boxofficeFieldSMALLERTHAN);
+	//	filteringTable.setWidget(8, 1, boxofficeFieldBIGGERTHAN);
+	//	filteringTable.setWidget(8, 2, boxofficeFieldSMALLERTHAN);
 		filteringTable.setWidget(8, 3, boxofficeField);
 		filteringTable.setWidget(9, 0, boxofficeAND);
 		filteringTable.setWidget(9, 1, boxofficeOR);
 		filteringTable.setWidget(10, 0, runtimeFieldEQUAL);
-		filteringTable.setWidget(10, 1, runtimeFieldBIGGERTHAN);
-		filteringTable.setWidget(10, 2, runtimeFieldSMALLERTHAN);
+	//	filteringTable.setWidget(10, 1, runtimeFieldBIGGERTHAN);
+	//	filteringTable.setWidget(10, 2, runtimeFieldSMALLERTHAN);
 		filteringTable.setWidget(10, 3, runtimeField);
 		filteringTable.setWidget(11, 0, runtimeAND);
 		filteringTable.setWidget(11, 1, runtimeOR);

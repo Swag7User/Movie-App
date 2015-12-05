@@ -102,11 +102,13 @@ public class Movie_App implements EntryPoint {
 					}
 					// fromSlider.setCurrentValue(sliderFromValue);
 					// untilSlider.setCurrentValue(sliderUntilValue);
-
+					// int sliderFromValuePlus=sliderFromValue++;
 					// releasedate > " + "'" + releasedate + "'"
-
-					strQuerry.append("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
-							+ sliderUntilValue + ".00.00' ");
+					final StringBuilder concatSlider = new StringBuilder(" releasedate > '" + sliderFromValue + ".00.00'"+"AND releasedate < '"+(sliderFromValue+1)+".00.00'");
+					strQuerry.append(" WHERE ");
+					strQuerry.append(concatSlider);
+					
+									
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
@@ -121,6 +123,7 @@ public class Movie_App implements EntryPoint {
 									list.add(movie);
 									globalList.add(movie);
 								}
+								map.printMap("SELECT countries, Count(*) FROM moviedata WHERE " + concatSlider + " GROUP BY countries", verticalPanel);
 
 							} catch (NullPointerException e) {
 								// serverResponseLabel2.setHTML("AW SHIT,
@@ -198,14 +201,14 @@ public class Movie_App implements EntryPoint {
 		untilSlider.setCurrentValue(lastMovieyear);
 		untilSlider.setNumTicks(130);
 		untilSlider.setNumLabels(26);
-		verticalPanelSlider.add(untilSlider);
+		//verticalPanelSlider.add(untilSlider);
 		RootPanel.get().add(verticalPanelSlider);
 		untilSlider.setVisible(true);
 		untilSlider.setHeight("50px");
 		untilSlider.setWidth(widthSlider);
 
 	}
-
+	
 	public void buttonExportList() {
 
 		@SuppressWarnings("deprecation")
