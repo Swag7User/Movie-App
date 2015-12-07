@@ -171,8 +171,6 @@ public class MySQLAccess extends HttpServlet {
 			else {
 				releasedate = year.toString();
 			}
-			System.out.println(name + " :Date  : " + timestamp);
-			System.out.println(name + " :String:" + releasedate);
 			s_new.add(
 					new Movie(wikiid, freebaseid, name, releasedate, boxoffice, runtime, languages, countries, genres));
 			i++;

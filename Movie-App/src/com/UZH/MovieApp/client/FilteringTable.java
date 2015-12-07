@@ -350,7 +350,7 @@ public class FilteringTable extends Composite {
 
 		// ########### Field Checkboxes ###############
 		// ###############Wikipedia ID#################
-		final CheckBox wikiIdFieldEQUAL = new CheckBox("=");
+		final CheckBox wikiIdFieldEQUAL = new CheckBox("✓");
 //		final CheckBox wikiIdFieldBIGGERTHAN = new CheckBox(">");
 //		final CheckBox wikiIdFieldSMALLERTHAN = new CheckBox("<");
 		// Hook up a handler to find out when they're clicked clicked.
@@ -400,7 +400,7 @@ public class FilteringTable extends Composite {
 //			}
 //		});
 		// ###############freebase ID#################
-		final CheckBox freebaseIdFieldEQUAL = new CheckBox("=");
+		final CheckBox freebaseIdFieldEQUAL = new CheckBox("✓");
 		// Hook up a handler to find out when they're clicked clicked.
 		freebaseIdFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -423,7 +423,7 @@ public class FilteringTable extends Composite {
 		});
 
 		// ###############Movie Name#################
-		final CheckBox movieNameFieldEQUAL = new CheckBox("=");
+		final CheckBox movieNameFieldEQUAL = new CheckBox("✓");
 		// Hook up a handler to find out when they're clicked clicked.
 		movieNameFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -446,7 +446,7 @@ public class FilteringTable extends Composite {
 			}
 		});
 		// ###############Release Date#################
-		final CheckBox releaseDateFieldEQUAL = new CheckBox("=");
+		final CheckBox releaseDateFieldEQUAL = new CheckBox("✓");
 		final CheckBox releaseDateFieldBIGGERTHAN = new CheckBox(">");
 		// releaseDateFieldBIGGERTHAN.setEnabled(false);
 		final CheckBox releaseDateFieldSMALLERTHAN = new CheckBox("<");
@@ -510,7 +510,7 @@ public class FilteringTable extends Composite {
 			}
 		});
 		// ###############Boxoffice#################
-		final CheckBox boxofficeFieldEQUAL = new CheckBox("=");
+		final CheckBox boxofficeFieldEQUAL = new CheckBox("✓");
 		//final CheckBox boxofficeFieldBIGGERTHAN = new CheckBox(">");
 		// boxofficeFieldBIGGERTHAN.setEnabled(false);
 		//final CheckBox boxofficeFieldSMALLERTHAN = new CheckBox("<");
@@ -574,7 +574,7 @@ public class FilteringTable extends Composite {
 			}
 		});*/
 		// ###############Runtime#################
-		final CheckBox runtimeFieldEQUAL = new CheckBox("=");
+		final CheckBox runtimeFieldEQUAL = new CheckBox("✓");
 	//	final CheckBox runtimeFieldBIGGERTHAN = new CheckBox(">");
 		// runtimeFieldBIGGERTHAN.setEnabled(false);
 	//	final CheckBox runtimeFieldSMALLERTHAN = new CheckBox("<");
@@ -638,7 +638,7 @@ public class FilteringTable extends Composite {
 			}
 		});
 */		// ###############language#################
-		final CheckBox languageFieldEQUAL = new CheckBox("=");
+		final CheckBox languageFieldEQUAL = new CheckBox("✓");
 		// Hook up a handler to find out when they're clicked clicked.
 		languageFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -660,7 +660,7 @@ public class FilteringTable extends Composite {
 			}
 		});
 		// ###############country#################
-		final CheckBox countryFieldEQUAL = new CheckBox("=");
+		final CheckBox countryFieldEQUAL = new CheckBox("✓");
 		// Hook up a handler to find out when they're clicked clicked.
 		countryFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -682,7 +682,7 @@ public class FilteringTable extends Composite {
 			}
 		});
 		// ###############genre#################
-		final CheckBox genreFieldEQUAL = new CheckBox("=");
+		final CheckBox genreFieldEQUAL = new CheckBox("✓");
 		// Hook up a handler to find out when they're clicked clicked.
 		genreFieldEQUAL.addClickHandler(new ClickHandler() {
 			@Override
@@ -781,44 +781,44 @@ public class FilteringTable extends Composite {
 	//	filteringTable.setWidget(0, 1, wikiIdFieldBIGGERTHAN);
 	//	filteringTable.setWidget(0, 2, wikiIdFieldSMALLERTHAN);
 		filteringTable.setWidget(0, 3, wikiIdField);
-		filteringTable.setWidget(1, 0, wikiAND);
-		filteringTable.setWidget(1, 1, wikiOR);
+	//	filteringTable.setWidget(1, 0, wikiAND);
+	//	filteringTable.setWidget(1, 1, wikiOR);
 		filteringTable.setText(1, 2, "");
 		filteringTable.setText(1, 3, "");
 		filteringTable.setWidget(2, 0, freebaseIdFieldEQUAL);
 		filteringTable.setWidget(2, 3, freebaseIdField);
-		filteringTable.setWidget(3, 0, freebaseAND);
-		filteringTable.setWidget(3, 1, freebaseOR);
+	//	filteringTable.setWidget(3, 0, freebaseAND);
+	//	filteringTable.setWidget(3, 1, freebaseOR);
 		filteringTable.setWidget(4, 0, movieNameFieldEQUAL);
 		filteringTable.setWidget(4, 3, movieNameField);
-		filteringTable.setWidget(5, 0, nameAND);
-		filteringTable.setWidget(5, 1, nameOR);
+	//	filteringTable.setWidget(5, 0, nameAND);
+	//	filteringTable.setWidget(5, 1, nameOR);
 		filteringTable.setWidget(6, 0, releaseDateFieldEQUAL);
 	//	filteringTable.setWidget(6, 1, releaseDateFieldBIGGERTHAN);
 	//	filteringTable.setWidget(6, 2, releaseDateFieldSMALLERTHAN);
 		filteringTable.setWidget(6, 3, releaseDateField);
-		filteringTable.setWidget(7, 0, releasedateAND);
-		filteringTable.setWidget(7, 1, releasedateOR);
+	//	filteringTable.setWidget(7, 0, releasedateAND);
+	//	filteringTable.setWidget(7, 1, releasedateOR);
 		filteringTable.setWidget(8, 0, boxofficeFieldEQUAL);
 	//	filteringTable.setWidget(8, 1, boxofficeFieldBIGGERTHAN);
 	//	filteringTable.setWidget(8, 2, boxofficeFieldSMALLERTHAN);
 		filteringTable.setWidget(8, 3, boxofficeField);
-		filteringTable.setWidget(9, 0, boxofficeAND);
-		filteringTable.setWidget(9, 1, boxofficeOR);
+	//	filteringTable.setWidget(9, 0, boxofficeAND);
+	//	filteringTable.setWidget(9, 1, boxofficeOR);
 		filteringTable.setWidget(10, 0, runtimeFieldEQUAL);
 	//	filteringTable.setWidget(10, 1, runtimeFieldBIGGERTHAN);
 	//	filteringTable.setWidget(10, 2, runtimeFieldSMALLERTHAN);
 		filteringTable.setWidget(10, 3, runtimeField);
-		filteringTable.setWidget(11, 0, runtimeAND);
-		filteringTable.setWidget(11, 1, runtimeOR);
+	//	filteringTable.setWidget(11, 0, runtimeAND);
+	//	filteringTable.setWidget(11, 1, runtimeOR);
 		filteringTable.setWidget(12, 0, languageFieldEQUAL);
 		filteringTable.setWidget(12, 3, languageField);
-		filteringTable.setWidget(13, 0, languagesAND);
-		filteringTable.setWidget(13, 1, languagesOR);
+	//	filteringTable.setWidget(13, 0, languagesAND);
+	//	filteringTable.setWidget(13, 1, languagesOR);
 		filteringTable.setWidget(14, 0, countryFieldEQUAL);
 		filteringTable.setWidget(14, 3, countryField);
-		filteringTable.setWidget(15, 0, countryAND);
-		filteringTable.setWidget(15, 1, countryOR);
+	//	filteringTable.setWidget(15, 0, countryAND);
+	//	filteringTable.setWidget(15, 1, countryOR);
 		filteringTable.setWidget(16, 0, genreFieldEQUAL);
 		filteringTable.setWidget(16, 3, genreField);
 	//	filteringTable.setWidget(17, 0, limitFieldEQUAL);

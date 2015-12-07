@@ -87,6 +87,7 @@ public VerticalPanel createTable(){
 	};
 	nameColumn.setSortable(true);
 	wikiidColumn.setSortable(true);
+	releasedateColumn.setSortable(true);
 
 	// Add the columns.
 	movieTable.addColumn(wikiidColumn, "Wiki ID");
