@@ -22,10 +22,14 @@
 	background-color: #E6E6FA;
 }
 
+.mainExportPanel {
+	color: white;
+}
+
 .gwt-table-to-excel-exportWidget {
 	border: 1px solid #333333;
 	cursor: pointer;
-	background: #016300 url(../war/gwt-table-to-excel.png) top left no-repeat;
+	background: #016300;
 	height: 20px;
 	padding: 0 4px 0 20px;
 	-webkit-border-radius: 4px;

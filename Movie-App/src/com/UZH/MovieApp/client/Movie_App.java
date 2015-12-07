@@ -326,6 +326,7 @@ public class Movie_App implements EntryPoint {
 
 		mainExportPanel.add(labelExportPanel);
 		mainExportPanel.add(exportPanel);
+		mainExportPanel.addStyleName("mainExportPanel");
 		mainExportPanel.setBorderWidth(1);
 
 		labelList.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
