@@ -87,7 +87,7 @@ public class Movie_App implements EntryPoint {
 		fromSlider.setNumLabels(26);
 		verticalPanelSlider.add(fromSlider);
 		fromSlider.setVisible(true);
-		fromSlider.setHeight("50px");
+		fromSlider.setHeight("52px");
 		fromSlider.setWidth("100%");
 
 		fromSlider.addClickHandler(new ClickHandler() {
