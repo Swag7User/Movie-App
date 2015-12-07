@@ -19,7 +19,8 @@
 }
 
 .sourceTable {
-	background-color: #E6E6FA;
+/* 	background-color: #E6E6FA; */
+	color: white;
 }
 
 .mainExportPanel {
@@ -156,6 +157,7 @@ h1 {
 }
 
 #bannerTable{
+	height: 100%;
 	margin: 0;
 	padding: 10px;
 	border: 5px outset black;

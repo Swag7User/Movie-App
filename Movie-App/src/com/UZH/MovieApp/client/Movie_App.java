@@ -284,7 +284,7 @@ public class Movie_App implements EntryPoint {
 		Label labelList = new Label("List:");
 		Label labelAll = new Label("Download Amount:");
 		Button LimitSetButton = new Button("Set Amount");
-		LimitSetButton.setWidth("100px");
+		LimitSetButton.setWidth("150px");
 		LimitSetButton.addClickHandler(new ClickHandler() {
 			@SuppressWarnings("static-access")
 			@Override
