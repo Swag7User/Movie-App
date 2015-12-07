@@ -41,7 +41,7 @@ button.gwt-table-to-excel-exportWidget {
 }
 
 .gwt-SliderBar-shell {
-  background-color: #efebe7;
+  background-color: #999;
   height: 34pt;
   width: 100%;
 }
@@ -85,7 +85,7 @@ button.gwt-table-to-excel-exportWidget {
 }
 
 .gwt-SliderBar-shell .gwt-SliderBar-line-sliding {
-  background-color: #00ffff;
+  background-color: #666;
   cursor: pointer;
 }
 
