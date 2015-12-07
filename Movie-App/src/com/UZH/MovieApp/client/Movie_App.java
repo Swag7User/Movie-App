@@ -322,12 +322,12 @@ public class Movie_App implements EntryPoint {
 		labelAll.addStyleName("gwt-Label");
 		labelList.addStyleName("gwt-Label");
 
-		labelExportPanel.addStyleName("gwt-Label");
+		//labelExportPanel.addStyleName("gwt-Label");
 
 		mainExportPanel.add(labelExportPanel);
 		mainExportPanel.add(exportPanel);
 		mainExportPanel.addStyleName("mainExportPanel");
-		mainExportPanel.setBorderWidth(1);
+		//mainExportPanel.setBorderWidth(1);
 
 		labelList.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		labelAll.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
