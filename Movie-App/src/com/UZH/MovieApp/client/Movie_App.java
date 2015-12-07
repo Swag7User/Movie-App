@@ -250,7 +250,7 @@ public class Movie_App implements EntryPoint {
 		map.printMap(verticalPanel);
 		vPanel.add(verticalPanel);
 		vPanel.add(slider());
-		fromSlider.setWidth(RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth() - 10 + "px");
+		fromSlider.setWidth(Integer.toString(mapWidth) + "px");
 		// example query for WHERE query
 		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
 		// '2001-08-24' GROUP BY countries"
