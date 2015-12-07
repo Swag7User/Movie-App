@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.SliderBar;
 
 import com.googlecode.gwtTableToExcel.client.TableToExcelClient;
@@ -58,7 +59,7 @@ public class Movie_App implements EntryPoint {
 	HorizontalPanel exportButtonPanel;
 	HorizontalPanel exportExportPanelRight = new HorizontalPanel();
 	HorizontalPanel exportExportPanelLeft = new HorizontalPanel();
-	String widthSlider = "1500px";
+	String widthSlider = Integer.toString(RootPanel.get().getOffsetWidth()) + "px";
 	int firstMovieyear = 1886;
 	int lastMovieyear = 2016;
 	boolean sliderIsLoading;
@@ -73,9 +74,10 @@ public class Movie_App implements EntryPoint {
 		strQuerry = new StringBuilder("select * from movieapp.moviedata ");
 	}
 
-	public void slider() {
+	public Widget slider() {
 		verticalPanelSlider = new VerticalPanel();
-		verticalPanelSlider.clear();
+		//verticalPanelSlider.clear();
+		//verticalPanelSlider.setWidth(widthSlider);
 		// verticalPanelSlider.setBorderWidth(1);
 
 		fromSlider = new SliderBar(1886, 2016);
@@ -85,8 +87,8 @@ public class Movie_App implements EntryPoint {
 		fromSlider.setNumLabels(26);
 		verticalPanelSlider.add(fromSlider);
 		fromSlider.setVisible(true);
-		fromSlider.setHeight("50px");
-		fromSlider.setWidth(widthSlider);
+		fromSlider.setHeight("52px");
+		fromSlider.setWidth("100%");
 
 		fromSlider.addClickHandler(new ClickHandler() {
 			@Override
@@ -102,13 +104,14 @@ public class Movie_App implements EntryPoint {
 					}
 					// fromSlider.setCurrentValue(sliderFromValue);
 					// untilSlider.setCurrentValue(sliderUntilValue);
-					// int sliderFromValuePlus=sliderFromValue++;
+
 					// releasedate > " + "'" + releasedate + "'"
-					final StringBuilder concatSlider = new StringBuilder(" releasedate > '" + sliderFromValue + ".00.00'"+"AND releasedate < '"+(sliderFromValue+1)+".00.00'");
-					strQuerry.append(" WHERE ");
-					strQuerry.append(concatSlider);
+
+					final String sliderQuerry = ("WHERE releasedate >= '" + sliderFromValue + ".00.00' AND releasedate <= '"
+							+ (sliderFromValue + 1) + ".00.00'");
 					
-									
+					strQuerry.append(sliderQuerry);
+					
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
 							// Show the RPC error message to the user
@@ -123,7 +126,7 @@ public class Movie_App implements EntryPoint {
 									list.add(movie);
 									globalList.add(movie);
 								}
-								map.printMap("SELECT countries, Count(*) FROM moviedata WHERE " + concatSlider + " GROUP BY countries", verticalPanel);
+								map.printMap("SELECT countries, Count(*) FROM moviedata " + sliderQuerry + " GROUP BY countries", verticalPanel);
 
 							} catch (NullPointerException e) {
 								// serverResponseLabel2.setHTML("AW SHIT,
@@ -161,7 +164,7 @@ public class Movie_App implements EntryPoint {
 
 					// releasedate > " + "'" + releasedate + "'"
 					final StringBuilder concatSlider = new StringBuilder("WHERE releasedate > '" + sliderFromValue + ".00.00' AND releasedate < '"
-							+ sliderUntilValue + ".00.00' ");
+							+ (sliderFromValue + 1) + ".00.00' ");
 					strQuerry.append(concatSlider);
 					dbconnection.getDBData(strQuerry.toString(), new AsyncCallback<ArrayList<Movie>>() {
 						public void onFailure(Throwable caught) {
@@ -201,14 +204,15 @@ public class Movie_App implements EntryPoint {
 		untilSlider.setCurrentValue(lastMovieyear);
 		untilSlider.setNumTicks(130);
 		untilSlider.setNumLabels(26);
-		//verticalPanelSlider.add(untilSlider);
-		RootPanel.get().add(verticalPanelSlider);
+		//RootPanel.get().add(verticalPanelSlider);
 		untilSlider.setVisible(true);
 		untilSlider.setHeight("50px");
 		untilSlider.setWidth(widthSlider);
+		
+		return verticalPanelSlider;
 
 	}
-	
+
 	public void buttonExportList() {
 
 		@SuppressWarnings("deprecation")
@@ -225,25 +229,36 @@ public class Movie_App implements EntryPoint {
 
 	public void onModuleLoad() {
 		HorizontalPanel hPanel = new HorizontalPanel();
+		VerticalPanel vPanel = new VerticalPanel();
 		
 		// Load the filtering table onto the root panel
 		final FilteringTable filteringTable = new FilteringTable();
-		hPanel.add(filteringTable.createFilterTable());
+		VerticalPanel filteringPanel = new VerticalPanel();
+		filteringPanel.add(filteringTable.createFilterTable());
+		hPanel.add(filteringPanel);
+		RootPanel.get().add(hPanel);
 		// needed for Background image
 		RootPanel.getBodyElement().addClassName("rootPanel");
-
+		
 		// ############ wolrd map ############
-		map = new WorldMap();
+		
+		int mapWidth = RootPanel.get().getOffsetWidth() - filteringPanel.getOffsetWidth() - RootPanel.get("bannerTable").getOffsetWidth() - 10;
+		int mapHeight = filteringPanel.getOffsetHeight() - 50;
+				
+		map = new WorldMap(mapWidth, mapHeight);
 		verticalPanel = new VerticalPanel();
-		map.printMap("SELECT countries, Count(*) FROM moviedata GROUP BY countries", verticalPanel);
+		map.printMap(verticalPanel);
+		vPanel.add(verticalPanel);
+		vPanel.add(slider());
+		fromSlider.setWidth(Integer.toString(mapWidth) + "px");
 		// example query for WHERE query
 		// "SELECT countries, Count(*) FROM moviedata WHERE releasedate =
 		// '2001-08-24' GROUP BY countries"
-		hPanel.add(verticalPanel);
+		hPanel.add(vPanel);
 		RootPanel.get().add(hPanel);
+		//slider();
 		// ############### END ####################
 
-		slider();
 
 		// ############ Main movie Table ############
 		ResultTable mainTable = new ResultTable();
