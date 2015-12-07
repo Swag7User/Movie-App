@@ -134,6 +134,7 @@ public VerticalPanel createTable(){
 	
 	// Add table and pager to verticalpanel
 	tablePanel = new VerticalPanel();
+	//tablePanel.setWidth("100%");
 	tablePanel.add(pager);
 	tablePanel.add(movieTable);
 

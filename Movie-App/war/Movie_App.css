@@ -1,7 +1,7 @@
 /** Add css rules here for your application. */
 .rootPanel {
 	margin: 0;
-	padding: 10px;
+	padding: 5px;
 	background-image: url("/images/background.jpg");
 }
 
@@ -11,7 +11,7 @@
 }
 
 .filteringTable {
-	background-color: 	#FFB6C1;
+	background-color: 	#999;
 }
 
 .pager {
@@ -41,20 +41,6 @@ button.gwt-table-to-excel-exportWidget {
 }
 
 .gwt-SliderBar-shell {
-  border: 4px solid #faf9f7;
-  border-right: 4px solid #848280;
-  border-bottom: 4px solid #848280;
-  border-left: 4px solid #848280;
-  background-color: #efebe7;
-  height: 34pt;
-  width: 100%;
-}
-
-.gwt-SliderBar-shell {
-  border: 4px solid #faf9f7;
-  border-right: 4px solid #848280;
-  border-bottom: 4px solid #848280;
-  border-left: 4px solid #848280;
   background-color: #efebe7;
   height: 34pt;
   width: 100%;
