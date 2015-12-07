@@ -88,6 +88,8 @@ public VerticalPanel createTable(){
 	nameColumn.setSortable(true);
 	wikiidColumn.setSortable(true);
 	releasedateColumn.setSortable(true);
+	boxofficeColumn.setSortable(true);
+	runtimeColumn.setSortable(true);
 
 	// Add the columns.
 	movieTable.addColumn(wikiidColumn, "Wiki ID");
@@ -177,7 +179,7 @@ public VerticalPanel createTable(){
 
 			// Compare the name columns.
 			if (o1 != null) {
-				return (o2 != null) ? Integer.valueOf(o1.boxoffice).compareTo(Integer.valueOf(o2.boxoffice)) : 1;
+				return (o2 != null) ? Double.valueOf(o1.boxoffice).compareTo(Double.valueOf(o2.boxoffice)) : 1;
 			}
 			return -1;
 		}
@@ -191,7 +193,7 @@ public VerticalPanel createTable(){
 
 			// Compare the name columns.
 			if (o1 != null) {
-				return (o2 != null) ? Integer.valueOf(o1.runtime).compareTo(Integer.valueOf(o2.runtime)) : 1;
+				return (o2 != null) ? Float.valueOf(o1.runtime).compareTo(Float.valueOf(o2.runtime)) : 1;
 			}
 			return -1;
 		}

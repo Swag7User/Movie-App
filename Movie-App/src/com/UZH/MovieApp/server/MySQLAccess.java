@@ -161,13 +161,19 @@ public class MySQLAccess extends HttpServlet {
 			Integer year = calendar.get(Calendar.YEAR);
 			
 			String boxoffice = resultSet.getString(5);
+			if (boxoffice == null){
+				boxoffice = "0";
+			}
 			String runtime = resultSet.getString(6);
+			if (runtime == null){
+				runtime = "0";
+			}
 			String languages = resultSet.getString(7);
 			String countries = resultSet.getString(8);
 			String genres = resultSet.getString(9);
 			String releasedate;
 			if (timestamp == null)
-				releasedate = "---";
+				releasedate = "0000";
 			else {
 				releasedate = year.toString();
 			}
